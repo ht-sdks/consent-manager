@@ -21,6 +21,12 @@
     "types",
     "src"
   ],
+  "volta": {
+    "node": "16.20.2"
+  },
+  "engines": {
+    "node": "16.20.2"
+  },
   "scripts": {
     "test": "jest src/__tests__",
     "prepublishOnly": "yarn run clean && yarn run build",

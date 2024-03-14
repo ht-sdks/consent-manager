@@ -13,12 +13,8 @@ const bannerContent = (
   <span>
     We use cookies (and other similar technologies) to collect data to improve your experience on
     our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-    <a
-      href="https://segment.com/docs/legal/website-data-collection-policy/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Website Data Collection Policy
+    <a href="https://hightouch.com/privacy-policy" target="_blank" rel="noopener noreferrer">
+      Privacy Policy
     </a>
     .
   </span>
@@ -28,18 +24,14 @@ const preferencesDialogTitle = 'Website Data Collection Preferences'
 const preferencesDialogContent = (
   <div>
     <p>
-      Segment uses data collected by cookies and JavaScript libraries to improve your browsing
+      Hightouch uses data collected by cookies and JavaScript libraries to improve your browsing
       experience, analyze site traffic, deliver personalized advertisements, and increase the
       overall performance of our site.
     </p>
     <p>
       By using our website, you’re agreeing to our{' '}
-      <a
-        href="https://segment.com/docs/legal/website-data-collection-policy/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Website Data Collection Policy
+      <a href="https://hightouch.com/privacy-policy" target="_blank" rel="noopener noreferrer">
+        Privacy Policy
       </a>
       .
     </p>
@@ -53,12 +45,8 @@ const cancelDialogTitle = 'Are you sure you want to cancel?'
 const cancelDialogContent = (
   <div>
     Your preferences have not been saved. By continuing to use our website, you’re agreeing to our{' '}
-    <a
-      href="https://segment.com/docs/legal/website-data-collection-policy/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Website Data Collection Policy
+    <a href="https://hightouch.com/privacy-policy" target="_blank" rel="noopener noreferrer">
+      Privacy Policy
     </a>
     .
   </div>

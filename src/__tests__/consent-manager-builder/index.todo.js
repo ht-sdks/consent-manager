@@ -14,7 +14,7 @@ describe('ConsentManagerBuilder', () => {
   test.todo('doesn՚t load analytics.js when consent is required')
 
   test('provides a list of enabled destinations', done => {
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -62,7 +62,7 @@ describe('ConsentManagerBuilder', () => {
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
     window.analytics = { load() {}, track() {}, addSourceMiddleware() {} }
 
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -97,7 +97,7 @@ describe('ConsentManagerBuilder', () => {
     window.analytics = { load: ajsLoad, track() {}, addSourceMiddleware() {} }
     const writeKey = '123'
 
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -114,8 +114,7 @@ describe('ConsentManagerBuilder', () => {
           expect(ajsLoad.args[0][1]).toMatchObject({
             integrations: {
               All: false,
-              Amplitude: true,
-              'Segment.io': true
+              Amplitude: true
             }
           })
           done()
@@ -129,7 +128,7 @@ describe('ConsentManagerBuilder', () => {
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
     window.analytics = { load() {}, track() {}, addSourceMiddleware() {}, addSourceMiddleware() {} }
 
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -151,7 +150,7 @@ describe('ConsentManagerBuilder', () => {
   })
 
   test('does not imply consent on interacation', done => {
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -175,7 +174,7 @@ describe('ConsentManagerBuilder', () => {
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:true%2C%22functional%22:true}}'
     window.analytics = { load() {}, identify() {}, track() {}, addSourceMiddleware() {} }
 
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -254,7 +253,7 @@ describe('ConsentManagerBuilder', () => {
       addSourceMiddleware() {}
     }
 
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {

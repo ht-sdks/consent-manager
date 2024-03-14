@@ -1,10 +1,10 @@
 # consent-manager ![CI](https://github.com/ht-sdks/consent-manager/actions/workflows/ci.yml/badge.svg)
 
-> Drop-in consent management plugin for analytics.js
+> Drop-in consent management plugin for `@ht-sdks/events-sdk-js-browser`.
 
-[StoryBook](https://segmentio.github.io/consent-manager/index.html)
+[StoryBook](https://ht-sdks.github.io/consent-manager/index.html)
 
-- [Segment Consent Manager](#segment-consent-manager)
+- [Hightouch Consent Manager](#hightouch-consent-manager)
 - [Features](#features)
 - [Usage](#usage)
   - [Standalone Script](#standalone-script)
@@ -27,17 +27,15 @@
 - [Publishing New Version](#publishing-new-version)
 - [License](#license)
 
-## Segment Consent Manager
+## Hightouch Consent Manager
 
-The Segment Consent Manager is an analytics.js add-on with support to consent management.
+The Hightouch Consent Manager is an analytics.js add-on with support to consent management.
 
 At its core, the Consent Manager empowers your visitors to control and customize their tracking preferences on a website. They can opt out entirely of being tracked, or selectively opt out of tools in which they don’t want their information stored.
 
 It works by taking control of the analytics.js load process to only load destinations that the user has consented to and not loading analytics.js at all if the user has opted out of everything. The user's tracking preferences are saved to a cookie and sent as an identify trait (if they haven't opted out of everything) so that you can also access them on the server-side and from destinations (warehouse).
 
-_Segment works to ensure the Consent Manager Tech Demo works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our Professional Services team for implementation support. Please see the License.txt included._
-
-_Please note, Consent Manager is not currently compatible with [Personas](https://segment.com/docs/personas/). Personas may send user data to destinations the user has explicitly opted out of for data collection._
+_Hightouch works to ensure the Consent Manager Tech Demo works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our Professional Services team for implementation support. Please see the LICENSE included._
 
 ### Features
 
@@ -47,7 +45,7 @@ _Please note, Consent Manager is not currently compatible with [Personas](https:
 - Or fully customizable UI/UX through React components.
 - EU traffic detection through [@segment/in-eu][ineu].
 - Ability for visitors to reconsent and change preferences.
-- Automatically updates to reflect the destinations you have enabled in Segment.
+- Automatically updates to reflect the destinations you have enabled in Hightouch.
 - **5.0.0**: Consent Manager will add consent metadata to the context of all track calls:
 
 Track call message payloads will be extended to include Consent metadata in the `context` object:
@@ -78,7 +76,6 @@ Track call message payloads will be extended to include Consent metadata in the 
     "Amplitude": true,
     "HubSpot": false,
     "Salesforce": false,
-    "Segment.io": true
   }
 }
 ```
@@ -109,7 +106,7 @@ analytics.methods = [
 
 ## Usage
 
-The Segment Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
+The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
 
 To get started, make sure you're using the latest version of the [analytics.js snippet][] (4.1.0 or above) and remove the `analytics.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
 
@@ -200,7 +197,7 @@ All the options are supported. The callback function also receives these exports
 
     return {
       container: '#target-container',
-      writeKey: '<your-segment-write-key>',
+      writeKey: '<your-hightouch-write-key>',
       shouldRequireConsent: inEU,
       bannerContent: bannerContent,
       bannerSubContent: bannerSubContent,
@@ -213,14 +210,14 @@ All the options are supported. The callback function also receives these exports
 </script>
 
 <script
-  src="https://unpkg.com/@segment/consent-manager@5.3.0/standalone/consent-manager.js"
+  src="https://unpkg.com/@ht-sdks/consent-manager@5.3.0/standalone/consent-manager.js"
   defer
 ></script>
 ```
 
 ### ConsentManager
 
-The `ConsentManager` React component is a prebuilt consent manager UI (it's the one we use on https://segment.com) that uses the [ConsentManagerBuilder][] component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
+The `ConsentManager` React component is a prebuilt consent manager UI that uses the [ConsentManagerBuilder][] component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
 
 _Note: Consent Manager is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
 
@@ -229,20 +226,20 @@ _Note: Consent Manager is React-based so is not currently compatible with other 
 Using npm:
 
 ```
-npm install @segment/consent-manager
+npm install @ht-sdks/consent-manager
 ```
 
 Using yarn:
 
 ```
-yarn add @segment/consent-manager
+yarn add @ht-sdks/consent-manager
 ```
 
 #### Example
 
 ```javascript
 import React from 'react'
-import { ConsentManager, openConsentManager } from '@segment/consent-manager'
+import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 import inEU from '@segment/in-eu'
 
 export default function() {
@@ -267,7 +264,7 @@ export default function() {
   return (
     <div>
       <ConsentManager
-        writeKey="<your-segment-write-key>"
+        writeKey="<your-hightouch-write-key>"
         shouldRequireConsent={inEU}
         bannerContent={bannerContent}
         bannerSubContent={bannerSubContent}
@@ -287,12 +284,12 @@ export default function() {
 
 #### Example in Next.js
 
-In Next.js we do not have an html file where to inject the script. Here we will use the Script component to inject the snippet provided by Segment.
+In Next.js we do not have an html file where to inject the script. Here we will use the Script component to inject the snippet provided by Hightouch.
 
 ```javascript
 import React from 'react'
 import Script from 'next/script'
-import { ConsentManager, openConsentManager } from '@segment/consent-manager'
+import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 
 export default function Home() {
   const bannerContent = (
@@ -318,7 +315,7 @@ export default function Home() {
       <Script
         id="show-banner"
         dangerouslySetInnerHTML={{
-          __html: `!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};;analytics.SNIPPET_VERSION="4.13.2";
+          __html: `!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.hightouch-events.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};;analytics.SNIPPET_VERSION="4.13.2";
           analytics.page();
           }}();`
         }}
@@ -383,17 +380,14 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 
 The write key analytics.js should be loaded with.
 
-You can find more information here.
-https://segment.com/docs/connections/find-writekey
-
 ##### otherWriteKeys
 
 **Type**: `array<string>`
 **Default**: `[]`
 
-[Write keys](https://share.getcloudapp.com/jkunGzrw) for other sources so you can include destinations they use in the Consent Manager tool list. This only displays destinations that are not connected to the primary writeKey.
+Write keys for other sources so you can include destinations they use in the Consent Manager tool list. This only displays destinations that are not connected to the primary writeKey.
 
-The user’s consent preferences for these tools are not sent to these additional sources, but they are added to the `identify` call the Consent Manager sends to Segment. The user’s preferences can then be added to a raw data destination (like a data warehouse) or to a user profile in Personas.
+The user’s consent preferences for these tools are not sent to these additional sources, but they are added to the `identify` call the Consent Manager sends to Hightouch. The user’s preferences can then be added to a raw data destination (like a data warehouse).
 
 ##### shouldRequireConsent
 
@@ -562,7 +556,7 @@ const customCategories = {
 }
 ```
 
-The values for `integrations` should be an integration's creationName (`integration.creationName`). You can find examples of that by going to `https://cdn.segment.com/v1/projects/<writeKey>/integrations`
+The values for `integrations` should be an integration's creationName (`integration.creationName`). You can find examples of that by going to `https://cdn.hightouch-events.com/v1/projects/<writeKey>/integrations`
 
 ##### preferencesDialogTemplate
 
@@ -642,13 +636,13 @@ _Note: ConsentManagerBuilder is React-based so is not currently compatible with 
 Using npm:
 
 ```
-npm install @segment/consent-manager
+npm install @ht-sdks/consent-manager
 ```
 
 Using yarn:
 
 ```
-yarn add @segment/consent-manager
+yarn add @ht-sdks/consent-manager
 ```
 
 #### Example
@@ -657,11 +651,11 @@ For a more detailed/advanced example, checkout the [ConsentManager implementatio
 
 ```javascript
 import React from 'react'
-import { ConsentManagerBuilder } from '@segment/consent-manager'
+import { ConsentManagerBuilder } from '@ht-sdks/consent-manager'
 
 export default function() {
   return (
-    <ConsentManagerBuilder writeKey="<your-segment-write-key>">
+    <ConsentManagerBuilder writeKey="<your-hightouch-write-key>">
       {({ destinations, preferences, setPreferences, saveConsent }) => (
         <div>
           <h2>Tracking tools</h2>
@@ -763,8 +757,6 @@ Options:
 - `imply` - When you add new destinations, they are enabled or disabled based on the category to which they belong and the user's previous consent to that category.
   For example, if a user already consented to the `marketingAndAnalytics` category, and you add a new destination which is in the `Analytics` category, that destination will be enabled until the user updates their consent selections.
 - `ask` - When you add new destinations, the Consent Manager automatically opens the preferences dialog on initialization, and asks the user for their consent again.
-
-This setting also also affects [Replays](https://segment.com/docs/guides/what-is-replay/) to new destinations. Only `disable` and `enable` apply to these replays. If you set `defaultDestinationBehavior` to `imply`, Segment interprets this as `enable` during a replay.
 
 ##### mapCustomPreferences
 
@@ -915,7 +907,7 @@ Example
 ajs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
 ```
 
-You can override the default-generated anonymousID from the Segment snippet.
+You can override the default-generated anonymousID from the Hightouch snippet.
 
 ```javascript
 analytics.SNIPPET_VERSION = '4.13.2'
@@ -954,9 +946,8 @@ $ npm publish
 
 consent-manager is released under the MIT license.
 
-Copyright © 2021, Segment.io, Inc.
+Copyright © 2024 Hightouch
 
-[analytics.js snippet]: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-2-copy-the-segment-snippet
 [preact]: https://preactjs.com
 [currentscript]: https://caniuse.com/#feat=document-currentscript
 [ineu]: https://github.com/segmentio/in-eu
@@ -969,4 +960,3 @@ Copyright © 2021, Segment.io, Inc.
 [setpreferences]: #setpreferences
 [consentmanager implementation]: src/consent-manager
 [css selector]: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
-[here]: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/identity/

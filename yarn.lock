@@ -2379,11 +2379,6 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
-"@types/segment-analytics@^0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@types/segment-analytics/-/segment-analytics-0.0.32.tgz#63e27737a81f6bd0fbecd86207afb92d12d85cca"
-  integrity sha512-p0SHnfHfZwemTeaISvu8WUXtw81A4AOU4GEr7B9S9jLx2iu/z/4aLT0flRJtHVusVAlMeJSdobn0uD/oR1sFEw==
-
 "@types/sinon@^7.5.0":
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-7.5.2.tgz#5e2f1d120f07b9cda07e5dedd4f3bf8888fccdb9"

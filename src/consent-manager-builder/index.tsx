@@ -28,7 +28,7 @@ function getNewDestinations(destinations: Destination[], preferences: CategoryPr
 }
 
 interface Props {
-  /** Your Segment Write key for your website */
+  /** Your Hightouch Write key for your website */
   writeKey: string
 
   /** A list of other write keys you may want to provide */
@@ -67,7 +67,7 @@ interface Props {
   ) => { destinationPreferences: CategoryPreferences; customPreferences: CategoryPreferences }
 
   /**
-   * Allows for adding custom consent categories by mapping a custom category to Segment integrations
+   * Allows for adding custom consent categories by mapping a custom category to Hightouch integrations
    */
   customCategories?: CustomCategories
 
@@ -150,7 +150,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     onError: undefined,
     shouldRequireConsent: () => true,
     initialPreferences: {},
-    cdnHost: 'cdn.segment.com',
+    cdnHost: 'cdn.hightouch-events.com',
     shouldReload: true,
     devMode: false,
     useDefaultCategories: false

@@ -2,7 +2,7 @@ import { CloseBehaviorFunction } from './consent-manager/container'
 import { PreferencesManager } from './consent-manager-builder/preferences'
 import { CookieAttributes } from 'js-cookie'
 
-type AJS = SegmentAnalytics.AnalyticsJS & {
+type AJS = {
   initialized: boolean
   track: (event: string, properties: { [key: string]: any }) => void
   addSourceMiddleware: (middleware: Middleware) => void

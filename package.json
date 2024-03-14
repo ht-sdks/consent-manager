@@ -1,5 +1,5 @@
 {
-  "name": "@segment/consent-manager",
+  "name": "@ht-sdks/consent-manager",
   "version": "5.8.1",
   "description": "Drop-in consent management plugin for analytics.js",
   "keywords": [
@@ -8,7 +8,7 @@
     "analytics",
     "analytics.js"
   ],
-  "repository": "segmentio/consent-manager",
+  "repository": "ht-sdks/consent-manager",
   "license": "MIT",
   "main": "commonjs/index.js",
   "module": "esm/index.js",
@@ -77,7 +77,6 @@
     "@types/node": "^12.7.11",
     "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
-    "@types/segment-analytics": "^0.0.32",
     "@types/sinon": "^7.5.0",
     "@types/storybook__react": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
@@ -162,7 +161,7 @@
   },
   "storybook-deployer": {
     "gitUsername": "GitHub Pages Bot",
-    "gitEmail": "friends@segment.com",
+    "gitEmail": "friends@hightouch.com",
     "commitMessage": "Deploy Storybook to GitHub Pages [skip ci]"
   }
 }

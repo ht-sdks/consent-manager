@@ -3,7 +3,7 @@ import fetchDestinations from '../../consent-manager-builder/fetch-destinations'
 
 describe('fetchDestinations', () => {
   test('Returns destinations for a writekey', async () => {
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -16,7 +16,7 @@ describe('fetchDestinations', () => {
         }
       ])
 
-    expect(await fetchDestinations('cdn.segment.com', ['123'])).toMatchObject([
+    expect(await fetchDestinations('cdn.hightouch-events.com', ['123'])).toMatchObject([
       {
         id: 'Amplitude',
         name: 'Amplitude'
@@ -29,7 +29,7 @@ describe('fetchDestinations', () => {
   })
 
   test('Renames creationName to id', async () => {
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -38,7 +38,7 @@ describe('fetchDestinations', () => {
         }
       ])
 
-    expect(await fetchDestinations('cdn.segment.com', ['123'])).toMatchObject([
+    expect(await fetchDestinations('cdn.hightouch-events.com', ['123'])).toMatchObject([
       {
         id: 'Old Amplitude',
         name: 'New Amplitude'
@@ -47,7 +47,7 @@ describe('fetchDestinations', () => {
   })
 
   test('Doesn՚t include duplicate destinations', async () => {
-    nock('https://cdn.segment.com')
+    nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
         {
@@ -71,7 +71,7 @@ describe('fetchDestinations', () => {
         }
       ])
 
-    expect(await fetchDestinations('cdn.segment.com', ['123', 'abc'])).toMatchObject([
+    expect(await fetchDestinations('cdn.hightouch-events.com', ['123', 'abc'])).toMatchObject([
       {
         id: 'Amplitude',
         name: 'Amplitude'

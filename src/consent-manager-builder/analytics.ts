@@ -43,7 +43,7 @@ export default function conditionallyLoadAnalytics({
   categoryPreferences
 }: AnalyticsParams) {
   const wd = window as WindowWithAJS
-  const integrations = { All: false, 'Segment.io': true }
+  const integrations = { All: false }
   let isAnythingEnabled = false
 
   if (!destinationPreferences) {

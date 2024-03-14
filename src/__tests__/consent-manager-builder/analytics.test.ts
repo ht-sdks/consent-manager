@@ -38,8 +38,7 @@ describe('analytics', () => {
     expect(ajsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
-        Amplitude: true,
-        'Segment.io': true
+        Amplitude: true
       }
     })
   })
@@ -186,8 +185,7 @@ describe('analytics', () => {
     expect(ajsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
-        Amplitude: true,
-        'Segment.io': true
+        Amplitude: true
       }
     })
   })
@@ -218,8 +216,7 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Google Analytics': false,
-        'Segment.io': true
+        'Google Analytics': false
       }
     })
   })
@@ -250,8 +247,7 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Google Analytics': true,
-        'Segment.io': true
+        'Google Analytics': true
       }
     })
   })

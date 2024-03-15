@@ -4,6 +4,8 @@ import { CookieAttributes } from 'js-cookie'
 
 type AJS = {
   initialized: boolean
+  load: (writeKey: string, options?: any) => void
+  identify: (properties: { [key: string]: any }) => void
   track: (event: string, properties: { [key: string]: any }) => void
   addSourceMiddleware: (middleware: Middleware) => void
 }

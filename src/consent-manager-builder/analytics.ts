@@ -52,8 +52,8 @@ export default function conditionallyLoadAnalytics({
     }
 
     // Load a.js normally when consent isn't required and there's no preferences
-    if (!wd.analytics.initialized) {
-      wd.analytics.load(writeKey)
+    if (!wd.analytics?.initialized) {
+      wd.analytics?.load(writeKey)
     }
     return
   }
@@ -94,8 +94,8 @@ export default function conditionallyLoadAnalytics({
       defaultDestinationBehavior
     )
     // @ts-ignore: Analytics.JS type should be updated with addSourceMiddleware
-    wd.analytics.addSourceMiddleware(middleware)
+    wd.analytics?.addSourceMiddleware(middleware)
 
-    wd.analytics.load(writeKey, { integrations })
+    wd.analytics?.load(writeKey, { integrations })
   }
 }

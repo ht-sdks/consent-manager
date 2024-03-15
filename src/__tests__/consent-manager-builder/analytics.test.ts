@@ -38,7 +38,8 @@ describe('analytics', () => {
     expect(ajsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
-        Amplitude: true
+        Amplitude: true,
+        'Hightouch.io': true
       }
     })
   })
@@ -185,7 +186,8 @@ describe('analytics', () => {
     expect(ajsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
-        Amplitude: true
+        Amplitude: true,
+        'Hightouch.io': true
       }
     })
   })
@@ -216,7 +218,8 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Google Analytics': false
+        'Google Analytics': false,
+        'Hightouch.io': true
       }
     })
   })
@@ -247,7 +250,8 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Google Analytics': true
+        'Google Analytics': true,
+        'Hightouch.io': true
       }
     })
   })

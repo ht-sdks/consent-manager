@@ -43,7 +43,7 @@ export default function conditionallyLoadAnalytics({
   categoryPreferences
 }: AnalyticsParams) {
   const wd = window as WindowWithAJS
-  const integrations = { All: false }
+  const integrations = { All: false, 'Hightouch.io': true }
   let isAnythingEnabled = false
 
   if (!destinationPreferences) {

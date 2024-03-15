@@ -149,9 +149,9 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                 <ColumnHeading scope="col">{headings!.allowValue}</ColumnHeading>
                 <ColumnHeading scope="col">{headings!.categoryValue}</ColumnHeading>
                 <ColumnHeading scope="col">{headings!.purposeValue}</ColumnHeading>
-                <ColumnHeading scope="col" css={hideOnMobile}>
+                {/* <ColumnHeading scope="col" css={hideOnMobile}>
                   {headings!.toolsValue}
-                </ColumnHeading>
+                </ColumnHeading> */}
               </Row>
             </thead>
 
@@ -190,7 +190,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{functionalInfo?.description}</p>
                       <p css={hideOnMobile}>{functionalInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>{functionalDestinations.map(d => d.name).join(', ')}</td>
+                    {/* <td css={hideOnMobile}>{functionalDestinations.map(d => d.name).join(', ')}</td> */}
                   </Row>
 
                   <Row>
@@ -225,7 +225,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{marketingInfo?.description}</p>
                       <p css={hideOnMobile}>{marketingInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>{marketingDestinations.map(d => d.name).join(', ')}</td>
+                    {/* <td css={hideOnMobile}>{marketingDestinations.map(d => d.name).join(', ')}</td> */}
                   </Row>
 
                   <Row>
@@ -260,9 +260,9 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{advertisingInfo?.description}</p>
                       <p css={hideOnMobile}>{advertisingInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>
+                    {/* <td css={hideOnMobile}>
                       {advertisingDestinations.map(d => d.name).join(', ')}
-                    </td>
+                    </td> */}
                   </Row>
 
                   <Row>
@@ -272,7 +272,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{essentialInfo?.description}</p>
                       <p>{essentialInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile} />
+                    {/* <td css={hideOnMobile} /> */}
                   </Row>
                 </>
               )}

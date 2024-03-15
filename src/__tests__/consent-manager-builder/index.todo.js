@@ -126,7 +126,7 @@ describe('ConsentManagerBuilder', () => {
   test.skip('provides an object containing the WIP preferences', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
-    window.analytics = { load() {}, track() {}, addSourceMiddleware() {}, addSourceMiddleware() {} }
+    window.analytics = { load() {}, track() {}, addSourceMiddleware() {} }
 
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')

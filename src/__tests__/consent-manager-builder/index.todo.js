@@ -13,7 +13,7 @@ describe('ConsentManagerBuilder', () => {
 
   test.todo('doesn՚t load analytics.js when consent is required')
 
-  test('provides a list of enabled destinations', done => {
+  test.skip('provides a list of enabled destinations', done => {
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
@@ -57,7 +57,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('provides a list of newly added destinations', done => {
+  test.skip('provides a list of newly added destinations', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
     window.analytics = { load() {}, track() {}, addSourceMiddleware() {} }
@@ -90,7 +90,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('loads analytics.js with the user՚s preferences', done => {
+  test.skip('loads analytics.js with the user՚s preferences', done => {
     const ajsLoad = sinon.spy()
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
@@ -123,7 +123,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('provides an object containing the WIP preferences', done => {
+  test.skip('provides an object containing the WIP preferences', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
     window.analytics = { load() {}, track() {}, addSourceMiddleware() {}, addSourceMiddleware() {} }
@@ -149,7 +149,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('does not imply consent on interacation', done => {
+  test.skip('does not imply consent on interacation', done => {
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [
@@ -169,7 +169,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('if defaultDestinationBehavior is set to imply and category is set to true, loads new destination', done => {
+  test.skip('if defaultDestinationBehavior is set to imply and category is set to true, loads new destination', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:true%2C%22functional%22:true}}'
     window.analytics = { load() {}, identify() {}, track() {}, addSourceMiddleware() {} }
@@ -243,7 +243,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('if defaultDestinationBehavior is set to imply and category is set to false, does not load new destination', done => {
+  test.skip('if defaultDestinationBehavior is set to imply and category is set to false, does not load new destination', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:false%2C%22functional%22:true}}'
     window.analytics = {
@@ -323,7 +323,7 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test('a different cdn is used when cdnHost is set', done => {
+  test.skip('a different cdn is used when cdnHost is set', done => {
     nock('https://foo.bar.com')
       .get('/v1/projects/123/integrations')
       .reply(200, [

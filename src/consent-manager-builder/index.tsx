@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import { loadPreferences, savePreferences } from './preferences'
-import fetchDestinations from './fetch-destinations'
 import conditionallyLoadAnalytics from './analytics'
 import {
   Destination,
@@ -231,7 +230,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     let { destinationPreferences, customPreferences } = loadPreferences(cookieName)
     const [isConsentRequired, destinations] = await Promise.all([
       shouldRequireConsent(),
-      fetchDestinations(cdnHost, [writeKey, ...otherWriteKeys])
+      Promise.resolve([])
     ])
     const newDestinations = getNewDestinations(destinations, destinationPreferences || {})
     const workspaceAddedNewDestinations =

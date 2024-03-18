@@ -4,34 +4,34 @@ This is the guide with the list ids from the different components inside Consent
 
 ## Banner
 
-- segmentio_fragmentBanner
-- segmentio_pContent
-- segmentio_pSubContent
-- segmentio_subContentBtn
-- segmentio_actionBlock
-- segmentio_allowBtn
-- segmentio_denyBtn
-- segmentio_closeButton
+- hightouchio_fragmentBanner
+- hightouchio_pContent
+- hightouchio_pSubContent
+- hightouchio_subContentBtn
+- hightouchio_actionBlock
+- hightouchio_allowBtn
+- hightouchio_denyBtn
+- hightouchio_closeButton
 
 ## Cancel Dialog
 
-- segmentio_backDialogBtn
-- segmentio_cancelDialogBtn
+- hightouchio_backDialogBtn
+- hightouchio_cancelDialogBtn
 
 ## Dialog
 
-- segmentio_overlayDialog
-- segmentio_rootDialog
-- segmentio_headerDialog
-- segmentio_headerCancelBtn
-- segmentio_contentDialog
-- segmentio_buttonsDialog
+- hightouchio_overlayDialog
+- hightouchio_rootDialog
+- hightouchio_headerDialog
+- hightouchio_headerCancelBtn
+- hightouchio_contentDialog
+- hightouchio_buttonsDialog
 
 ## Preference Dialog
 
-- segmentio_prefBtnCancel
-- segmentio_prefBtnSubmit
-- segmentio_prefTableScroll
-- segmentio_prefTable
-- segmentio_prefThead
-- segmentio_prefTbody
+- hightouchio_prefBtnCancel
+- hightouchio_prefBtnSubmit
+- hightouchio_prefTableScroll
+- hightouchio_prefTable
+- hightouchio_prefThead
+- hightouchio_prefTbody

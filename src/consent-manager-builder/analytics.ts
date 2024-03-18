@@ -1,5 +1,5 @@
 import {
-  WindowWithAJS,
+  WindowWithHtEvents,
   Destination,
   DefaultDestinationBehavior,
   CategoryPreferences,
@@ -42,7 +42,7 @@ export default function conditionallyLoadAnalytics({
   defaultDestinationBehavior,
   categoryPreferences
 }: AnalyticsParams) {
-  const wd = window as WindowWithAJS
+  const wd = window as WindowWithHtEvents
   const integrations = { All: false, 'Hightouch.io': true }
   let isAnythingEnabled = false
 
@@ -51,9 +51,9 @@ export default function conditionallyLoadAnalytics({
       return
     }
 
-    // Load a.js normally when consent isn't required and there's no preferences
-    if (!wd.analytics?.initialized) {
-      wd.analytics?.load(writeKey)
+    // Load htevents normally when consent isn't required and there's no preferences
+    if (!wd.htevents?.initialized) {
+      wd.htevents?.load(writeKey)
     }
     return
   }
@@ -75,7 +75,7 @@ export default function conditionallyLoadAnalytics({
 
   // Reload the page if the trackers have already been initialised so that
   // the user's new preferences can take affect
-  if (wd.analytics && wd.analytics.initialized) {
+  if (wd.htevents?.initialized) {
     if (shouldReload) {
       window.location.reload()
     }
@@ -86,16 +86,15 @@ export default function conditionallyLoadAnalytics({
     return
   }
 
-  // Don't load a.js at all if nothing has been enabled
+  // Don't load htevents at all if nothing has been enabled
   if (isAnythingEnabled) {
     const middleware = getConsentMiddleware(
       destinationPreferences,
       categoryPreferences,
       defaultDestinationBehavior
     )
-    // @ts-ignore: Analytics.JS type should be updated with addSourceMiddleware
-    wd.analytics?.addSourceMiddleware(middleware)
+    wd.htevents?.addSourceMiddleware(middleware)
 
-    wd.analytics?.load(writeKey, { integrations })
+    wd.htevents?.load(writeKey, { integrations })
   }
 }

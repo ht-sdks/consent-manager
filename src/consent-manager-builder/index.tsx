@@ -94,7 +94,7 @@ interface Props {
 
   /**
    * Default false
-   * Disable the analitics.load to make local testing.
+   * Disable htevents.load for local testing.
    */
   devMode?: boolean
 

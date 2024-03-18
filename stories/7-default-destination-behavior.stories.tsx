@@ -101,7 +101,7 @@ const ConsentManagerExample = (props: {
         <Paragraph marginTop={20}>
           This example highlights default destination behavior. The cookie set is missing a
           destination that is enabled on the source, imitating a newly added destination. In the
-          console, verify behavior by looking at analytics.options.
+          console, verify behavior by looking at htevents.options.
         </Paragraph>
         <p>
           <div>

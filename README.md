@@ -29,11 +29,11 @@
 
 ## Hightouch Consent Manager
 
-The Hightouch Consent Manager is an analytics.js add-on with support to consent management.
+The Hightouch Consent Manager is an events.js add-on with support to consent management.
 
 At its core, the Consent Manager empowers your visitors to control and customize their tracking preferences on a website. They can opt out entirely of being tracked, or selectively opt out of tools in which they don’t want their information stored.
 
-It works by taking control of the analytics.js load process to only load destinations that the user has consented to and not loading analytics.js at all if the user has opted out of everything. The user's tracking preferences are saved to a cookie and sent as an identify trait (if they haven't opted out of everything) so that you can also access them on the server-side and from destinations (warehouse).
+It works by taking control of the events.js load process to only load destinations that the user has consented to and not loading events.js at all if the user has opted out of everything. The user's tracking preferences are saved to a cookie and sent as an identify trait (if they haven't opted out of everything) so that you can also access them on the server-side and from destinations (warehouse).
 
 _Hightouch works to ensure the Consent Manager Tech Demo works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our Professional Services team for implementation support. Please see the LICENSE included._
 
@@ -315,9 +315,13 @@ export default function Home() {
       <Script
         id="show-banner"
         dangerouslySetInnerHTML={{
-          __html: `!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.hightouch-events.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};;analytics.SNIPPET_VERSION="4.13.2";
-          analytics.page();
-          }}();`
+          __html: `
+            !function () {
+              var e = window.htevents = window.htevents || []; if (!e.initialize) if (e.invoked) window.console && console.error && console.error("Hightouch snippet included twice."); else {
+                e.invoked = !0, e.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"], e.factory = function (t) { return function () { var n = Array.prototype.slice.call(arguments); return n.unshift(t), e.push(n), e } }; for (var t = 0; t < e.methods.length; t++) { var n = e.methods[t]; e[n] = e.factory(n) } e.load = function (t, n) { var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = "https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js"; var r = document.getElementsByTagName("script")[0]; r.parentNode.insertBefore(o, r), e._loadOptions = n, e._writeKey = t }, e.SNIPPET_VERSION = "0.0.1",
+                  e.page()
+              }
+            }();`
         }}
       />
 
@@ -378,7 +382,7 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 **Type**: `string`
 **Default**: none
 
-The write key analytics.js should be loaded with.
+The write key events.js should be loaded with.
 
 ##### otherWriteKeys
 
@@ -884,7 +888,7 @@ Resets the [preferences][] state to the value saved in the cookie. Useful for re
 
 **Type**: `function(object|boolean)`
 
-Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `customTrackingPreferences` traits and then reloads analytics.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
+Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `customTrackingPreferences` traits and then reloads events.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
 
 ##### onError
 
@@ -910,9 +914,9 @@ ajs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
 You can override the default-generated anonymousID from the Hightouch snippet.
 
 ```javascript
-analytics.SNIPPET_VERSION = '4.13.2'
-analytics.page()
-analytics.setAnonymousId('YOUR_CUSTOM_ID')
+htevents.SNIPPET_VERSION = '4.13.2'
+htevents.page()
+htevents.setAnonymousId('YOUR_CUSTOM_ID')
 ```
 
 _Note: Keep in mind that setting the anonymousId in Analytics.js does not overwrite the anonymous tracking IDs for any destinations you’re using._

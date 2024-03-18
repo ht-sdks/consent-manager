@@ -1,14 +1,14 @@
 import sinon from 'sinon'
-import { WindowWithAJS, Destination, Middleware } from '../../types'
+import { WindowWithHtEvents, Destination, Middleware } from '../../types'
 import conditionallyLoadAnalytics from '../../consent-manager-builder/analytics'
 
 describe('analytics', () => {
   let wd
 
   beforeEach(() => {
-    window = {} as WindowWithAJS
+    window = {} as WindowWithHtEvents
     wd = window
-    wd.analytics = {
+    wd.htevents = {
       /*eslint-disable */
       track: (_event, _properties, _optionsWithConsent, _callback) => {},
       addSourceMiddleware: (_middleware: Middleware) => {}
@@ -16,9 +16,9 @@ describe('analytics', () => {
     }
   })
 
-  test('loads analytics.js with preferences', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+  test('loads events.js with preferences', () => {
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -33,9 +33,9 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.calledOnce).toBe(true)
-    expect(ajsLoad.args[0][0]).toBe(writeKey)
-    expect(ajsLoad.args[0][1]).toMatchObject({
+    expect(hteventsLoad.calledOnce).toBe(true)
+    expect(hteventsLoad.args[0][0]).toBe(writeKey)
+    expect(hteventsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
         Amplitude: true,
@@ -44,9 +44,9 @@ describe('analytics', () => {
     })
   })
 
-  test('doesn՚t load analytics.js when there are no preferences', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+  test('doesn՚t load events.js when there are no preferences', () => {
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = null
@@ -59,12 +59,12 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.notCalled).toBe(true)
+    expect(hteventsLoad.notCalled).toBe(true)
   })
 
-  test('doesn՚t load analytics.js when all preferences are false', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+  test('doesn՚t load events.js when all preferences are false', () => {
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -79,11 +79,11 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.notCalled).toBe(true)
+    expect(hteventsLoad.notCalled).toBe(true)
   })
 
-  test('reloads the page when analytics.js has already been initialised', () => {
-    wd.analytics.load = function load() {
+  test('reloads the page when events.js has already been initialised', () => {
+    wd.htevents.load = function load() {
       this.initialized = true
     }
 
@@ -115,7 +115,7 @@ describe('analytics', () => {
 
   test('should allow the reload behvaiour to be disabled', () => {
     const reload = sinon.spy()
-    wd.analytics.load = function load() {
+    wd.htevents.load = function load() {
       this.initialized = true
     }
     wd.location = { reload }
@@ -144,9 +144,9 @@ describe('analytics', () => {
     expect(reload.calledOnce).toBe(false)
   })
 
-  test('loads analytics.js normally when consent isn՚t required', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+  test('loads events.js normally when consent isn՚t required', () => {
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = null
@@ -159,14 +159,14 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.calledOnce).toBe(true)
-    expect(ajsLoad.args[0][0]).toBe(writeKey)
-    expect(ajsLoad.args[0][1]).toBeUndefined()
+    expect(hteventsLoad.calledOnce).toBe(true)
+    expect(hteventsLoad.args[0][0]).toBe(writeKey)
+    expect(hteventsLoad.args[0][1]).toBeUndefined()
   })
 
   test('still applies preferences when consent isn՚t required', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -181,9 +181,9 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.calledOnce).toBe(true)
-    expect(ajsLoad.args[0][0]).toBe(writeKey)
-    expect(ajsLoad.args[0][1]).toMatchObject({
+    expect(hteventsLoad.calledOnce).toBe(true)
+    expect(hteventsLoad.args[0][0]).toBe(writeKey)
+    expect(hteventsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
         Amplitude: true,
@@ -193,8 +193,8 @@ describe('analytics', () => {
   })
 
   test('sets new destinations to false if defaultDestinationBehavior is set to "disable"', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
@@ -214,7 +214,7 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.args[0][1]).toMatchObject({
+    expect(hteventsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
         Amplitude: true,
@@ -225,8 +225,8 @@ describe('analytics', () => {
   })
 
   test('sets new destinations to true if defaultDestinationBehavior is set to "enable"', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
@@ -246,7 +246,7 @@ describe('analytics', () => {
       categoryPreferences: {}
     })
 
-    expect(ajsLoad.args[0][1]).toMatchObject({
+    expect(hteventsLoad.args[0][1]).toMatchObject({
       integrations: {
         All: false,
         Amplitude: true,
@@ -256,9 +256,9 @@ describe('analytics', () => {
     })
   })
 
-  test('Set devMode on true to disabled analytics load', () => {
-    const ajsLoad = sinon.spy()
-    wd.analytics.load = ajsLoad
+  test('Set devMode on true to disabled events.js load', () => {
+    const hteventsLoad = sinon.spy()
+    wd.htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -274,6 +274,6 @@ describe('analytics', () => {
       devMode: true
     })
 
-    expect(ajsLoad.calledOnce).toBe(false)
+    expect(hteventsLoad.calledOnce).toBe(false)
   })
 })

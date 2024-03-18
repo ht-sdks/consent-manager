@@ -119,7 +119,7 @@ const ConsentManagerExample = () => {
             frameBorder="0"
           />
         </Pane>
-        <Button onClick={() => window.analytics.track('Send Track Event Clicked')}>
+        <Button onClick={() => (window as any).htevents.track('Send Track Event Clicked')}>
           Send Track Event
         </Button>
 

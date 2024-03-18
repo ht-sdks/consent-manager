@@ -50,10 +50,8 @@ describe('preferences', () => {
   })
 
   test('savePreferences() saves the preferences', () => {
-    const ajsIdentify = sinon.spy()
-
-    // @ts-ignore
-    window.analytics = { identify: ajsIdentify }
+    const hteventsIdentify = sinon.spy()
+    ;(window as any).htevents = { identify: hteventsIdentify }
     document.cookie = ''
 
     const destinationPreferences = {
@@ -69,8 +67,8 @@ describe('preferences', () => {
       cookieDomain: undefined
     })
 
-    expect(ajsIdentify.calledOnce).toBe(true)
-    expect(ajsIdentify.args[0][0]).toMatchObject({
+    expect(hteventsIdentify.calledOnce).toBe(true)
+    expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
       customTrackingPreferences: customPreferences
     })
@@ -83,9 +81,8 @@ describe('preferences', () => {
   })
 
   test('savePreferences() sets the cookie domain', () => {
-    const ajsIdentify = sinon.spy()
-    // @ts-ignore
-    window.analytics = { identify: ajsIdentify }
+    const hteventsIdentify = sinon.spy()
+    ;(window as any).htevents = { identify: hteventsIdentify }
     document.cookie = ''
 
     const destinationPreferences = {
@@ -98,8 +95,8 @@ describe('preferences', () => {
       cookieDomain: 'example.com'
     })
 
-    expect(ajsIdentify.calledOnce).toBe(true)
-    expect(ajsIdentify.args[0][0]).toMatchObject({
+    expect(hteventsIdentify.calledOnce).toBe(true)
+    expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
       customTrackingPreferences: undefined
     })
@@ -109,9 +106,8 @@ describe('preferences', () => {
   })
 
   test('savePreferences() sets the cookie with custom key', () => {
-    const ajsIdentify = sinon.spy()
-    // @ts-ignore
-    window.analytics = { identify: ajsIdentify }
+    const hteventsIdentify = sinon.spy()
+    ;(window as any).htevents = { identify: hteventsIdentify }
     document.cookie = ''
 
     const destinationPreferences = {
@@ -125,8 +121,8 @@ describe('preferences', () => {
       cookieName: 'custom-tracking-preferences'
     })
 
-    expect(ajsIdentify.calledOnce).toBe(true)
-    expect(ajsIdentify.args[0][0]).toMatchObject({
+    expect(hteventsIdentify.calledOnce).toBe(true)
+    expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
       customTrackingPreferences: undefined
     })

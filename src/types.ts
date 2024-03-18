@@ -2,11 +2,11 @@ import { CloseBehaviorFunction } from './consent-manager/container'
 import { PreferencesManager } from './consent-manager-builder/preferences'
 import { CookieAttributes } from 'js-cookie'
 
-type AJS = {
+type HtEventsBrowser = {
   initialized: boolean
   load: (writeKey: string, options?: any) => void
-  identify: (properties: { [key: string]: any }) => void
-  track: (event: string, properties: { [key: string]: any }) => void
+  identify: (properties: Record<string, any>) => void
+  track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void
   addSourceMiddleware: (middleware: Middleware) => void
 }
 
@@ -20,9 +20,9 @@ interface MiddlewareInput {
   next: (payload: MiddlewareInput['payload']) => void
 }
 
-export type WindowWithAJS = Window &
+export type WindowWithHtEvents = Window &
   typeof globalThis & {
-    analytics?: AJS
+    htevents?: HtEventsBrowser
   }
 
 export type WindowWithConsentManagerConfig = Window &

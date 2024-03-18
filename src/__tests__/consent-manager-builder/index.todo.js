@@ -11,7 +11,7 @@ describe('ConsentManagerBuilder', () => {
     window = {}
   })
 
-  test.todo('doesn՚t load analytics.js when consent is required')
+  test.todo('doesn՚t load events.js when consent is required')
 
   test.skip('provides a list of enabled destinations', done => {
     nock('https://cdn.hightouch-events.com')
@@ -60,7 +60,7 @@ describe('ConsentManagerBuilder', () => {
   test.skip('provides a list of newly added destinations', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
-    window.analytics = { load() {}, track() {}, addSourceMiddleware() {} }
+    window.htevents = { load() {}, track() {}, addSourceMiddleware() {} }
 
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
@@ -90,11 +90,11 @@ describe('ConsentManagerBuilder', () => {
     )
   })
 
-  test.skip('loads analytics.js with the user՚s preferences', done => {
-    const ajsLoad = sinon.spy()
+  test.skip('loads events.js with the user՚s preferences', done => {
+    const hteventsLoad = sinon.spy()
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
-    window.analytics = { load: ajsLoad, track() {}, addSourceMiddleware() {} }
+    window.htevents = { load: hteventsLoad, track() {}, addSourceMiddleware() {} }
     const writeKey = '123'
 
     nock('https://cdn.hightouch-events.com')
@@ -109,9 +109,9 @@ describe('ConsentManagerBuilder', () => {
     shallow(
       <ConsentManagerBuilder writeKey={writeKey}>
         {() => {
-          expect(ajsLoad.calledOnce).toBe(true)
-          expect(ajsLoad.args[0][0]).toBe(writeKey)
-          expect(ajsLoad.args[0][1]).toMatchObject({
+          expect(hteventsLoad.calledOnce).toBe(true)
+          expect(hteventsLoad.args[0][0]).toBe(writeKey)
+          expect(hteventsLoad.args[0][1]).toMatchObject({
             integrations: {
               All: false,
               Amplitude: true
@@ -126,7 +126,7 @@ describe('ConsentManagerBuilder', () => {
   test.skip('provides an object containing the WIP preferences', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
-    window.analytics = { load() {}, track() {}, addSourceMiddleware() {} }
+    window.htevents = { load() {}, track() {}, addSourceMiddleware() {} }
 
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
@@ -172,7 +172,7 @@ describe('ConsentManagerBuilder', () => {
   test.skip('if defaultDestinationBehavior is set to imply and category is set to true, loads new destination', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:true%2C%22functional%22:true}}'
-    window.analytics = { load() {}, identify() {}, track() {}, addSourceMiddleware() {} }
+    window.htevents = { load() {}, identify() {}, track() {}, addSourceMiddleware() {} }
 
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
@@ -246,7 +246,7 @@ describe('ConsentManagerBuilder', () => {
   test.skip('if defaultDestinationBehavior is set to imply and category is set to false, does not load new destination', done => {
     document.cookie =
       'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:false%2C%22functional%22:true}}'
-    window.analytics = {
+    window.htevents = {
       load() {},
       identify() {},
       track() {},
@@ -366,13 +366,13 @@ describe('ConsentManagerBuilder', () => {
       </ConsentManagerBuilder>
     )
   })
-  test.todo('loads analytics.js normally when consent isn՚t required')
+  test.todo('loads events.js normally when consent isn՚t required')
   test.todo('still applies preferences when consent isn՚t required')
   test.todo('provides a setPreferences() function for setting the preferences')
   test.todo('setPreferences() function can be passed a boolean to set all preferences')
   test.todo('provides a resetPreferences() function for resetting the preferences')
   test.todo(
-    'provides a saveConsent() function for persisting the preferences and loading analytics.js'
+    'provides a saveConsent() function for persisting the preferences and loading events.js'
   )
   test.todo('saveConsent() can be passed additional preferences to persist')
   test.todo('saveConsent() can be passed a boolean to set all preferences')

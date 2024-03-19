@@ -36,7 +36,7 @@ function getConsentMiddleware(
 
 export default function conditionallyLoadAnalytics({
   writeKey,
-  options = {},
+  options,
   destinations,
   destinationPreferences,
   isConsentRequired,
@@ -97,7 +97,7 @@ export default function conditionallyLoadAnalytics({
 
   // Don't load htevents if nothing has been enabled
   const isAnythingEnabled =
-    Object.values(integrations).some(Boolean) ||
+    Object.entries(integrations).some(([id, isEnabled]) => id !== 'Hightouch.io' && isEnabled) ||
     Object.values(categoryPreferences || {}).some(Boolean)
 
   if (isAnythingEnabled) {

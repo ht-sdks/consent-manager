@@ -31,6 +31,7 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
     <Pane>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
+        options={{ apiHost: 'localhost:7777', protocol: 'http' }}
         bannerContent={bannerContent}
         preferencesDialogContent={preferencesDialogContent}
         cancelDialogContent={cancelDialogContent}
@@ -40,19 +41,9 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
       <Pane marginX={100} marginTop={20}>
         <Heading> Your website content </Heading>
         <Pane display="flex">
-          <iframe
-            src="https://giphy.com/embed/JIX9t2j0ZTN9S"
-            width="480"
-            height="480"
-            frameBorder="0"
-          />
-
-          <iframe
-            src="https://giphy.com/embed/yFQ0ywscgobJK"
-            width="398"
-            height="480"
-            frameBorder="0"
-          />
+          <div style={{ background: '#3FE398', padding: 16, height: 200, width: '100%' }}>
+            Example content
+          </div>
         </Pane>
 
         <p>

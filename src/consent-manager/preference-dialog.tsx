@@ -53,11 +53,13 @@ const Row = styled('tr')`
 
 const InputCell = styled('td')`
   input {
+    margin: 0px 6px 0px 0px;
     vertical-align: middle;
   }
   label {
-    display: block;
-    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
     white-space: nowrap;
   }
   td {

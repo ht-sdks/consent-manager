@@ -19,8 +19,7 @@ const CategoryBased = () => {
     <Pane maxWidth={1000} margin={30}>
       <ConsentManagerBuilder
         onError={e => console.error('Error Handling', e)}
-        writeKey="tYQQPcY78Hc3T1hXUYk0n4xcbEHnN7r0"
-        otherWriteKeys={['vMRS7xbsjH97Bb2PeKbEKvYDvgMm5T3l']}
+        writeKey={process.env.STORYBOOK_WRITE_KEY!}
       >
         {({ destinations, preferences, setPreferences, saveConsent }) => {
           function handleSubmit(e) {

@@ -117,7 +117,6 @@ export interface PreferenceDialogTemplate {
 
 export interface ConsentManagerProps {
   writeKey: string
-  otherWriteKeys?: string[]
   options?: HtEventsBrowserOptions
   shouldRequireConsent?: () => Promise<boolean> | boolean
   implyConsentOnInteraction?: boolean

@@ -35,7 +35,7 @@ describe('ConsentManagerBuilder', () => {
       ])
 
     shallow(
-      <ConsentManagerBuilder writeKey="123" otherWriteKeys={['abc']}>
+      <ConsentManagerBuilder writeKey="123">
         {({ destinations }) => {
           expect(destinations).toMatchObject([
             {
@@ -345,7 +345,7 @@ describe('ConsentManagerBuilder', () => {
       ])
 
     shallow(
-      <ConsentManagerBuilder writeKey="123" otherWriteKeys={['abc']} cdnHost="foo.bar.com">
+      <ConsentManagerBuilder writeKey="123" cdnHost="foo.bar.com">
         {({ destinations }) => {
           expect(destinations).toMatchObject([
             {

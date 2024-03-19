@@ -8,7 +8,7 @@
 
         return {
           container: '#consent-manager',
-          writeKey: 'n2DAIaakJzCUq0saLY0LMcm9dKsqCZvU',
+          writeKey: process.env.STORYBOOK_WRITE_KEY,
           /* initialPreferences allows for customizing which categories already pre-loaded */
           initialPreferences: {
             marketingAndAnalytics: false,
@@ -16,9 +16,9 @@
             functional: true
           },
           /*
-    The consent manager ships with a lightweight version of
-    React (preact) that you can use to customize the consent manager further
-  */
+          The consent manager ships with a lightweight version of
+          React (preact) that you can use to customize the consent manager further
+        */
           bannerContent: exports.React.createElement('span', null, '🍪We like cookies 🍪'),
           bannerSubContent: 'Change your preferences 👻',
           preferencesDialogTitle: 'Website Data Collection',

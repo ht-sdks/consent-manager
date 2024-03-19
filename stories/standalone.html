@@ -14,7 +14,7 @@
       window.consentManagerConfig = function(exports) {
         return {
           container: '#consent-manager',
-          writeKey: 'tYQQPcY78Hc3T1hXUYk0n4xcbEHnN7r0',
+          writeKey: process.env.STORYBOOK_WRITE_KEY,
           bannerContent:
             'We use cookies (and other similar technologies) to collect data to improve your experience on our site.',
           bannerSubContent: 'You can change your preferences at any time.',
@@ -29,7 +29,6 @@
       }
     </script>
 
-    <!-- Setup the Hightouch Consent Manager tag -->
     <script src="./standalone/consent-manager.js" defer></script>
 
     <!-- Load events.js -->

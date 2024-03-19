@@ -90,7 +90,7 @@ const ConsentManagerExample = () => {
   return (
     <Pane>
       <ConsentManager
-        writeKey="n2DAIaakJzCUq0saLY0LMcm9dKsqCZvU"
+        writeKey={process.env.STORYBOOK_WRITE_KEY!}
         bannerContent={bannerContent}
         bannerSubContent={bannerSubContent}
         preferencesDialogTitle={preferencesDialogTitle}

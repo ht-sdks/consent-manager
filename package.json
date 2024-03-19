@@ -1,6 +1,6 @@
 {
   "name": "@ht-sdks/consent-manager",
-  "version": "5.8.1",
+  "version": "0.0.1",
   "description": "Drop-in consent management plugin for events.js",
   "keywords": [
     "gdpr",

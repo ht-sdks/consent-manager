@@ -12,10 +12,7 @@ function Section(props) {
 const ToolBased = () => {
   return (
     <Pane maxWidth={1000} margin={30}>
-      <ConsentManagerBuilder
-        writeKey="tYQQPcY78Hc3T1hXUYk0n4xcbEHnN7r0"
-        otherWriteKeys={['vMRS7xbsjH97Bb2PeKbEKvYDvgMm5T3l']}
-      >
+      <ConsentManagerBuilder writeKey={process.env.STORYBOOK_WRITE_KEY!}>
         {({ destinations, preferences, setPreferences, saveConsent }) => {
           function handleSubmit(e) {
             e.preventDefault()

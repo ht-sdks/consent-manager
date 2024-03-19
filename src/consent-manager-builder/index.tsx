@@ -31,9 +31,6 @@ interface Props {
   /** Your Hightouch Write key for your website */
   writeKey: string
 
-  /** A list of other write keys you may want to provide */
-  otherWriteKeys?: string[]
-
   /** Options to pass to Hightouch Events Browser SDK */
   options?: HtEventsBrowserOptions
 
@@ -150,7 +147,6 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
 
   static defaultProps = {
     options: undefined,
-    otherWriteKeys: [],
     onError: undefined,
     shouldRequireConsent: () => true,
     initialPreferences: {},
@@ -220,7 +216,6 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     const {
       writeKey,
       options,
-      otherWriteKeys = ConsentManagerBuilder.defaultProps.otherWriteKeys,
       shouldRequireConsent = ConsentManagerBuilder.defaultProps.shouldRequireConsent,
       initialPreferences,
       mapCustomPreferences,

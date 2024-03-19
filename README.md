@@ -46,7 +46,7 @@ _Hightouch works to ensure the Consent Manager Tech Demo works with most of our 
 - EU traffic detection through [@segment/in-eu][ineu].
 - Ability for visitors to reconsent and change preferences.
 - Automatically updates to reflect the destinations you have enabled in Hightouch.
-- **5.0.0**: Consent Manager will add consent metadata to the context of all track calls:
+- Consent Manager will add consent metadata to the context of all track calls:
 
 Track call message payloads will be extended to include Consent metadata in the `context` object:
 
@@ -80,35 +80,11 @@ Track call message payloads will be extended to include Consent metadata in the 
 }
 ```
 
-**Breaking Changes:** Version 5.0.0 and above require that your analytics.js snippet include the method `addSourceMiddleware` in the `analytics.methods` array:
-
-```js
-analytics.methods = [
-  'trackSubmit',
-  'trackClick',
-  'trackLink',
-  'trackForm',
-  'pageview',
-  'identify',
-  'reset',
-  'group',
-  'track',
-  'ready',
-  'alias',
-  'debug',
-  'page',
-  'once',
-  'off',
-  'on',
-  'addSourceMiddleware' // This method is necessary for Consent Manager to forward consent metadata.
-]
-```
-
 ## Usage
 
 The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
 
-To get started, make sure you're using the latest version of the [analytics.js snippet][] (4.1.0 or above) and remove the `analytics.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
+To get started, make sure you're using the latest version of the [Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and remove the `e.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
 
 ### Standalone Script
 
@@ -354,7 +330,6 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 <!-- TOC depthFrom:5 depthTo:5 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [writeKey](#writekey)
-- [otherWriteKeys](#otherwritekeys)
 - [shouldRequireConsent](#shouldrequireconsent)
 - [initialPreferences](#initialpreferences)
 - [closeBehavior](#closebehavior)
@@ -384,15 +359,6 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 
 The write key events.js should be loaded with.
 
-##### otherWriteKeys
-
-**Type**: `array<string>`
-**Default**: `[]`
-
-Write keys for other sources so you can include destinations they use in the Consent Manager tool list. This only displays destinations that are not connected to the primary writeKey.
-
-The user’s consent preferences for these tools are not sent to these additional sources, but they are added to the `identify` call the Consent Manager sends to Hightouch. The user’s preferences can then be added to a raw data destination (like a data warehouse).
-
 ##### shouldRequireConsent
 
 **Type**: `function`
@@ -416,7 +382,7 @@ Object that opts into users into tracking for the different tracking categories.
 
 This option sets the default behavior for the x (close) button on the Consent Manager banner. Available options:
 
-- “dismiss” - dismisses the banner, but doesn't save or change any preferences. Analytics.js won’t load until consent is given.
+- “dismiss” - dismisses the banner, but doesn't save or change any preferences. Events Browser SDK won’t load until consent is given.
 - “accept”- assume consent across every category.
 - ”deny” - denies consent across every category.
 
@@ -433,10 +399,8 @@ closeBehavior={
 
 ##### implyConsentOnInteraction
 
-**_Breaking Change_** (versions < 3.0.0 will default this option `true`)
-
 **Type**: `boolean`
-**Default**: `false` (as of 3.0.0)
+**Default**: `false`
 
 Determines whether or not consent should be implied if the user interacts with the website by clicking anywhere outside the Consent Manager banner.
 
@@ -631,7 +595,7 @@ _Note 2: For categories, you need to provide the key in order to map all the val
 
 ### ConsentManagerBuilder
 
-The `ConsentManagerBuilder` React component is a low level render props component for building your own consent manager UI. It abstracts away all the logic for fetching destinations, checking/saving consent and loading analytics.js.
+The `ConsentManagerBuilder` React component is a low level render props component for building your own consent manager UI. It abstracts away all the logic for fetching destinations, checking/saving consent and loading the Events Browser SDK.
 
 _Note: ConsentManagerBuilder is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
 
@@ -702,7 +666,6 @@ export default function() {
 
 - [children](#children)
 - [writeKey](#writekey-1)
-- [otherWriteKeys](#otherwritekeys-1)
 - [shouldRequireConsent](#shouldrequireconsent-1)
 - [initialPreferences](#initialpreferences-1)
 - [defaultDestinationBehavior](#defaultdestinationbehavior-1)
@@ -722,14 +685,7 @@ The render props function that returns your UI.
 
 **Type**: `string`
 
-The write key analytics.js should be loaded with.
-
-##### otherWriteKeys
-
-**Type**: `array<string>`
-**Default**: `[]`
-
-Other write keys that you want to load destination information for. This is useful for including your server-side destinations in the consent manager, so that you can easily apply the user's tracking preferences to your server-side analytics too. _No data will be sent to these write keys._
+The write key the Events Browser SDK should be loaded with.
 
 ##### shouldRequireConsent
 
@@ -903,7 +859,7 @@ Allows you to manually handle if there is an error when initializing - e.g. if t
 
 ### Setting Custom Anonymous ID
 
-Analytics.js generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before Analytics.js loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
+Events Browser SDK generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before the SDK loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
 
 Example
 
@@ -914,12 +870,12 @@ ajs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
 You can override the default-generated anonymousID from the Hightouch snippet.
 
 ```javascript
-htevents.SNIPPET_VERSION = '4.13.2'
+htevents.SNIPPET_VERSION = '0.0.1'
 htevents.page()
 htevents.setAnonymousId('YOUR_CUSTOM_ID')
 ```
 
-_Note: Keep in mind that setting the anonymousId in Analytics.js does not overwrite the anonymous tracking IDs for any destinations you’re using._
+_Note: Keep in mind that setting the anonymousId does not overwrite the anonymous tracking IDs for any destinations you’re using._
 
 _There are other ways to override the anonymousID, you can find more information [here][]._
 

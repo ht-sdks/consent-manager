@@ -50,16 +50,6 @@ export default function conditionallyLoadAnalytics({
 
   const integrations = { All: false, 'Hightouch.io': true }
 
-  console.log(
-    `isConsentRequired: ${isConsentRequired}`,
-    `categoryPrefs: `,
-    categoryPreferences,
-    `destinations: `,
-    destinations,
-    `destinationPrefs: `,
-    destinationPreferences
-  )
-
   if (!destinationPreferences) {
     if (isConsentRequired) {
       return

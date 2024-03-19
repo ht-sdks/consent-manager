@@ -5,7 +5,8 @@ import {
   Destination,
   CategoryPreferences,
   CustomCategories,
-  DefaultDestinationBehavior
+  DefaultDestinationBehavior,
+  HtEventsBrowserOptions
 } from '../types'
 import { CookieAttributes } from 'js-cookie'
 
@@ -32,6 +33,9 @@ interface Props {
 
   /** A list of other write keys you may want to provide */
   otherWriteKeys?: string[]
+
+  /** Options to pass to Hightouch Events Browser SDK */
+  options?: HtEventsBrowserOptions
 
   cookieDomain?: string
   cookieName?: string
@@ -145,6 +149,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   static displayName = 'ConsentManagerBuilder'
 
   static defaultProps = {
+    options: undefined,
     otherWriteKeys: [],
     onError: undefined,
     shouldRequireConsent: () => true,
@@ -214,6 +219,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   initialise = async () => {
     const {
       writeKey,
+      options,
       otherWriteKeys = ConsentManagerBuilder.defaultProps.otherWriteKeys,
       shouldRequireConsent = ConsentManagerBuilder.defaultProps.shouldRequireConsent,
       initialPreferences,
@@ -267,6 +273,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
 
     conditionallyLoadAnalytics({
       writeKey,
+      options,
       destinations,
       destinationPreferences,
       isConsentRequired,
@@ -320,6 +327,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   ) => {
     const {
       writeKey,
+      options,
       cookieDomain,
       cookieName,
       cookieExpires,
@@ -375,6 +383,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       })
       conditionallyLoadAnalytics({
         writeKey,
+        options,
         destinations,
         destinationPreferences,
         isConsentRequired,

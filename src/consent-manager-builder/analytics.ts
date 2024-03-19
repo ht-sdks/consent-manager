@@ -3,11 +3,13 @@ import {
   Destination,
   DefaultDestinationBehavior,
   CategoryPreferences,
-  Middleware
+  Middleware,
+  HtEventsBrowserOptions
 } from '../types'
 
 interface AnalyticsParams {
   writeKey: string
+  options?: HtEventsBrowserOptions
   destinations: Destination[]
   destinationPreferences: CategoryPreferences | null | undefined
   isConsentRequired: boolean
@@ -34,6 +36,7 @@ function getConsentMiddleware(
 
 export default function conditionallyLoadAnalytics({
   writeKey,
+  options = {},
   destinations,
   destinationPreferences,
   isConsentRequired,
@@ -43,8 +46,19 @@ export default function conditionallyLoadAnalytics({
   categoryPreferences
 }: AnalyticsParams) {
   const wd = window as WindowWithHtEvents
+  if (!wd.htevents) return
+
   const integrations = { All: false, 'Hightouch.io': true }
-  let isAnythingEnabled = false
+
+  console.log(
+    `isConsentRequired: ${isConsentRequired}`,
+    `categoryPrefs: `,
+    categoryPreferences,
+    `destinations: `,
+    destinations,
+    `destinationPrefs: `,
+    destinationPreferences
+  )
 
   if (!destinationPreferences) {
     if (isConsentRequired) {
@@ -52,8 +66,8 @@ export default function conditionallyLoadAnalytics({
     }
 
     // Load htevents normally when consent isn't required and there's no preferences
-    if (!wd.htevents?.initialized) {
-      wd.htevents?.load(writeKey)
+    if (!wd.htevents.initialized) {
+      wd.htevents.load(writeKey, options)
     }
     return
   }
@@ -67,34 +81,33 @@ export default function conditionallyLoadAnalytics({
     }
 
     const isEnabled = Boolean(destinationPreferences[destination.id])
-    if (isEnabled) {
-      isAnythingEnabled = true
-    }
     integrations[destination.id] = isEnabled
   }
 
   // Reload the page if the trackers have already been initialised so that
   // the user's new preferences can take affect
-  if (wd.htevents?.initialized) {
+  if (wd.htevents.initialized) {
     if (shouldReload) {
       window.location.reload()
     }
     return
   }
 
-  if (devMode) {
-    return
-  }
+  if (devMode) return
 
-  // Don't load htevents at all if nothing has been enabled
+  // Don't load htevents if nothing has been enabled
+  const isAnythingEnabled =
+    Object.values(integrations).some(Boolean) ||
+    Object.values(categoryPreferences || {}).some(Boolean)
+
   if (isAnythingEnabled) {
     const middleware = getConsentMiddleware(
       destinationPreferences,
       categoryPreferences,
       defaultDestinationBehavior
     )
-    wd.htevents?.addSourceMiddleware(middleware)
+    wd.htevents.addSourceMiddleware(middleware)
 
-    wd.htevents?.load(writeKey, { integrations })
+    wd.htevents.load(writeKey, { ...options, integrations })
   }
 }

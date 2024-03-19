@@ -2,9 +2,15 @@ import { CloseBehaviorFunction } from './consent-manager/container'
 import { PreferencesManager } from './consent-manager-builder/preferences'
 import { CookieAttributes } from 'js-cookie'
 
-type HtEventsBrowser = {
+export type HtEventsBrowserOptions = {
+  integrations?: Record<string, boolean>
+  apiHost?: string
+  protocol?: string
+}
+
+export type HtEventsBrowser = {
   initialized: boolean
-  load: (writeKey: string, options?: any) => void
+  load: (writeKey: string, options?: HtEventsBrowserOptions) => void
   identify: (properties: Record<string, any>) => void
   track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void
   addSourceMiddleware: (middleware: Middleware) => void
@@ -112,6 +118,7 @@ export interface PreferenceDialogTemplate {
 export interface ConsentManagerProps {
   writeKey: string
   otherWriteKeys?: string[]
+  options?: HtEventsBrowserOptions
   shouldRequireConsent?: () => Promise<boolean> | boolean
   implyConsentOnInteraction?: boolean
   cookieDomain?: string

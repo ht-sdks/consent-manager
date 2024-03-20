@@ -1,0 +1,27 @@
+name: Node.js Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+
+      - run: npm ci
+
+      - run: npm build
+        env:
+          CI: true
+
+      - run: npm version ${{ github.event.release.tag_name }}
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

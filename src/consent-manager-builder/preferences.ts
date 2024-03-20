@@ -7,6 +7,12 @@ import { EventEmitter } from 'events'
 const DEFAULT_COOKIE_NAME = 'ht-cm-preferences'
 const COOKIE_DEFAULT_EXPIRES = 365
 
+type PreferencesCookie = {
+  version: number
+  destination: CategoryPreferences
+  custom: CategoryPreferences
+}
+
 export interface PreferencesManager {
   loadPreferences(cookieName?: string): Preferences
   onPreferencesSaved(listener: (prefs: Preferences) => void): void
@@ -16,15 +22,15 @@ export interface PreferencesManager {
 // TODO: harden against invalid cookies
 // TODO: harden against different versions of cookies
 export function loadPreferences(cookieName?: string): Preferences {
-  const preferences = cookies.getJSON(cookieName || DEFAULT_COOKIE_NAME)
+  const preferences = cookies.getJSON(cookieName || DEFAULT_COOKIE_NAME) as PreferencesCookie
 
   if (!preferences) {
     return {}
   }
 
   return {
-    destinationPreferences: preferences.destinations as CategoryPreferences,
-    customPreferences: preferences.custom as CategoryPreferences
+    destinationPreferences: preferences.destination,
+    customPreferences: preferences.custom
   }
 }
 
@@ -68,9 +74,9 @@ export function savePreferences({
   const expires = cookieExpires || COOKIE_DEFAULT_EXPIRES
   const value = {
     version: 1,
-    destinations: destinationPreferences,
+    destination: destinationPreferences,
     custom: customPreferences
-  }
+  } as PreferencesCookie
 
   cookies.set(cookieName || DEFAULT_COOKIE_NAME, value, {
     expires,

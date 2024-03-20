@@ -270,11 +270,8 @@ export default function Home() {
       .
     </span>
   )
-  const bannerSubContent = 'You can change your preferences at any time.'
-  const preferencesDialogTitle = 'Website Data Collection Preferences'
   const preferencesDialogContent =
     'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
-  const cancelDialogTitle = 'Are you sure you want to cancel?'
   const cancelDialogContent =
     'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
 
@@ -297,10 +294,7 @@ export default function Home() {
         <ConsentManager
           writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF"
           bannerContent={bannerContent}
-          bannerSubContent={bannerSubContent}
-          preferencesDialogTitle={preferencesDialogTitle}
           preferencesDialogContent={preferencesDialogContent}
-          cancelDialogTitle={cancelDialogTitle}
           cancelDialogContent={cancelDialogContent}
           bannerActionsBlock={true}
         />

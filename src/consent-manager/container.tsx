@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import React from 'react'
 import Banner from './banner'
 import PreferenceDialog from './preference-dialog'

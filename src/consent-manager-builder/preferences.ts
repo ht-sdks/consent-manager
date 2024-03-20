@@ -69,6 +69,12 @@ export function savePreferences({
       // use `categoryTrackingPreferences` here for consistency with `context.consent.categoryPreferences`
       categoryTrackingPreferences: customPreferences
     })
+
+    wd.htevents.track('Consent Updated', {
+      destinationTrackingPreferences: destinationPreferences,
+      // use `categoryTrackingPreferences` here for consistency with `context.consent.categoryPreferences`
+      categoryTrackingPreferences: customPreferences
+    })
   }
 
   const domain = cookieDomain || topDomain(window.location.href)

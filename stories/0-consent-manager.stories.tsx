@@ -30,24 +30,23 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
       />
 
       <Pane marginX={100} marginTop={20}>
-        <Heading> Your website content </Heading>
+        <Heading>Your website content</Heading>
         <Pane display="flex">
-          <div style={{ background: '#3FE398', padding: 16, height: 100, width: '100%' }}>
+          <div style={{ background: '#3FE398', padding: 16, width: '100%' }}>
             <button onClick={() => (window as any).htevents.track('Consent Testing')}>Track</button>
           </div>
         </Pane>
 
-        <div>
+        <Pane marginTop={20}>
           <Heading>Current Preferences</Heading>
           <SyntaxHighlighter language="json" style={docco}>
             {JSON.stringify(prefs, null, 2)}
           </SyntaxHighlighter>
-        </div>
+        </Pane>
 
-        <Button marginRight={20} onClick={openConsentManager}>
-          Change Cookie Preferences
-        </Button>
+        <Button onClick={openConsentManager}>Change Cookie Preferences</Button>
       </Pane>
+
       <CookieView />
     </Pane>
   )

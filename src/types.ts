@@ -124,7 +124,7 @@ export interface ConsentManagerProps {
   cookieName?: string
   cookieAttributes?: CookieAttributes
   cookieExpires?: number
-  bannerContent: React.ReactNode
+  bannerContent?: React.ReactNode
   bannerSubContent?: string
   bannerActionsBlock?: ((props: ActionsBlockProps) => React.ReactElement) | true
   bannerTextColor?: string
@@ -132,10 +132,10 @@ export interface ConsentManagerProps {
   bannerHideCloseButton: boolean
   bannerAsModal?: boolean
   preferencesDialogTitle?: React.ReactNode
-  preferencesDialogContent: React.ReactNode
+  preferencesDialogContent?: React.ReactNode
   onError?: (error: Error | undefined) => void
   cancelDialogTitle?: React.ReactNode
-  cancelDialogContent: React.ReactNode
+  cancelDialogContent?: React.ReactNode
   closeBehavior?: CloseBehavior | CloseBehaviorFunction
   initialPreferences?: CategoryPreferences
   customCategories?: CustomCategories

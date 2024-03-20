@@ -1,7 +1,7 @@
 {
   "name": "@ht-sdks/consent-manager",
   "version": "0.0.1",
-  "description": "Drop-in consent management plugin for events.js",
+  "description": "Drop-in consent management plugin for Hightouch Events Browser SDK",
   "keywords": [
     "gdpr",
     "tracking",

@@ -75,6 +75,8 @@ export function savePreferences({
       // use `categoryTrackingPreferences` here for consistency with `context.consent.categoryPreferences`
       categoryTrackingPreferences: customPreferences
     })
+  } else {
+    console.warn('window.htevents not found...is the SDK snippet included on the page?')
   }
 
   const domain = cookieDomain || topDomain(window.location.href)

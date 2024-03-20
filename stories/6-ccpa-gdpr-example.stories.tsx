@@ -78,25 +78,23 @@ const ConsentManagerExample = () => {
           This example highlights checking for EU or CA residency, then changing the closeBehavior
           based on membership in each.
         </Paragraph>
-        <p>
-          <div>
-            <Heading>Current Preferences</Heading>
-            <SyntaxHighlighter language="json" style={docco}>
-              {JSON.stringify(prefs, null, 2)}
-            </SyntaxHighlighter>
-          </div>
-          <Button marginRight={20} onClick={openConsentManager}>
-            Change Cookie Preferences
-          </Button>
-          <Button
-            onClick={() => {
-              cookies.remove('tracking-preferences')
-              window.location.reload()
-            }}
-          >
-            Clear
-          </Button>
-        </p>
+        <div>
+          <Heading>Current Preferences</Heading>
+          <SyntaxHighlighter language="json" style={docco}>
+            {JSON.stringify(prefs, null, 2)}
+          </SyntaxHighlighter>
+        </div>
+        <Button marginRight={20} onClick={openConsentManager}>
+          Change Cookie Preferences
+        </Button>
+        <Button
+          onClick={() => {
+            cookies.remove('tracking-preferences')
+            window.location.reload()
+          }}
+        >
+          Clear
+        </Button>
       </Pane>
       <CookieView />
     </Pane>

@@ -53,7 +53,8 @@ const ConsentManagerExample = (props: {
           destination that is enabled on the source, imitating a newly added destination. In the
           console, verify behavior by looking at htevents.options.
         </Paragraph>
-        <p>
+
+        <div>
           <div>
             <Heading>Current Preferences</Heading>
             <SyntaxHighlighter language="json" style={docco}>
@@ -70,7 +71,7 @@ const ConsentManagerExample = (props: {
           >
             Reset Example
           </Button>
-        </p>
+        </div>
       </Pane>
       <CookieView />
     </Pane>

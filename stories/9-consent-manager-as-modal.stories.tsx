@@ -53,11 +53,11 @@ const ConsentManagerExample = props => {
           />
         </Pane>
 
-        <p>
+        <div>
           <Button onClick={openConsentManager}>Data Collection and Cookie Preferences</Button>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <Heading>to see the banner again:</Heading>
           <Button
             onClick={() => {
@@ -67,7 +67,7 @@ const ConsentManagerExample = props => {
           >
             Clear tracking preferences cookie
           </Button>
-        </p>
+        </div>
       </Pane>
 
       <CookieView />

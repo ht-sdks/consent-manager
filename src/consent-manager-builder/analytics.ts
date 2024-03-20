@@ -78,6 +78,7 @@ export default function conditionallyLoadAnalytics({
   // the user's new preferences can take affect
   if (wd.htevents.initialized) {
     if (shouldReload) {
+      console.debug('reloading to apply new tracking preferences')
       window.location.reload()
     }
     return

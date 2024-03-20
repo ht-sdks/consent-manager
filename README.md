@@ -836,7 +836,7 @@ Resets the [preferences][] state to the value saved in the cookie. Useful for re
 
 **Type**: `function(object|boolean)`
 
-Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `customTrackingPreferences` traits and then reloads events.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
+Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `categoryTrackingPreferences` traits and then reloads events.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
 
 ##### onError
 

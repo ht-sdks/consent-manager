@@ -73,7 +73,7 @@ describe('preferences', () => {
     expect(hteventsIdentify.calledOnce).toBe(true)
     expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
-      customTrackingPreferences: customPreferences
+      categoryTrackingPreferences: customPreferences
     })
 
     expect(
@@ -101,7 +101,7 @@ describe('preferences', () => {
     expect(hteventsIdentify.calledOnce).toBe(true)
     expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
-      customTrackingPreferences: undefined
+      categoryTrackingPreferences: undefined
     })
 
     // TODO: actually check domain
@@ -127,7 +127,7 @@ describe('preferences', () => {
     expect(hteventsIdentify.calledOnce).toBe(true)
     expect(hteventsIdentify.args[0][0]).toMatchObject({
       destinationTrackingPreferences: destinationPreferences,
-      customTrackingPreferences: undefined
+      categoryTrackingPreferences: undefined
     })
 
     expect(document.cookie.includes('custom-tracking-preferences')).toBe(true)

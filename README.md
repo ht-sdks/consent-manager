@@ -876,7 +876,7 @@ _There are other ways to override the anonymousID, you can find more information
 To run our storybook locally, simply do:
 
 ```
-$ yarn dev
+$ npm run dev
 ```
 
 and the storybook should be opened in your browser. We recommend adding a new story for new features, and testing against existing stories when making bug fixes.

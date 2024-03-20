@@ -29,18 +29,19 @@
   },
   "scripts": {
     "test": "jest src/__tests__",
-    "prepublishOnly": "yarn run clean && yarn run build",
-    "postpublish": "yarn build-storybook && yarn deploy-storybook -- --existing-output-dir=storybook-static",
-    "dev": "concurrently 'yarn build-standalone --watch' 'yarn start-storybook -s ./ -p 9009'",
+    "prepublishOnly": "npm run clean && npm run build",
+    "postpublish": "npm run build-storybook && npm run deploy-storybook -- --existing-output-dir=storybook-static",
+    "dev": "concurrently 'npm run build-standalone --watch' 'npx start-storybook -s ./ -p 9009'",
     "build-commonjs": "tsc --outDir commonjs --module CommonJS --inlineSourceMap",
     "build-esm": "tsc --module es2015 --outDir esm --inlineSourceMap",
     "build-standalone": "webpack",
-    "build": "concurrently --names \"commonjs,esm,standalone\" \"yarn run build-commonjs\" \"yarn run build-esm\" \"yarn run build-standalone\"",
+    "build": "concurrently --names \"commonjs,esm,standalone\" \"npm run build-commonjs\" \"npm run build-esm\" \"npm run build-standalone\"",
     "clean": "rm -rf commonjs esm standalone storybook-static types",
-    "deploy-storybook": "storybook-to-ghpages",
     "standalone-hash": "shasum -b -a 256 standalone/consent-manager.js | xxd -r -p | base64",
-    "build-storybook": "yarn build-standalone && build-storybook && cp -r ./standalone ./storybook-static/standalone",
-    "lint": "eslint \"src/**/*.{ts,tsx}\""
+    "build-storybook": "npm run build-standalone && build-storybook && cp -r ./standalone ./storybook-static/standalone",
+    "deploy-storybook": "storybook-to-ghpages",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "size": "size-limit"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -61,10 +62,11 @@
     "@storybook/addon-actions": "^5.2.3",
     "@storybook/addon-info": "^5.2.3",
     "@storybook/addon-links": "^5.2.3",
-    "@storybook/addon-options": "^3.4.1",
+    "@storybook/addon-options": "^5.2.3",
     "@storybook/addon-storysource": "^5.2.3",
     "@storybook/addons": "^5.2.3",
     "@storybook/react": "^5.2.3",
+    "@storybook/cli": "^5.2.3",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
@@ -82,7 +84,7 @@
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "babel-loader": "^8.0.6",
-    "concurrently": "^3.5.1",
+    "concurrently": "^8.2.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^6.5.1",
@@ -141,11 +143,11 @@
   "size-limit": [
     {
       "path": "esm/index.js",
-      "limit": "55 KB"
+      "limit": "30 KB"
     },
     {
       "path": "standalone/consent-manager.js",
-      "limit": "55 KB"
+      "limit": "50 KB"
     }
   ],
   "husky": {

@@ -65,8 +65,8 @@ export function savePreferences({
   const wd = window as WindowWithHtEvents
   if (wd.htevents) {
     wd.htevents.identify({
-      destinationTrackingPreferences: destinationPreferences,
-      customTrackingPreferences: customPreferences
+      destinationPreferences: destinationPreferences,
+      categoryPreferences: customPreferences // use `categoryPreferences` here for consistency with `context.consent`
     })
   }
 

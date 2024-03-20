@@ -64,13 +64,6 @@ const ConsentManagerExample = (props: {
           <Button marginRight={20} onClick={openConsentManager}>
             Change Cookie Preferences
           </Button>
-          <Button
-            onClick={() => {
-              window.location.reload()
-            }}
-          >
-            Reset Example
-          </Button>
         </div>
       </Pane>
       <CookieView />

@@ -55,27 +55,19 @@ Track call message payloads will be extended to include Consent metadata in the 
   "context": {
     "campaign": {},
     "consent": {
-      "categoryPreferences": {
-        "Amplitude": true,
-        "Customer.io": true,
-        "Google Analytics": true,
-        "Webhooks": true
-      },
       "defaultDestinationBehavior": "disable",
-      "destinationPreferences": {
-        "Amplitude": true,
-        "Customer.io": true,
-        "Google Analytics": true,
-        "Webhooks": true
-      }
+      "categoryPreferences": {
+        "marketingAndAnalytics": false,
+        "advertising": true,
+        "functional": false
+      },
+      "destinationPreferences": {}
     }
   },
   "event": "Send Track Event Clicked",
   "integrations": {
     "All": false,
-    "Amplitude": true,
-    "HubSpot": false,
-    "Salesforce": false,
+    "Hightouch.io": true,
   }
 }
 ```
@@ -744,14 +736,14 @@ Reload the page if the trackers have already been initialized so that the user's
 **Type**: `boolean`
 **Default**: `false`
 
-Disable the analitics.load to make local testing.
+Disable calling `htevents.load` for local testing.
 
 ##### useDefaultCategories
 
 **Type**: `boolean`
 **Default**: `false`
 
-Use default categories set by Consent Manager instead of detinations.
+Use default categories set by Consent Manager instead of destinations.
 
 #### ConsentManagerBuilder Render Props
 

@@ -101,7 +101,7 @@ interface Props {
 
   /**
    * Default false
-   * Use default categories set by Consent Manager instead of detinations
+   * Use default categories set by Consent Manager instead of destinations
    */
   useDefaultCategories?: boolean
 }

@@ -8,11 +8,6 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
 import CookieView from './components/CookieView'
 import inRegions from '@segment/in-regions'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const ConsentManagerExample = () => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
@@ -53,9 +48,6 @@ const ConsentManagerExample = () => {
     <Pane>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
         closeBehavior={closeBehavior}
         shouldRequireConsent={shouldRequireConsent}
         initialPreferences={initialPreferences}

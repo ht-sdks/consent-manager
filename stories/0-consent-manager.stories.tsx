@@ -8,11 +8,6 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { CloseBehavior, Preferences } from '../src/types'
 import CookieView from './components/CookieView'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBehaviorFunction }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
@@ -32,9 +27,6 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         options={{ apiHost: 'localhost:7777', protocol: 'http' }}
-        bannerContent={bannerContent}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
         closeBehavior={props.closeBehavior}
       />
 

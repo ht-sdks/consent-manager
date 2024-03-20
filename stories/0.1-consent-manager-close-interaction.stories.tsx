@@ -5,21 +5,11 @@ import { ConsentManager, openConsentManager } from '../src'
 import { storiesOf } from '@storybook/react'
 import { ImplyConsentOnInteraction } from './ImplyConsentOnInteraction'
 import CookieView from './components/CookieView'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const ConsentManagerExample = () => {
   return (
     <Pane>
-      <ConsentManager
-        writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
-      />
+      <ConsentManager writeKey={process.env.STORYBOOK_WRITE_KEY!} />
 
       <Pane marginX={100} marginTop={20}>
         <Heading> Your website content </Heading>

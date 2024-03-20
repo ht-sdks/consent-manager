@@ -6,11 +6,6 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences, DefaultDestinationBehavior } from '../src/types'
 import CookieView from './components/CookieView'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const ConsentManagerExample = (props: {
   defaultDestinationBehavior: DefaultDestinationBehavior
@@ -31,9 +26,6 @@ const ConsentManagerExample = (props: {
     <Pane>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
         closeBehavior={'accept'}
         defaultDestinationBehavior={props.defaultDestinationBehavior}
       />

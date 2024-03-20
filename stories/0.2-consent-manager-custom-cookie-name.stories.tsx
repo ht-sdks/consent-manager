@@ -7,11 +7,6 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
 import CookieView from './components/CookieView'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const ConsentManagerExample = (props: { cookieName: string }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(
@@ -30,13 +25,7 @@ const ConsentManagerExample = (props: { cookieName: string }) => {
 
   return (
     <Pane>
-      <ConsentManager
-        writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
-        cookieName={props.cookieName}
-      />
+      <ConsentManager writeKey={process.env.STORYBOOK_WRITE_KEY!} cookieName={props.cookieName} />
 
       <Pane marginX={100} marginTop={20}>
         <Heading> Your website content </Heading>

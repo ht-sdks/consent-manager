@@ -4,11 +4,6 @@ import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager } from '../src'
 import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
-import {
-  bannerContent,
-  preferencesDialogContent,
-  cancelDialogContent
-} from './components/common-react'
 
 const bannerActionsBlock = ({ acceptAll, denyAll }) => (
   <div>
@@ -26,11 +21,8 @@ const ConsentManagerExample = props => {
     <Pane>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
         bannerActionsBlock={props.bannerActionsBlock || bannerActionsBlock}
         bannerHideCloseButton={props.bannerHideCloseButton}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogContent={cancelDialogContent}
         closeBehavior={'accept'}
       />
 

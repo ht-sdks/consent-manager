@@ -2,28 +2,11 @@ import React from 'react'
 import cookies from 'js-cookie'
 import { Pane, Heading, Button, Paragraph } from 'evergreen-ui'
 import { ConsentManager, openConsentManager } from '../src'
-import {
-  bannerContent,
-  bannerSubContent,
-  preferencesDialogContent,
-  preferencesDialogTitle,
-  cancelDialogContent,
-  cancelDialogTitle
-} from './components/common-react'
 
 export const ImplyConsentOnInteraction = () => {
   return (
     <Pane>
-      <ConsentManager
-        writeKey={process.env.STORYBOOK_WRITE_KEY!}
-        bannerContent={bannerContent}
-        bannerSubContent={bannerSubContent}
-        preferencesDialogTitle={preferencesDialogTitle}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogTitle={cancelDialogTitle}
-        cancelDialogContent={cancelDialogContent}
-        implyConsentOnInteraction
-      />
+      <ConsentManager writeKey={process.env.STORYBOOK_WRITE_KEY!} implyConsentOnInteraction />
 
       <Pane marginX={100} marginTop={20}>
         <Heading> Your website content </Heading>

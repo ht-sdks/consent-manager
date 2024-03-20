@@ -24,9 +24,6 @@
   "volta": {
     "node": "16.20.2"
   },
-  "engines": {
-    "node": "16.20.2"
-  },
   "scripts": {
     "test": "jest src/__tests__",
     "prepublishOnly": "npm run clean && npm run build",

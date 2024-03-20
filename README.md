@@ -76,13 +76,13 @@ Track call message payloads will be extended to include Consent metadata in the 
 
 The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
 
-To get started, make sure you're using the latest version of the [Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and remove the `e.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
+To get started, make sure you're using the latest version of the [Hightouch Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and remove the `e.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
 
 ### Standalone Script
 
 The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best for if you want to get up and running quickly or you don't have a preexisting React setup.
 
-Include the consent manager script tag after the Events Browser SDK snippet and add your own custom copy. The standalone script can be configured in one of two ways, via data attributes for simple usage or via a global callback function for advanced usage. Both methods allow the consent manager script to be loaded async.
+Include the consent manager script tag after the Browser SDK snippet and add your own custom copy. The standalone script can be configured in one of two ways, via data attributes for simple usage or via a global callback function for advanced usage. Both methods allow the consent manager script to be loaded async.
 
 #### Options
 
@@ -159,7 +159,7 @@ All the options are supported. The callback function also receives these exports
 
     return {
       container: '#target-container',
-      writeKey: '<your-hightouch-write-key>',
+      writeKey: 'WRITE_KEY',
       shouldRequireConsent: inEU,
       bannerContent: bannerContent
     }
@@ -202,7 +202,7 @@ import inEU from '@segment/in-eu'
 export default function() {
   return (
     <div>
-      <ConsentManager writeKey="<your-hightouch-write-key>" shouldRequireConsent={inEU} />
+      <ConsentManager writeKey="WRITE_KEY" shouldRequireConsent={inEU} />
 
       <button type="button" onClick={openConsentManager}>
         Website Data Collection Preferences
@@ -238,7 +238,7 @@ export default function Home() {
       />
 
       <main>
-        <ConsentManager writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF" bannerActionsBlock={true} />
+        <ConsentManager writeKey="WRITE_KEY" />
 
         <button type="button" onClick={openConsentManager}>
           Website Data Collection Preferences
@@ -526,20 +526,6 @@ The `ConsentManagerBuilder` React component is a low level render props componen
 
 _Note: ConsentManagerBuilder is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
 
-#### Install
-
-Using npm:
-
-```
-npm install @ht-sdks/consent-manager
-```
-
-Using yarn:
-
-```
-yarn add @ht-sdks/consent-manager
-```
-
 #### Example
 
 For a more detailed/advanced example, checkout the [ConsentManager implementation][].
@@ -786,19 +772,17 @@ Allows you to manually handle if there is an error when initializing - e.g. if t
 
 ### Setting Custom Anonymous ID
 
-Events Browser SDK generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before the SDK loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
+Hightouch Events Browser SDK generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before the SDK loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
 
 Example
 
 ```javascript
-ajs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
+htjs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
 ```
 
 You can override the default-generated anonymousID from the Hightouch snippet.
 
 ```javascript
-htevents.SNIPPET_VERSION = '0.0.1'
-htevents.page()
 htevents.setAnonymousId('YOUR_CUSTOM_ID')
 ```
 

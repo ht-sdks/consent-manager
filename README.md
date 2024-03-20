@@ -143,6 +143,7 @@ All the options are supported. The callback function also receives these exports
     var React = exports.React
     var inEU = exports.inEU
 
+    // optional: customize the banner for your brand
     var bannerContent = React.createElement(
       'span',
       null,
@@ -199,24 +200,9 @@ import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 import inEU from '@segment/in-eu'
 
 export default function() {
-  const bannerContent = (
-    <span>
-      We use cookies (and other similar technologies) to collect data to improve your experience on
-      our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-      <a href="/docs/legal/website-data-collection-policy/" target="_blank">
-        Website Data Collection Policy
-      </a>
-      .
-    </span>
-  )
-
   return (
     <div>
-      <ConsentManager
-        writeKey="<your-hightouch-write-key>"
-        shouldRequireConsent={inEU}
-        bannerContent={bannerContent}
-      />
+      <ConsentManager writeKey="<your-hightouch-write-key>" shouldRequireConsent={inEU} />
 
       <button type="button" onClick={openConsentManager}>
         Website Data Collection Preferences
@@ -236,17 +222,6 @@ import Script from 'next/script'
 import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 
 export default function Home() {
-  const bannerContent = (
-    <span>
-      We use cookies (and other similar technologies) to collect data to improve your experience on
-      our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-      <a href="/docs/legal/website-data-collection-policy/" target="_blank">
-        Website Data Collection Policy
-      </a>
-      .
-    </span>
-  )
-
   return (
     <div>
       <Script
@@ -263,11 +238,7 @@ export default function Home() {
       />
 
       <main>
-        <ConsentManager
-          writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF"
-          bannerContent={bannerContent}
-          bannerActionsBlock={true}
-        />
+        <ConsentManager writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF" bannerActionsBlock={true} />
 
         <button type="button" onClick={openConsentManager}>
           Website Data Collection Preferences

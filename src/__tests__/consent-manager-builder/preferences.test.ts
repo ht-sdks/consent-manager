@@ -1,6 +1,10 @@
 import { URL } from 'url'
 import sinon from 'sinon'
-import { loadPreferences, savePreferences } from '../../consent-manager-builder/preferences'
+import {
+  loadPreferences,
+  savePreferences,
+  DEFAULT_COOKIE_NAME
+} from '../../consent-manager-builder/preferences'
 
 describe('preferences', () => {
   beforeEach(() => {
@@ -22,8 +26,7 @@ describe('preferences', () => {
   })
 
   test('loadPreferences() returns preferences when cookie exists', () => {
-    document.cookie =
-      'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}'
+    document.cookie = `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
 
     expect(loadPreferences()).toMatchObject({
       destinationPreferences: {
@@ -37,7 +40,7 @@ describe('preferences', () => {
 
   test('loadPreferences(cookieName) returns preferences when cookie exists', () => {
     document.cookie =
-      'custom-tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}'
+      'custom-tracking-preferences={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}'
 
     expect(loadPreferences('custom-tracking-preferences')).toMatchObject({
       destinationPreferences: {
@@ -75,7 +78,7 @@ describe('preferences', () => {
 
     expect(
       document.cookie.includes(
-        'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}'
+        `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
       )
     ).toBe(true)
   })

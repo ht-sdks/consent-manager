@@ -4,7 +4,7 @@ import topDomain from '@segment/top-domain'
 import { WindowWithHtEvents, Preferences, CategoryPreferences } from '../types'
 import { EventEmitter } from 'events'
 
-const DEFAULT_COOKIE_NAME = 'ht-cm-preferences'
+export const DEFAULT_COOKIE_NAME = 'ht-cm-preferences'
 const COOKIE_DEFAULT_EXPIRES = 365
 
 type PreferencesCookie = {

@@ -82,7 +82,7 @@ export interface CustomCategories {
 }
 
 interface CustomCategory {
-  integrations: string[]
+  integrations?: string[]
   purpose: string
 }
 

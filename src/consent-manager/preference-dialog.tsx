@@ -319,12 +319,12 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <td>
                         <p>{purpose}</p>
                       </td>
-                      <td css={hideOnMobile}>
+                      {/* <td css={hideOnMobile}>
                         {destinations
-                          .filter(d => integrations.includes(d.id))
+                          .filter(d => integrations?.includes(d.id))
                           .map(d => d.name)
                           .join(', ')}
-                      </td>
+                      </td> */}
                     </Row>
                   )
                 )}

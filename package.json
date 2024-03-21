@@ -160,7 +160,7 @@
   },
   "storybook-deployer": {
     "gitUsername": "GitHub Pages Bot",
-    "gitEmail": "friends@hightouch.com",
+    "gitEmail": "engineering@hightouch.com",
     "commitMessage": "Deploy Storybook to GitHub Pages [skip ci]"
   }
 }

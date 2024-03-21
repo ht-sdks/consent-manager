@@ -5,8 +5,7 @@
   "keywords": [
     "gdpr",
     "tracking",
-    "events",
-    "events.js"
+    "events-sdk-js-browser"
   ],
   "repository": "ht-sdks/consent-manager",
   "license": "MIT",

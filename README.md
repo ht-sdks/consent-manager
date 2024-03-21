@@ -85,9 +85,79 @@ The Hightouch Consent Manager can be used in several ways, depending on how cust
 
 The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best if you want to get up and running quickly or you don't have a preexisting React setup.
 
-Include the consent manager script tag after the Browser SDK snippet and add your own custom copy. The standalone script can be configured in one of two ways, via data attributes for simple usage or via a global callback function for advanced usage. Both methods allow the consent manager script to be loaded async.
+Include the consent manager script tag after the Browser SDK snippet and add your own custom copy. The standalone script is configured via a global callback function.
 
 ```html
+<!-- Consent Manager element -->
+<div id="consent-manager"></div>
+
+<!-- Browser SDK snippet -->
+<script type="text/javascript">
+  !(function() {
+    var e = (window.htevents = window.htevents || [])
+    if (!e.initialize)
+      if (e.invoked)
+        window.console && console.error && console.error('Hightouch snippet included twice.')
+      else {
+        ;(e.invoked = !0),
+          (e.methods = [
+            'trackSubmit',
+            'trackClick',
+            'trackLink',
+            'trackForm',
+            'pageview',
+            'identify',
+            'reset',
+            'group',
+            'track',
+            'ready',
+            'alias',
+            'debug',
+            'page',
+            'once',
+            'off',
+            'on',
+            'addSourceMiddleware',
+            'addIntegrationMiddleware',
+            'setAnonymousId',
+            'addDestinationMiddleware'
+          ]),
+          (e.factory = function(t) {
+            return function() {
+              var n = Array.prototype.slice.call(arguments)
+              return n.unshift(t), e.push(n), e
+            }
+          })
+        for (var t = 0; t < e.methods.length; t++) {
+          var n = e.methods[t]
+          e[n] = e.factory(n)
+        }
+        ;(e.load = function(t, n) {
+          var o = document.createElement('script')
+          ;(o.type = 'text/javascript'),
+            (o.async = !0),
+            (o.src = 'https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js')
+          var r = document.getElementsByTagName('script')[0]
+          r.parentNode.insertBefore(o, r), (e._loadOptions = n), (e._writeKey = t)
+        }),
+          (e.SNIPPET_VERSION = '0.0.1'),
+          e.page()
+      }
+  })()
+</script>
+
+<!-- Consent Manager configuration -->
+<script>
+  window.consentManagerConfig = function(exports) {
+    return {
+      container: '#consent-manager',
+      writeKey: 'WRITE_KEY',
+      shouldRequireConsent: exports.inEU // optional: require consent only for EU users
+    }
+  }
+</script>
+
+<!-- Consent Manager JS -->
 <script
   src="https://unpkg.com/@ht-sdks/consent-manager@0.0.1/standalone/consent-manager.js"
   defer
@@ -151,7 +221,6 @@ All the options are supported. The callback function also receives these exports
 <script>
   window.consentManagerConfig = function(exports) {
     var React = exports.React
-    var inEU = exports.inEU
 
     // optional: customize the banner for your brand
     var bannerContent = React.createElement(
@@ -170,7 +239,6 @@ All the options are supported. The callback function also receives these exports
     return {
       container: '#target-container',
       writeKey: 'WRITE_KEY',
-      shouldRequireConsent: inEU,
       bannerContent: bannerContent
     }
   }
@@ -214,7 +282,7 @@ export default function() {
     <div>
       <ConsentManager
         writeKey="WRITE_KEY"
-        shouldRequireConsent={inEU} // require consent only from EU users
+        shouldRequireConsent={inEU} // optional: require consent only from EU users
       />
 
       <button type="button" onClick={openConsentManager}>

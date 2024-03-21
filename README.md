@@ -382,7 +382,7 @@ Options:
 **Type**: `string`
 **Default**: the top most domain and all sub domains
 
-The domain the `tracking-preferences` cookie should be scoped to.
+The domain the `ht-cm-preferences` cookie should be scoped to.
 
 ##### bannerContent
 
@@ -670,7 +670,7 @@ Callback function allows you to use a custom preferences format (e.g: categories
 **Type**: `string`
 **Default**: the [top most domain][top-domain] and all sub domains
 
-The domain the `tracking-preferences` cookie should be scoped to.
+The domain the `ht-cm-preferences` cookie should be scoped to.
 
 ##### shouldReload
 
@@ -784,7 +784,7 @@ Resets the [preferences][] state to the value saved in the cookie. Useful for re
 
 **Type**: `function(object|boolean)`
 
-Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `categoryTrackingPreferences` traits and then reloads events.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
+Saves the preferences currently in state to a cookie called `ht-cm-preferences`, triggers an `identify` event with `destinationTrackingPreferences` and `categoryTrackingPreferences` traits, triggers a `track` event called `Consent Updated`, and then reloads the Browser SDK using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
 
 ##### onError
 

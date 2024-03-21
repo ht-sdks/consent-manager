@@ -1,6 +1,6 @@
 # Elements inside Consent Manager
 
-This is the guide with the list ids from the different components inside Consent-Manager, you can use the id to change the styles with css files inside your project.
+This is a list of all HTML element IDs used by the different components in Consent Manager. Use these IDs to target and customize CSS styles in your project.
 
 ## Banner
 

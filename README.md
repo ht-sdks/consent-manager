@@ -1,41 +1,12 @@
-# consent-manager ![CI](https://github.com/ht-sdks/consent-manager/actions/workflows/ci.yml/badge.svg)
+# Hightouch Consent Manager ![CI](https://github.com/ht-sdks/consent-manager/actions/workflows/ci.yml/badge.svg)
 
-> Drop-in consent management plugin for `@ht-sdks/events-sdk-js-browser`.
+Drop-in consent management plugin for `@ht-sdks/events-sdk-js-browser`
 
-[StoryBook](https://ht-sdks.github.io/consent-manager/index.html)
-
-- [Hightouch Consent Manager](#hightouch-consent-manager)
-- [Features](#features)
-- [Usage](#usage)
-  - [Standalone Script](#standalone-script)
-    - [Options](#options)
-    - [Globals](#globals)
-    - [Callback Function](#callback-function)
-  - [ConsentManager](#consentmanager)
-    - [Install](#install)
-    - [Example](#example)
-    - [Example in Next.js](#example-in-nextjs)
-    - [ConsentManager Props](#consentmanager-props)
-  - [ConsentManagerBuilder](#consentmanagerbuilder)
-    - [Install](#install-1)
-    - [Example](#example-1)
-    - [ConsentManagerBuilder Props](#consentmanagerbuilder-props)
-    - [ConsentManagerBuilder Render Props](#consentmanagerbuilder-render-props)
-  - [Utility functions](#utility-functions)
-  - [Setting Custom Anonymous ID](#setting-custom-anonymous-id)
-- [Development](#development)
-- [Publishing New Version](#publishing-new-version)
-- [License](#license)
-
-## Hightouch Consent Manager
-
-The Hightouch Consent Manager is an events.js add-on with support to consent management.
+> You must install `@ht-sdks/events-sdk-js-browser` via [**snippet**](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) in order for Consent Manager to work. It will not work if you use an NPM import.
 
 At its core, the Consent Manager empowers your visitors to control and customize their tracking preferences on a website. They can opt out entirely of being tracked, or selectively opt out of tools in which they don’t want their information stored.
 
-It works by taking control of the events.js load process to only load destinations that the user has consented to and not loading events.js at all if the user has opted out of everything. The user's tracking preferences are saved to a cookie and sent as an identify trait (if they haven't opted out of everything) so that you can also access them on the server-side and from destinations (warehouse).
-
-_Hightouch works to ensure the Consent Manager Tech Demo works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our Professional Services team for implementation support. Please see the LICENSE included._
+_Hightouch works to ensure Consent Manager works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our team for implementation support._
 
 ### Features
 
@@ -48,31 +19,61 @@ _Hightouch works to ensure the Consent Manager Tech Demo works with most of our 
 - Automatically updates to reflect the destinations you have enabled in Hightouch.
 - Consent Manager will add consent metadata to the context of all track calls:
 
-Track call message payloads will be extended to include Consent metadata in the `context` object:
+### How it works
 
-```js
-{
-  "context": {
-    "campaign": {},
-    "consent": {
-      "defaultDestinationBehavior": "disable",
-      "categoryPreferences": {
-        "marketingAndAnalytics": false,
-        "advertising": true,
-        "functional": false
-      },
-      "destinationPreferences": {}
-    }
-  },
-  "event": "Send Track Event Clicked",
-  "integrations": {
-    "All": false,
-    "Hightouch.io": true,
-  }
-}
-```
+1. The consent manager delays loading the events SDK until user consent is given, and will not load the SDK at all if the user opts out of everything. The user's tracking preferences are saved to a cookie and sent as an `identify` trait and a `Consent Updated` track event (if they haven't opted out of everything), ensuring consent data is propagated to your destinations.
 
-## Usage
+2. **All** events will include the latest consent metadata inside the `context.consent` object:
+
+   ```json
+   {
+     "event": "Created Account",
+     "context": {
+       "consent": {
+         "defaultDestinationBehavior": "disable",
+         "destinationPreferences": {},
+         "categoryPreferences": {
+           "marketingAndAnalytics": false,
+           "advertising": true,
+           "functional": false
+         }
+       }
+     }
+   }
+   ```
+
+3. Whenever a user updates their consent preferences, the following events will be emitted
+   - `identify` with updated preferences in `traits`
+     ```json
+     {
+       "type": "identify",
+       "traits": {
+         "destinationTrackingPreferences": {},
+         "categoryTrackingPreferences": {
+           "marketingAndAnalytics": true,
+           "advertising": true,
+           "functional": true
+         }
+       }
+     }
+     ```
+   - `track` named `Consent Updated` with updated preferences
+     ```json
+     {
+       "type": "track",
+       "event": "Consent Updated",
+       "properties": {
+         "destinationTrackingPreferences": {},
+         "categoryTrackingPreferences": {
+           "marketingAndAnalytics": true,
+           "advertising": true,
+           "functional": true
+         }
+       }
+     }
+     ```
+
+## Install
 
 The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
 
@@ -80,9 +81,16 @@ To get started, make sure you're using the latest version of the [Hightouch Even
 
 ### Standalone Script
 
-The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best for if you want to get up and running quickly or you don't have a preexisting React setup.
+The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best if you want to get up and running quickly or you don't have a preexisting React setup.
 
 Include the consent manager script tag after the Browser SDK snippet and add your own custom copy. The standalone script can be configured in one of two ways, via data attributes for simple usage or via a global callback function for advanced usage. Both methods allow the consent manager script to be loaded async.
+
+```html
+<script
+  src="https://unpkg.com/@ht-sdks/consent-manager@0.0.1/standalone/consent-manager.js"
+  defer
+></script>
+```
 
 #### Options
 
@@ -174,7 +182,7 @@ All the options are supported. The callback function also receives these exports
 
 ### ConsentManager
 
-The `ConsentManager` React component is a prebuilt consent manager UI that uses the [ConsentManagerBuilder][] component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
+The `ConsentManager` React component is a prebuilt consent manager UI that uses the `ConsentManagerBuilder` component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
 
 _Note: Consent Manager is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
 
@@ -194,7 +202,7 @@ yarn add @ht-sdks/consent-manager
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
 import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 import inEU from '@segment/in-eu'
@@ -202,7 +210,10 @@ import inEU from '@segment/in-eu'
 export default function() {
   return (
     <div>
-      <ConsentManager writeKey="WRITE_KEY" shouldRequireConsent={inEU} />
+      <ConsentManager
+        writeKey="WRITE_KEY"
+        shouldRequireConsent={inEU} // require consent only from EU users
+      />
 
       <button type="button" onClick={openConsentManager}>
         Website Data Collection Preferences
@@ -214,9 +225,9 @@ export default function() {
 
 #### Example in Next.js
 
-In Next.js we do not have an html file where to inject the script. Here we will use the Script component to inject the snippet provided by Hightouch.
+In Next.js we do not have an HTML file to inject the Browser SDK snippet. Here we will use the Script component to inject the snippet provided by Hightouch. Again, note that the `e.load(WRITE_KEY)` call was removed from the snippet since `ConsentManager` will invoke that for us.
 
-```javascript
+```jsx
 import React from 'react'
 import Script from 'next/script'
 import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
@@ -225,15 +236,12 @@ export default function Home() {
   return (
     <div>
       <Script
-        id="show-banner"
+        id="events-sdk-js-browser"
         dangerouslySetInnerHTML={{
           __html: `
-            !function () {
-              var e = window.htevents = window.htevents || []; if (!e.initialize) if (e.invoked) window.console && console.error && console.error("Hightouch snippet included twice."); else {
-                e.invoked = !0, e.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"], e.factory = function (t) { return function () { var n = Array.prototype.slice.call(arguments); return n.unshift(t), e.push(n), e } }; for (var t = 0; t < e.methods.length; t++) { var n = e.methods[t]; e[n] = e.factory(n) } e.load = function (t, n) { var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = "https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js"; var r = document.getElementsByTagName("script")[0]; r.parentNode.insertBefore(o, r), e._loadOptions = n, e._writeKey = t }, e.SNIPPET_VERSION = "0.0.1",
-                  e.page()
-              }
-            }();`
+            !function(){var e=window.htevents=window.htevents||[];if(!e.initialize)if(e.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{e.invoked=!0,e.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"],e.factory=function(t){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(t),e.push(n),e}};for(var t=0;t<e.methods.length;t++){var n=e.methods[t];e[n]=e.factory(n)}e.load=function(t,n){var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src="https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(o,r),e._loadOptions=n,e._writeKey=t},e.SNIPPET_VERSION="0.0.1",
+            e.page()}}();
+          `
         }}
       />
 
@@ -451,8 +459,6 @@ const customCategories = {
 }
 ```
 
-The values for `integrations` should be an integration's creationName (`integration.creationName`). You can find examples of that by going to `https://cdn.hightouch-events.com/v1/projects/<writeKey>/integrations`
-
 ##### preferencesDialogTemplate
 
 **Type**: `PropTypes.object`
@@ -518,7 +524,7 @@ We recommend copying the default object and changing the fields as necessary.
 
 _Note: All fields are optional. If they are not included in the template (object) the default fields will be used._
 
-_Note 2: For categories, you need to provide the key in order to map all the values properly._
+_Note: For categories, you need to provide the key in order to map all the values properly._
 
 ### ConsentManagerBuilder
 
@@ -530,13 +536,13 @@ _Note: ConsentManagerBuilder is React-based so is not currently compatible with 
 
 For a more detailed/advanced example, checkout the [ConsentManager implementation][].
 
-```javascript
+```jsx
 import React from 'react'
 import { ConsentManagerBuilder } from '@ht-sdks/consent-manager'
 
 export default function() {
   return (
-    <ConsentManagerBuilder writeKey="<your-hightouch-write-key>">
+    <ConsentManagerBuilder writeKey="WRITE_KEY">
       {({ destinations, preferences, setPreferences, saveConsent }) => (
         <div>
           <h2>Tracking tools</h2>
@@ -790,6 +796,10 @@ _Note: Keep in mind that setting the anonymousId does not overwrite the anonymou
 
 _There are other ways to override the anonymousID, you can find more information [here][]._
 
+## Styles
+
+[GUIDESTYLES.md](GUIDESTYLES.md) contains the list of all components you can use this id to change de styles on Consent Manager.
+
 ## Development
 
 To run our storybook locally, simply do:
@@ -799,10 +809,6 @@ $ npm run dev
 ```
 
 and the storybook should be opened in your browser. We recommend adding a new story for new features, and testing against existing stories when making bug fixes.
-
-## Styles
-
-The file GUIDESTYLES.md contains the list of all components you can use this id to change de styles on Consent Manager.
 
 ## License
 

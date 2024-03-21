@@ -2,6 +2,7 @@
 
 Drop-in consent management plugin for `@ht-sdks/events-sdk-js-browser`
 
+> [!NOTE]
 > You must install `@ht-sdks/events-sdk-js-browser` via [**snippet**](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) in order for Consent Manager to work. It will not work if you use an NPM import.
 
 At its core, the Consent Manager empowers your visitors to control and customize their tracking preferences on a website. They can opt out entirely of being tracked, or selectively opt out of tools in which they don’t want their information stored.
@@ -77,7 +78,8 @@ _Hightouch works to ensure Consent Manager works with most of our product pipeli
 
 The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
 
-To get started, make sure you're using the latest version of the [Hightouch Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and remove the `e.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
+> [!IMPORTANT]
+> Ensure you're using the latest version of the [Hightouch Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and **remove** the `e.load("WRITE_KEY")` call from the snippet so consent manager can manage the loading process.
 
 ### Standalone Script
 

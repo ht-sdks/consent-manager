@@ -93,57 +93,8 @@ Include the consent manager script tag after the Browser SDK snippet and add you
 
 <!-- Browser SDK snippet -->
 <script type="text/javascript">
-  !(function() {
-    var e = (window.htevents = window.htevents || [])
-    if (!e.initialize)
-      if (e.invoked)
-        window.console && console.error && console.error('Hightouch snippet included twice.')
-      else {
-        ;(e.invoked = !0),
-          (e.methods = [
-            'trackSubmit',
-            'trackClick',
-            'trackLink',
-            'trackForm',
-            'pageview',
-            'identify',
-            'reset',
-            'group',
-            'track',
-            'ready',
-            'alias',
-            'debug',
-            'page',
-            'once',
-            'off',
-            'on',
-            'addSourceMiddleware',
-            'addIntegrationMiddleware',
-            'setAnonymousId',
-            'addDestinationMiddleware'
-          ]),
-          (e.factory = function(t) {
-            return function() {
-              var n = Array.prototype.slice.call(arguments)
-              return n.unshift(t), e.push(n), e
-            }
-          })
-        for (var t = 0; t < e.methods.length; t++) {
-          var n = e.methods[t]
-          e[n] = e.factory(n)
-        }
-        ;(e.load = function(t, n) {
-          var o = document.createElement('script')
-          ;(o.type = 'text/javascript'),
-            (o.async = !0),
-            (o.src = 'https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js')
-          var r = document.getElementsByTagName('script')[0]
-          r.parentNode.insertBefore(o, r), (e._loadOptions = n), (e._writeKey = t)
-        }),
-          (e.SNIPPET_VERSION = '0.0.1'),
-          e.page()
-      }
-  })()
+  !function(){var e=window.htevents=window.htevents||[];if(!e.initialize)if(e.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{e.invoked=!0,e.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"],e.factory=function(t){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(t),e.push(n),e}};for(var t=0;t<e.methods.length;t++){var n=e.methods[t];e[n]=e.factory(n)}e.load=function(t,n){var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src="https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(o,r),e._loadOptions=n,e._writeKey=t},e.SNIPPET_VERSION="0.0.1",
+  e.page()}}();
 </script>
 
 <!-- Consent Manager configuration -->

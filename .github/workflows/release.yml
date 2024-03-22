@@ -16,7 +16,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm version ${{ github.event.release.tag_name }} --alow-same-version
+      - run: npm version ${{ github.event.release.tag_name }} --alow-same-version --no-commit-hooks --no-git-tag-version
 
       - run: npm build
         env:

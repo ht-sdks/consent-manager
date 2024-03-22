@@ -7,7 +7,9 @@
     "tracking",
     "events-sdk-js-browser"
   ],
-  "repository": "ht-sdks/consent-manager",
+  "author": "Hightouch <engineering@hightouch.com>",
+  "repository": "https://github.com/ht-sdks/consent-manager",
+  "homepage": "https://github.com/ht-sdks/consent-manager",
   "license": "MIT",
   "main": "commonjs/index.js",
   "module": "esm/index.js",

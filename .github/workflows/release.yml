@@ -16,11 +16,11 @@ jobs:
 
       - run: npm ci
 
+      - run: npm version ${{ github.event.release.tag_name }}
+
       - run: npm build
         env:
           CI: true
-
-      - run: npm version ${{ github.event.release.tag_name }}
 
       - run: npm publish
         env:

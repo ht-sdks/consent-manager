@@ -148,20 +148,20 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
     const { onCancel, onSubmit, title, children, buttons, width } = this.props
 
     const dialog = (
-      <Overlay id="segmentio_overlayDialog" onClick={this.handleOverlayClick}>
+      <Overlay id="hightouchio_overlayDialog" onClick={this.handleOverlayClick}>
         <Root
-          id="segmentio_rootDialog"
+          id="hightouchio_rootDialog"
           ref={this.handleRootRef}
           role="dialog"
           aria-modal
           aria-labelledby={this.titleId}
           width={width}
         >
-          <Header id="segmentio_headerDialog">
+          <Header id="hightouchio_headerDialog">
             <Title id={this.titleId}>{title}</Title>
             {onCancel && (
               <HeaderCancelButton
-                id="segmentio_headerCancelBtn"
+                id="hightouchio_headerCancelBtn"
                 onClick={onCancel}
                 title="Cancel"
                 aria-label="Cancel"
@@ -176,9 +176,9 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
             ref={this.handleFormRef}
             onSubmit={onSubmit}
           >
-            <Content id="segmentio_contentDialog">{children}</Content>
+            <Content id="hightouchio_contentDialog">{children}</Content>
 
-            <Buttons id="segmentio_buttonsDialog">{buttons}</Buttons>
+            <Buttons id="hightouchio_buttonsDialog">{buttons}</Buttons>
           </Form>
         </Root>
       </Overlay>

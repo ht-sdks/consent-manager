@@ -3,6 +3,7 @@ import { Pane, Heading, Button } from 'evergreen-ui'
 import cookies from 'js-cookie'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
+import { DEFAULT_COOKIE_NAME } from '../../src/consent-manager-builder/preferences'
 
 const CookieView = () => {
   const [cookieVal, updateCookieVal] = useState(cookies.getJSON())
@@ -23,6 +24,16 @@ const CookieView = () => {
 
       <Button
         onClick={() => {
+          cookies.remove(DEFAULT_COOKIE_NAME)
+          window.location.reload()
+        }}
+        marginRight={16}
+      >
+        Clear consent 🍪
+      </Button>
+
+      <Button
+        onClick={() => {
           const allCookies = cookies.getJSON()
           Object.keys(allCookies).forEach(key => {
             cookies.remove(key)
@@ -30,7 +41,7 @@ const CookieView = () => {
           window.location.reload()
         }}
       >
-        Clear 🧹🍪
+        Clear all 🧹🍪
       </Button>
     </Pane>
   )

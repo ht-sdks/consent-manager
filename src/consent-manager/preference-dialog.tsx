@@ -53,11 +53,13 @@ const Row = styled('tr')`
 
 const InputCell = styled('td')`
   input {
+    margin: 0px 6px 0px 0px;
     vertical-align: middle;
   }
   label {
-    display: block;
-    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
     white-space: nowrap;
   }
   td {
@@ -123,10 +125,10 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
 
     const buttons = (
       <div>
-        <DefaultButton id="segmentio_segmentio_prefBtnCancel" type="button" onClick={onCancel}>
+        <DefaultButton id="hightouchio_hightouchio_prefBtnCancel" type="button" onClick={onCancel}>
           {actionButtons!.cancelValue}
         </DefaultButton>
-        <GreenButton id="segmentio_prefBtnSubmit" type="submit">
+        <GreenButton id="hightouchio_prefBtnSubmit" type="submit">
           {actionButtons!.saveValue}
         </GreenButton>
       </div>
@@ -142,20 +144,20 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
       >
         {content}
 
-        <TableScroll id="segmentio_prefTableScroll">
-          <Table id="segmentio_prefTable">
-            <thead id="segmentio_prefThead">
+        <TableScroll id="hightouchio_prefTableScroll">
+          <Table id="hightouchio_prefTable">
+            <thead id="hightouchio_prefThead">
               <Row>
                 <ColumnHeading scope="col">{headings!.allowValue}</ColumnHeading>
                 <ColumnHeading scope="col">{headings!.categoryValue}</ColumnHeading>
                 <ColumnHeading scope="col">{headings!.purposeValue}</ColumnHeading>
-                <ColumnHeading scope="col" css={hideOnMobile}>
+                {/* <ColumnHeading scope="col" css={hideOnMobile}>
                   {headings!.toolsValue}
-                </ColumnHeading>
+                </ColumnHeading> */}
               </Row>
             </thead>
 
-            <tbody id="segmentio_prefTbody">
+            <tbody id="hightouchio_prefTbody">
               {!customCategories && (
                 <>
                   <Row>
@@ -190,7 +192,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{functionalInfo?.description}</p>
                       <p css={hideOnMobile}>{functionalInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>{functionalDestinations.map(d => d.name).join(', ')}</td>
+                    {/* <td css={hideOnMobile}>{functionalDestinations.map(d => d.name).join(', ')}</td> */}
                   </Row>
 
                   <Row>
@@ -225,7 +227,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{marketingInfo?.description}</p>
                       <p css={hideOnMobile}>{marketingInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>{marketingDestinations.map(d => d.name).join(', ')}</td>
+                    {/* <td css={hideOnMobile}>{marketingDestinations.map(d => d.name).join(', ')}</td> */}
                   </Row>
 
                   <Row>
@@ -260,9 +262,9 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{advertisingInfo?.description}</p>
                       <p css={hideOnMobile}>{advertisingInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile}>
+                    {/* <td css={hideOnMobile}>
                       {advertisingDestinations.map(d => d.name).join(', ')}
-                    </td>
+                    </td> */}
                   </Row>
 
                   <Row>
@@ -272,7 +274,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <p>{essentialInfo?.description}</p>
                       <p>{essentialInfo?.example}</p>
                     </td>
-                    <td css={hideOnMobile} />
+                    {/* <td css={hideOnMobile} /> */}
                   </Row>
                 </>
               )}
@@ -317,12 +319,12 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                       <td>
                         <p>{purpose}</p>
                       </td>
-                      <td css={hideOnMobile}>
+                      {/* <td css={hideOnMobile}>
                         {destinations
-                          .filter(d => integrations.includes(d.id))
+                          .filter(d => integrations?.includes(d.id))
                           .map(d => d.name)
                           .join(', ')}
-                      </td>
+                      </td> */}
                     </Row>
                   )
                 )}

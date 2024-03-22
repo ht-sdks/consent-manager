@@ -1,43 +1,13 @@
-# consent-manager ![CI](https://github.com/ht-sdks/consent-manager/actions/workflows/ci.yml/badge.svg)
+# Hightouch Consent Manager ![CI](https://github.com/ht-sdks/consent-manager/actions/workflows/ci.yml/badge.svg)
 
-> Drop-in consent management plugin for analytics.js
+Drop-in consent management plugin for `@ht-sdks/events-sdk-js-browser`
 
-[StoryBook](https://segmentio.github.io/consent-manager/index.html)
-
-- [Segment Consent Manager](#segment-consent-manager)
-- [Features](#features)
-- [Usage](#usage)
-  - [Standalone Script](#standalone-script)
-    - [Options](#options)
-    - [Globals](#globals)
-    - [Callback Function](#callback-function)
-  - [ConsentManager](#consentmanager)
-    - [Install](#install)
-    - [Example](#example)
-    - [Example in Next.js](#example-in-nextjs)
-    - [ConsentManager Props](#consentmanager-props)
-  - [ConsentManagerBuilder](#consentmanagerbuilder)
-    - [Install](#install-1)
-    - [Example](#example-1)
-    - [ConsentManagerBuilder Props](#consentmanagerbuilder-props)
-    - [ConsentManagerBuilder Render Props](#consentmanagerbuilder-render-props)
-  - [Utility functions](#utility-functions)
-  - [Setting Custom Anonymous ID](#setting-custom-anonymous-id)
-- [Development](#development)
-- [Publishing New Version](#publishing-new-version)
-- [License](#license)
-
-## Segment Consent Manager
-
-The Segment Consent Manager is an analytics.js add-on with support to consent management.
+> [!NOTE]
+> You must install `@ht-sdks/events-sdk-js-browser` via [**snippet**](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) in order for Consent Manager to work. It will not work if you use an NPM import.
 
 At its core, the Consent Manager empowers your visitors to control and customize their tracking preferences on a website. They can opt out entirely of being tracked, or selectively opt out of tools in which they don’t want their information stored.
 
-It works by taking control of the analytics.js load process to only load destinations that the user has consented to and not loading analytics.js at all if the user has opted out of everything. The user's tracking preferences are saved to a cookie and sent as an identify trait (if they haven't opted out of everything) so that you can also access them on the server-side and from destinations (warehouse).
-
-_Segment works to ensure the Consent Manager Tech Demo works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our Professional Services team for implementation support. Please see the License.txt included._
-
-_Please note, Consent Manager is not currently compatible with [Personas](https://segment.com/docs/personas/). Personas may send user data to destinations the user has explicitly opted out of for data collection._
+_Hightouch works to ensure Consent Manager works with most of our product pipeline. We cannot ensure it works in your specific implementation or website. Please contact our team for implementation support._
 
 ### Features
 
@@ -47,77 +17,103 @@ _Please note, Consent Manager is not currently compatible with [Personas](https:
 - Or fully customizable UI/UX through React components.
 - EU traffic detection through [@segment/in-eu][ineu].
 - Ability for visitors to reconsent and change preferences.
-- Automatically updates to reflect the destinations you have enabled in Segment.
-- **5.0.0**: Consent Manager will add consent metadata to the context of all track calls:
+- Automatically updates to reflect the destinations you have enabled in Hightouch.
+- Consent Manager will add consent metadata to the context of all track calls:
 
-Track call message payloads will be extended to include Consent metadata in the `context` object:
+### How it works
 
-```js
-{
-  "context": {
-    "campaign": {},
-    "consent": {
-      "categoryPreferences": {
-        "Amplitude": true,
-        "Customer.io": true,
-        "Google Analytics": true,
-        "Webhooks": true
-      },
-      "defaultDestinationBehavior": "disable",
-      "destinationPreferences": {
-        "Amplitude": true,
-        "Customer.io": true,
-        "Google Analytics": true,
-        "Webhooks": true
-      }
-    }
-  },
-  "event": "Send Track Event Clicked",
-  "integrations": {
-    "All": false,
-    "Amplitude": true,
-    "HubSpot": false,
-    "Salesforce": false,
-    "Segment.io": true
-  }
-}
-```
+1. The consent manager delays loading the events SDK until user consent is given, and will not load the SDK at all if the user opts out of everything. The user's tracking preferences are saved to a cookie and sent as an `identify` trait and a `Consent Updated` track event (if they haven't opted out of everything), ensuring consent data is propagated to your destinations.
 
-**Breaking Changes:** Version 5.0.0 and above require that your analytics.js snippet include the method `addSourceMiddleware` in the `analytics.methods` array:
+2. **All** events will include the latest consent metadata inside the `context.consent` object:
 
-```js
-analytics.methods = [
-  'trackSubmit',
-  'trackClick',
-  'trackLink',
-  'trackForm',
-  'pageview',
-  'identify',
-  'reset',
-  'group',
-  'track',
-  'ready',
-  'alias',
-  'debug',
-  'page',
-  'once',
-  'off',
-  'on',
-  'addSourceMiddleware' // This method is necessary for Consent Manager to forward consent metadata.
-]
-```
+   ```json
+   {
+     "event": "Created Account",
+     "context": {
+       "consent": {
+         "defaultDestinationBehavior": "disable",
+         "destinationPreferences": {},
+         "categoryPreferences": {
+           "marketingAndAnalytics": false,
+           "advertising": true,
+           "functional": false
+         }
+       }
+     }
+   }
+   ```
 
-## Usage
+3. Whenever a user updates their consent preferences, the following events will be emitted
+   - `identify` with updated preferences in `traits`
+     ```json
+     {
+       "type": "identify",
+       "traits": {
+         "destinationTrackingPreferences": {},
+         "categoryTrackingPreferences": {
+           "marketingAndAnalytics": true,
+           "advertising": true,
+           "functional": true
+         }
+       }
+     }
+     ```
+   - `track` named `Consent Updated` with updated preferences
+     ```json
+     {
+       "type": "track",
+       "event": "Consent Updated",
+       "properties": {
+         "destinationTrackingPreferences": {},
+         "categoryTrackingPreferences": {
+           "marketingAndAnalytics": true,
+           "advertising": true,
+           "functional": true
+         }
+       }
+     }
+     ```
 
-The Segment Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
+## Install
 
-To get started, make sure you're using the latest version of the [analytics.js snippet][] (4.1.0 or above) and remove the `analytics.load("YOUR_WRITE_KEY");` call (so the consent manager can manage the loading process). Then continue onto one of the implementation methods below.
+The Hightouch Consent Manager can be used in several ways, depending on how custom you want your visitor's experience to be.
+
+> [!IMPORTANT]
+> Ensure you're using the latest version of the [Hightouch Events Browser SDK snippet](https://github.com/ht-sdks/events-sdk-js-mono/tree/master/packages/browser#installation-via-cdn) and **remove** the `e.load("WRITE_KEY")` call from the snippet so consent manager can manage the loading process.
 
 ### Standalone Script
 
-The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best for if you want to get up and running quickly or you don't have a preexisting React setup.
+The standalone script is a prebuilt bundle that uses the [ConsentManager][] React component with [Preact][] (a lightweight React alternative). It's best if you want to get up and running quickly or you don't have a preexisting React setup.
 
-Include the consent manager script tag after your analytic.js snippet and add your own custom copy. The standalone script can be configured in one of two ways, via data attributes for simple usage or via a global callback function for advanced usage. Both methods allow the consent manager script to be loaded async.
+Include the consent manager script tag after the Browser SDK snippet and add your own custom copy. The standalone script is configured via a global callback function.
+
+```html
+<!-- Consent Manager element -->
+<div id="consent-manager"></div>
+
+<!-- Browser SDK snippet -->
+<script type="text/javascript">
+  !function(){var e=window.htevents=window.htevents||[];if(!e.initialize)if(e.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{e.invoked=!0,e.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"],e.factory=function(t){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(t),e.push(n),e}};for(var t=0;t<e.methods.length;t++){var n=e.methods[t];e[n]=e.factory(n)}e.load=function(t,n){var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src="https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(o,r),e._loadOptions=n,e._writeKey=t},e.SNIPPET_VERSION="0.0.1",
+  e.page()}}();
+</script>
+
+<!-- Consent Manager configuration -->
+<script>
+  window.consentManagerConfig = function(exports) {
+    return {
+      container: '#consent-manager',
+      writeKey: 'WRITE_KEY',
+      shouldRequireConsent: exports.inEU // optional: require consent only for EU users
+    }
+  }
+</script>
+
+<!-- Consent Manager JS -->
+<script
+  src="https://unpkg.com/@ht-sdks/consent-manager@0.0.1/standalone/consent-manager.js"
+  defer
+></script>
+```
 
 #### Options
 
@@ -176,8 +172,8 @@ All the options are supported. The callback function also receives these exports
 <script>
   window.consentManagerConfig = function(exports) {
     var React = exports.React
-    var inEU = exports.inEU
 
+    // optional: customize the banner for your brand
     var bannerContent = React.createElement(
       'span',
       null,
@@ -190,37 +186,24 @@ All the options are supported. The callback function also receives these exports
       ),
       '.'
     )
-    var bannerSubContent = 'You can change your preferences at any time.'
-    var preferencesDialogTitle = 'Website Data Collection Preferences'
-    var preferencesDialogContent =
-      'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
-    var cancelDialogTitle = 'Are you sure you want to cancel?'
-    var cancelDialogContent =
-      'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
 
     return {
       container: '#target-container',
-      writeKey: '<your-segment-write-key>',
-      shouldRequireConsent: inEU,
-      bannerContent: bannerContent,
-      bannerSubContent: bannerSubContent,
-      preferencesDialogTitle: preferencesDialogTitle,
-      preferencesDialogContent: preferencesDialogContent,
-      cancelDialogTitle: cancelDialogTitle,
-      cancelDialogContent: cancelDialogContent
+      writeKey: 'WRITE_KEY',
+      bannerContent: bannerContent
     }
   }
 </script>
 
 <script
-  src="https://unpkg.com/@segment/consent-manager@5.3.0/standalone/consent-manager.js"
+  src="https://unpkg.com/@ht-sdks/consent-manager@0.0.1/standalone/consent-manager.js"
   defer
 ></script>
 ```
 
 ### ConsentManager
 
-The `ConsentManager` React component is a prebuilt consent manager UI (it's the one we use on https://segment.com) that uses the [ConsentManagerBuilder][] component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
+The `ConsentManager` React component is a prebuilt consent manager UI that uses the `ConsentManagerBuilder` component under the hood. To use it, just mount the component where you want the consent banner to appear and pass in your own custom copy.
 
 _Note: Consent Manager is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
 
@@ -229,52 +212,28 @@ _Note: Consent Manager is React-based so is not currently compatible with other 
 Using npm:
 
 ```
-npm install @segment/consent-manager
+npm install @ht-sdks/consent-manager
 ```
 
 Using yarn:
 
 ```
-yarn add @segment/consent-manager
+yarn add @ht-sdks/consent-manager
 ```
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
-import { ConsentManager, openConsentManager } from '@segment/consent-manager'
+import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 import inEU from '@segment/in-eu'
 
 export default function() {
-  const bannerContent = (
-    <span>
-      We use cookies (and other similar technologies) to collect data to improve your experience on
-      our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-      <a href="/docs/legal/website-data-collection-policy/" target="_blank">
-        Website Data Collection Policy
-      </a>
-      .
-    </span>
-  )
-  const bannerSubContent = 'You can change your preferences at any time.'
-  const preferencesDialogTitle = 'Website Data Collection Preferences'
-  const preferencesDialogContent =
-    'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
-  const cancelDialogTitle = 'Are you sure you want to cancel?'
-  const cancelDialogContent =
-    'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
-
   return (
     <div>
       <ConsentManager
-        writeKey="<your-segment-write-key>"
-        shouldRequireConsent={inEU}
-        bannerContent={bannerContent}
-        bannerSubContent={bannerSubContent}
-        preferencesDialogTitle={preferencesDialogTitle}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogTitle={cancelDialogTitle}
-        cancelDialogContent={cancelDialogContent}
+        writeKey="WRITE_KEY"
+        shouldRequireConsent={inEU} // optional: require consent only from EU users
       />
 
       <button type="button" onClick={openConsentManager}>
@@ -287,54 +246,28 @@ export default function() {
 
 #### Example in Next.js
 
-In Next.js we do not have an html file where to inject the script. Here we will use the Script component to inject the snippet provided by Segment.
+In Next.js we do not have an HTML file to inject the Browser SDK snippet. Here we will use the Script component to inject the snippet provided by Hightouch. Again, note that the `e.load(WRITE_KEY)` call was removed from the snippet since `ConsentManager` will invoke that for us.
 
-```javascript
+```jsx
 import React from 'react'
 import Script from 'next/script'
-import { ConsentManager, openConsentManager } from '@segment/consent-manager'
+import { ConsentManager, openConsentManager } from '@ht-sdks/consent-manager'
 
 export default function Home() {
-  const bannerContent = (
-    <span>
-      We use cookies (and other similar technologies) to collect data to improve your experience on
-      our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-      <a href="/docs/legal/website-data-collection-policy/" target="_blank">
-        Website Data Collection Policy
-      </a>
-      .
-    </span>
-  )
-  const bannerSubContent = 'You can change your preferences at any time.'
-  const preferencesDialogTitle = 'Website Data Collection Preferences'
-  const preferencesDialogContent =
-    'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
-  const cancelDialogTitle = 'Are you sure you want to cancel?'
-  const cancelDialogContent =
-    'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
-
   return (
     <div>
       <Script
-        id="show-banner"
+        id="events-sdk-js-browser"
         dangerouslySetInnerHTML={{
-          __html: `!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};;analytics.SNIPPET_VERSION="4.13.2";
-          analytics.page();
-          }}();`
+          __html: `
+            !function(){var e=window.htevents=window.htevents||[];if(!e.initialize)if(e.invoked)window.console&&console.error&&console.error("Hightouch snippet included twice.");else{e.invoked=!0,e.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"],e.factory=function(t){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(t),e.push(n),e}};for(var t=0;t<e.methods.length;t++){var n=e.methods[t];e[n]=e.factory(n)}e.load=function(t,n){var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src="https://cdn.hightouch-events.com/browser/release/v1-latest/events.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(o,r),e._loadOptions=n,e._writeKey=t},e.SNIPPET_VERSION="0.0.1",
+            e.page()}}();
+          `
         }}
       />
 
       <main>
-        <ConsentManager
-          writeKey="5V8KznnIFIDh1ejQLbmX7ikfSRa6r8bF"
-          bannerContent={bannerContent}
-          bannerSubContent={bannerSubContent}
-          preferencesDialogTitle={preferencesDialogTitle}
-          preferencesDialogContent={preferencesDialogContent}
-          cancelDialogTitle={cancelDialogTitle}
-          cancelDialogContent={cancelDialogContent}
-          bannerActionsBlock={true}
-        />
+        <ConsentManager writeKey="WRITE_KEY" />
 
         <button type="button" onClick={openConsentManager}>
           Website Data Collection Preferences
@@ -353,7 +286,6 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 <!-- TOC depthFrom:5 depthTo:5 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [writeKey](#writekey)
-- [otherWriteKeys](#otherwritekeys)
 - [shouldRequireConsent](#shouldrequireconsent)
 - [initialPreferences](#initialpreferences)
 - [closeBehavior](#closebehavior)
@@ -381,19 +313,7 @@ loading the out of the box Consent Manager. In [this demo](https://codepen.io/sa
 **Type**: `string`
 **Default**: none
 
-The write key analytics.js should be loaded with.
-
-You can find more information here.
-https://segment.com/docs/connections/find-writekey
-
-##### otherWriteKeys
-
-**Type**: `array<string>`
-**Default**: `[]`
-
-[Write keys](https://share.getcloudapp.com/jkunGzrw) for other sources so you can include destinations they use in the Consent Manager tool list. This only displays destinations that are not connected to the primary writeKey.
-
-The user’s consent preferences for these tools are not sent to these additional sources, but they are added to the `identify` call the Consent Manager sends to Segment. The user’s preferences can then be added to a raw data destination (like a data warehouse) or to a user profile in Personas.
+The write key events.js should be loaded with.
 
 ##### shouldRequireConsent
 
@@ -418,7 +338,7 @@ Object that opts into users into tracking for the different tracking categories.
 
 This option sets the default behavior for the x (close) button on the Consent Manager banner. Available options:
 
-- “dismiss” - dismisses the banner, but doesn't save or change any preferences. Analytics.js won’t load until consent is given.
+- “dismiss” - dismisses the banner, but doesn't save or change any preferences. Events Browser SDK won’t load until consent is given.
 - “accept”- assume consent across every category.
 - ”deny” - denies consent across every category.
 
@@ -435,10 +355,8 @@ closeBehavior={
 
 ##### implyConsentOnInteraction
 
-**_Breaking Change_** (versions < 3.0.0 will default this option `true`)
-
 **Type**: `boolean`
-**Default**: `false` (as of 3.0.0)
+**Default**: `false`
 
 Determines whether or not consent should be implied if the user interacts with the website by clicking anywhere outside the Consent Manager banner.
 
@@ -464,7 +382,7 @@ Options:
 **Type**: `string`
 **Default**: the top most domain and all sub domains
 
-The domain the `tracking-preferences` cookie should be scoped to.
+The domain the `ht-cm-preferences` cookie should be scoped to.
 
 ##### bannerContent
 
@@ -562,8 +480,6 @@ const customCategories = {
 }
 ```
 
-The values for `integrations` should be an integration's creationName (`integration.creationName`). You can find examples of that by going to `https://cdn.segment.com/v1/projects/<writeKey>/integrations`
-
 ##### preferencesDialogTemplate
 
 **Type**: `PropTypes.object`
@@ -629,39 +545,25 @@ We recommend copying the default object and changing the fields as necessary.
 
 _Note: All fields are optional. If they are not included in the template (object) the default fields will be used._
 
-_Note 2: For categories, you need to provide the key in order to map all the values properly._
+_Note: For categories, you need to provide the key in order to map all the values properly._
 
 ### ConsentManagerBuilder
 
-The `ConsentManagerBuilder` React component is a low level render props component for building your own consent manager UI. It abstracts away all the logic for fetching destinations, checking/saving consent and loading analytics.js.
+The `ConsentManagerBuilder` React component is a low level render props component for building your own consent manager UI. It abstracts away all the logic for fetching destinations, checking/saving consent and loading the Events Browser SDK.
 
 _Note: ConsentManagerBuilder is React-based so is not currently compatible with other frameworks such as Vue.js or Angular. In case you want to use it in another framework that is not React, you should use the Standalone implementation._
-
-#### Install
-
-Using npm:
-
-```
-npm install @segment/consent-manager
-```
-
-Using yarn:
-
-```
-yarn add @segment/consent-manager
-```
 
 #### Example
 
 For a more detailed/advanced example, checkout the [ConsentManager implementation][].
 
-```javascript
+```jsx
 import React from 'react'
-import { ConsentManagerBuilder } from '@segment/consent-manager'
+import { ConsentManagerBuilder } from '@ht-sdks/consent-manager'
 
 export default function() {
   return (
-    <ConsentManagerBuilder writeKey="<your-segment-write-key>">
+    <ConsentManagerBuilder writeKey="WRITE_KEY">
       {({ destinations, preferences, setPreferences, saveConsent }) => (
         <div>
           <h2>Tracking tools</h2>
@@ -704,7 +606,6 @@ export default function() {
 
 - [children](#children)
 - [writeKey](#writekey-1)
-- [otherWriteKeys](#otherwritekeys-1)
 - [shouldRequireConsent](#shouldrequireconsent-1)
 - [initialPreferences](#initialpreferences-1)
 - [defaultDestinationBehavior](#defaultdestinationbehavior-1)
@@ -724,14 +625,7 @@ The render props function that returns your UI.
 
 **Type**: `string`
 
-The write key analytics.js should be loaded with.
-
-##### otherWriteKeys
-
-**Type**: `array<string>`
-**Default**: `[]`
-
-Other write keys that you want to load destination information for. This is useful for including your server-side destinations in the consent manager, so that you can easily apply the user's tracking preferences to your server-side analytics too. _No data will be sent to these write keys._
+The write key the Events Browser SDK should be loaded with.
 
 ##### shouldRequireConsent
 
@@ -764,8 +658,6 @@ Options:
   For example, if a user already consented to the `marketingAndAnalytics` category, and you add a new destination which is in the `Analytics` category, that destination will be enabled until the user updates their consent selections.
 - `ask` - When you add new destinations, the Consent Manager automatically opens the preferences dialog on initialization, and asks the user for their consent again.
 
-This setting also also affects [Replays](https://segment.com/docs/guides/what-is-replay/) to new destinations. Only `disable` and `enable` apply to these replays. If you set `defaultDestinationBehavior` to `imply`, Segment interprets this as `enable` during a replay.
-
 ##### mapCustomPreferences
 
 **Type**: `function`
@@ -778,7 +670,7 @@ Callback function allows you to use a custom preferences format (e.g: categories
 **Type**: `string`
 **Default**: the [top most domain][top-domain] and all sub domains
 
-The domain the `tracking-preferences` cookie should be scoped to.
+The domain the `ht-cm-preferences` cookie should be scoped to.
 
 ##### shouldReload
 
@@ -792,14 +684,14 @@ Reload the page if the trackers have already been initialized so that the user's
 **Type**: `boolean`
 **Default**: `false`
 
-Disable the analitics.load to make local testing.
+Disable calling `htevents.load` for local testing.
 
 ##### useDefaultCategories
 
 **Type**: `boolean`
 **Default**: `false`
 
-Use default categories set by Consent Manager instead of detinations.
+Use default categories set by Consent Manager instead of destinations.
 
 #### ConsentManagerBuilder Render Props
 
@@ -892,7 +784,7 @@ Resets the [preferences][] state to the value saved in the cookie. Useful for re
 
 **Type**: `function(object|boolean)`
 
-Saves the preferences currently in state to a cookie called `tracking-preferences`, triggers an identify call with `destinationTrackingPreferences` and `customTrackingPreferences` traits and then reloads analytics.js using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
+Saves the preferences currently in state to a cookie called `ht-cm-preferences`, triggers an `identify` event with `destinationTrackingPreferences` and `categoryTrackingPreferences` traits, triggers a `track` event called `Consent Updated`, and then reloads the Browser SDK using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
 
 ##### onError
 
@@ -907,56 +799,44 @@ Allows you to manually handle if there is an error when initializing - e.g. if t
 
 ### Setting Custom Anonymous ID
 
-Analytics.js generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before Analytics.js loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
+Hightouch Events Browser SDK generates a universally unique ID (UUID) for the viewer during the library’s initialization phase, and sets this as anonymousId for each new visitor to your site. This happens before the SDK loads any device-mode destinations, and so before these destination-libraries can generate their own user IDs.
 
 Example
 
 ```javascript
-ajs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
+htjs_anonymous_id=%2239ee7ea5-b6d8-4174-b612-04e1ef3fa952
 ```
 
-You can override the default-generated anonymousID from the Segment snippet.
+You can override the default-generated anonymousID from the Hightouch snippet.
 
 ```javascript
-analytics.SNIPPET_VERSION = '4.13.2'
-analytics.page()
-analytics.setAnonymousId('YOUR_CUSTOM_ID')
+htevents.setAnonymousId('YOUR_CUSTOM_ID')
 ```
 
-_Note: Keep in mind that setting the anonymousId in Analytics.js does not overwrite the anonymous tracking IDs for any destinations you’re using._
+_Note: Keep in mind that setting the anonymousId does not overwrite the anonymous tracking IDs for any destinations you’re using._
 
 _There are other ways to override the anonymousID, you can find more information [here][]._
+
+## Styles
+
+[GUIDESTYLES.md](GUIDESTYLES.md) contains the list of all components you can use this id to change de styles on Consent Manager.
 
 ## Development
 
 To run our storybook locally, simply do:
 
 ```
-$ yarn dev
+$ npm run dev
 ```
 
 and the storybook should be opened in your browser. We recommend adding a new story for new features, and testing against existing stories when making bug fixes.
-
-## Styles
-
-The file GUIDESTYLES.md contains the list of all components you can use this id to change de styles on Consent Manager.
-
-### Publishing New Version
-
-This package follows semantic versioning. To publish a new version:
-
-```
-$ npm version <new-version>
-$ npm publish
-```
 
 ## License
 
 consent-manager is released under the MIT license.
 
-Copyright © 2021, Segment.io, Inc.
+Copyright © 2024 Hightouch
 
-[analytics.js snippet]: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-2-copy-the-segment-snippet
 [preact]: https://preactjs.com
 [currentscript]: https://caniuse.com/#feat=document-currentscript
 [ineu]: https://github.com/segmentio/in-eu
@@ -969,4 +849,3 @@ Copyright © 2021, Segment.io, Inc.
 [setpreferences]: #setpreferences
 [consentmanager implementation]: src/consent-manager
 [css selector]: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
-[here]: https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/identity/

@@ -71,7 +71,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
   static displayName = 'ConsentManager'
 
   static defaultProps = {
-    otherWriteKeys: [],
+    options: undefined,
     shouldRequireConsent: () => true,
     implyConsentOnInteraction: false,
     onError: undefined,
@@ -83,10 +83,28 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
     bannerActionsBlock: undefined,
     bannerHideCloseButton: false,
     bannerTextColor: '#fff',
+    bannerContent:
+      'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you’re agreeing to the collection of data as described in our Privacy Policy.',
     bannerSubContent: 'You can change your preferences at any time.',
     bannerBackgroundColor: '#1f4160',
     preferencesDialogTitle: 'Website Data Collection Preferences',
+    preferencesDialogContent: (
+      <div>
+        <p>
+          We use data collected by cookies and JavaScript libraries to improve your browsing
+          experience, analyze site traffic, deliver personalized advertisements, and increase the
+          overall performance of our site.
+        </p>
+        <p>By using our website, you’re agreeing to our Privacy Policy.</p>
+        <p>
+          The table below outlines how we use this data by category. To opt out of a category of
+          data collection, select “No” and save your preferences.
+        </p>
+      </div>
+    ),
     cancelDialogTitle: 'Are you sure you want to cancel?',
+    cancelDialogContent:
+      'Your preferences have not been saved. By continuing to use our website, you’re agreeing to our Privacy Policy.',
     defaultDestinationBehavior: 'disable',
     preferencesDialogTemplate: defaultPreferencesDialogTemplate
   }
@@ -94,7 +112,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
   render() {
     const {
       writeKey,
-      otherWriteKeys,
+      options,
       shouldRequireConsent,
       implyConsentOnInteraction,
       cookieDomain,
@@ -123,7 +141,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       <ConsentManagerBuilder
         onError={onError}
         writeKey={writeKey}
-        otherWriteKeys={otherWriteKeys}
+        options={options}
         shouldRequireConsent={shouldRequireConsent}
         cookieDomain={cookieDomain}
         cookieName={cookieName}
@@ -259,7 +277,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
         // Mark custom categories
         Object.entries(customCategories).forEach(([categoryName, { integrations }]) => {
           const consentAlreadySetToFalse = destinationPreferences[destination.id] === false
-          const shouldSetConsent = integrations.includes(destination.id)
+          const shouldSetConsent = integrations?.includes(destination.id) ?? false
           if (shouldSetConsent && !consentAlreadySetToFalse) {
             destinationPreferences[destination.id] = customPreferences[categoryName]
           }

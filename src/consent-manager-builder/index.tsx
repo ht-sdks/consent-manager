@@ -1,12 +1,12 @@
 import { Component } from 'react'
 import { loadPreferences, savePreferences } from './preferences'
-import fetchDestinations from './fetch-destinations'
 import conditionallyLoadAnalytics from './analytics'
 import {
   Destination,
   CategoryPreferences,
   CustomCategories,
-  DefaultDestinationBehavior
+  DefaultDestinationBehavior,
+  HtEventsBrowserOptions
 } from '../types'
 import { CookieAttributes } from 'js-cookie'
 
@@ -28,11 +28,11 @@ function getNewDestinations(destinations: Destination[], preferences: CategoryPr
 }
 
 interface Props {
-  /** Your Segment Write key for your website */
+  /** Your Hightouch Write key for your website */
   writeKey: string
 
-  /** A list of other write keys you may want to provide */
-  otherWriteKeys?: string[]
+  /** Options to pass to Hightouch Events Browser SDK */
+  options?: HtEventsBrowserOptions
 
   cookieDomain?: string
   cookieName?: string
@@ -67,7 +67,7 @@ interface Props {
   ) => { destinationPreferences: CategoryPreferences; customPreferences: CategoryPreferences }
 
   /**
-   * Allows for adding custom consent categories by mapping a custom category to Segment integrations
+   * Allows for adding custom consent categories by mapping a custom category to Hightouch integrations
    */
   customCategories?: CustomCategories
 
@@ -95,13 +95,13 @@ interface Props {
 
   /**
    * Default false
-   * Disable the analitics.load to make local testing.
+   * Disable htevents.load for local testing.
    */
   devMode?: boolean
 
   /**
    * Default false
-   * Use default categories set by Consent Manager instead of detinations
+   * Use default categories set by Consent Manager instead of destinations
    */
   useDefaultCategories?: boolean
 }
@@ -146,11 +146,11 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   static displayName = 'ConsentManagerBuilder'
 
   static defaultProps = {
-    otherWriteKeys: [],
+    options: undefined,
     onError: undefined,
     shouldRequireConsent: () => true,
     initialPreferences: {},
-    cdnHost: 'cdn.segment.com',
+    cdnHost: 'cdn.hightouch-events.com',
     shouldReload: true,
     devMode: false,
     useDefaultCategories: false
@@ -215,7 +215,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   initialise = async () => {
     const {
       writeKey,
-      otherWriteKeys = ConsentManagerBuilder.defaultProps.otherWriteKeys,
+      options,
       shouldRequireConsent = ConsentManagerBuilder.defaultProps.shouldRequireConsent,
       initialPreferences,
       mapCustomPreferences,
@@ -231,7 +231,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     let { destinationPreferences, customPreferences } = loadPreferences(cookieName)
     const [isConsentRequired, destinations] = await Promise.all([
       shouldRequireConsent(),
-      fetchDestinations(cdnHost, [writeKey, ...otherWriteKeys])
+      Promise.resolve([])
     ])
     const newDestinations = getNewDestinations(destinations, destinationPreferences || {})
     const workspaceAddedNewDestinations =
@@ -268,6 +268,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
 
     conditionallyLoadAnalytics({
       writeKey,
+      options,
       destinations,
       destinationPreferences,
       isConsentRequired,
@@ -321,6 +322,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   ) => {
     const {
       writeKey,
+      options,
       cookieDomain,
       cookieName,
       cookieExpires,
@@ -376,6 +378,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       })
       conditionallyLoadAnalytics({
         writeKey,
+        options,
         destinations,
         destinationPreferences,
         isConsentRequired,

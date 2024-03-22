@@ -16,7 +16,7 @@ const Custom = () => {
   return (
     <Pane maxWidth={1000} margin={30}>
       <ConsentManager
-        writeKey="tYQQPcY78Hc3T1hXUYk0n4xcbEHnN7r0"
+        writeKey={process.env.STORYBOOK_WRITE_KEY!}
         initialPreferences={initialPreferences}
         shouldRequireConsent={() => true}
         {...common}

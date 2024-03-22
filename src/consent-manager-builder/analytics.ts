@@ -1,13 +1,15 @@
 import {
-  WindowWithAJS,
+  WindowWithHtEvents,
   Destination,
   DefaultDestinationBehavior,
   CategoryPreferences,
-  Middleware
+  Middleware,
+  HtEventsBrowserOptions
 } from '../types'
 
 interface AnalyticsParams {
   writeKey: string
+  options?: HtEventsBrowserOptions
   destinations: Destination[]
   destinationPreferences: CategoryPreferences | null | undefined
   isConsentRequired: boolean
@@ -34,6 +36,7 @@ function getConsentMiddleware(
 
 export default function conditionallyLoadAnalytics({
   writeKey,
+  options,
   destinations,
   destinationPreferences,
   isConsentRequired,
@@ -42,18 +45,19 @@ export default function conditionallyLoadAnalytics({
   defaultDestinationBehavior,
   categoryPreferences
 }: AnalyticsParams) {
-  const wd = window as WindowWithAJS
-  const integrations = { All: false, 'Segment.io': true }
-  let isAnythingEnabled = false
+  const wd = window as WindowWithHtEvents
+  if (!wd.htevents) return
+
+  const integrations = { All: false, 'Hightouch.io': true }
 
   if (!destinationPreferences) {
     if (isConsentRequired) {
       return
     }
 
-    // Load a.js normally when consent isn't required and there's no preferences
-    if (!wd.analytics.initialized) {
-      wd.analytics.load(writeKey)
+    // Load htevents normally when consent isn't required and there's no preferences
+    if (!wd.htevents.initialized) {
+      wd.htevents.load(writeKey, options)
     }
     return
   }
@@ -67,35 +71,34 @@ export default function conditionallyLoadAnalytics({
     }
 
     const isEnabled = Boolean(destinationPreferences[destination.id])
-    if (isEnabled) {
-      isAnythingEnabled = true
-    }
     integrations[destination.id] = isEnabled
   }
 
   // Reload the page if the trackers have already been initialised so that
   // the user's new preferences can take affect
-  if (wd.analytics && wd.analytics.initialized) {
+  if (wd.htevents.initialized) {
     if (shouldReload) {
+      console.debug('reloading to apply new tracking preferences')
       window.location.reload()
     }
     return
   }
 
-  if (devMode) {
-    return
-  }
+  if (devMode) return
 
-  // Don't load a.js at all if nothing has been enabled
+  // Don't load htevents if nothing has been enabled
+  const isAnythingEnabled =
+    Object.entries(integrations).some(([id, isEnabled]) => id !== 'Hightouch.io' && isEnabled) ||
+    Object.values(categoryPreferences || {}).some(Boolean)
+
   if (isAnythingEnabled) {
     const middleware = getConsentMiddleware(
       destinationPreferences,
       categoryPreferences,
       defaultDestinationBehavior
     )
-    // @ts-ignore: Analytics.JS type should be updated with addSourceMiddleware
-    wd.analytics.addSourceMiddleware(middleware)
+    wd.htevents.addSourceMiddleware(middleware)
 
-    wd.analytics.load(writeKey, { integrations })
+    wd.htevents.load(writeKey, { ...options, integrations })
   }
 }

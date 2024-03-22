@@ -2,9 +2,17 @@ import { CloseBehaviorFunction } from './consent-manager/container'
 import { PreferencesManager } from './consent-manager-builder/preferences'
 import { CookieAttributes } from 'js-cookie'
 
-type AJS = SegmentAnalytics.AnalyticsJS & {
+export type HtEventsBrowserOptions = {
+  integrations?: Record<string, boolean>
+  apiHost?: string
+  protocol?: string
+}
+
+export type HtEventsBrowser = {
   initialized: boolean
-  track: (event: string, properties: { [key: string]: any }) => void
+  load: (writeKey: string, options?: HtEventsBrowserOptions) => void
+  identify: (properties: Record<string, any>) => void
+  track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void
   addSourceMiddleware: (middleware: Middleware) => void
 }
 
@@ -18,9 +26,9 @@ interface MiddlewareInput {
   next: (payload: MiddlewareInput['payload']) => void
 }
 
-export type WindowWithAJS = Window &
+export type WindowWithHtEvents = Window &
   typeof globalThis & {
-    analytics?: AJS
+    htevents?: HtEventsBrowser
   }
 
 export type WindowWithConsentManagerConfig = Window &
@@ -74,7 +82,7 @@ export interface CustomCategories {
 }
 
 interface CustomCategory {
-  integrations: string[]
+  integrations?: string[]
   purpose: string
 }
 
@@ -109,14 +117,14 @@ export interface PreferenceDialogTemplate {
 
 export interface ConsentManagerProps {
   writeKey: string
-  otherWriteKeys?: string[]
+  options?: HtEventsBrowserOptions
   shouldRequireConsent?: () => Promise<boolean> | boolean
   implyConsentOnInteraction?: boolean
   cookieDomain?: string
   cookieName?: string
   cookieAttributes?: CookieAttributes
   cookieExpires?: number
-  bannerContent: React.ReactNode
+  bannerContent?: React.ReactNode
   bannerSubContent?: string
   bannerActionsBlock?: ((props: ActionsBlockProps) => React.ReactElement) | true
   bannerTextColor?: string
@@ -124,10 +132,10 @@ export interface ConsentManagerProps {
   bannerHideCloseButton: boolean
   bannerAsModal?: boolean
   preferencesDialogTitle?: React.ReactNode
-  preferencesDialogContent: React.ReactNode
+  preferencesDialogContent?: React.ReactNode
   onError?: (error: Error | undefined) => void
   cancelDialogTitle?: React.ReactNode
-  cancelDialogContent: React.ReactNode
+  cancelDialogContent?: React.ReactNode
   closeBehavior?: CloseBehavior | CloseBehaviorFunction
   initialPreferences?: CategoryPreferences
   customCategories?: CustomCategories

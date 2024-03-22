@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import React from 'react'
 import Banner from './banner'
 import PreferenceDialog from './preference-dialog'
@@ -80,6 +80,9 @@ const Container: React.FC<ContainerProps> = props => {
   )
   const [showBanner, toggleBanner] = React.useState(true)
   const [isCancelling, toggleCancel] = React.useState(false)
+
+  // check if all preferences are empty, in which case we should show the banner
+  const emptyPreferences = Object.values(props.preferences || {}).every(v => v == null)
 
   let banner = React.useRef<HTMLElement>(null)
   let preferenceDialog = React.useRef<HTMLElement>(null)
@@ -222,22 +225,24 @@ const Container: React.FC<ContainerProps> = props => {
 
   return (
     <>
-      {showBanner && props.isConsentRequired && props.newDestinations.length > 0 && (
-        <Banner
-          innerRef={current => (banner = { current })}
-          onClose={onClose}
-          onChangePreferences={() => toggleDialog(true)}
-          content={props.bannerContent}
-          subContent={props.bannerSubContent}
-          actionsBlock={props.bannerActionsBlock}
-          textColor={props.bannerTextColor}
-          backgroundColor={props.bannerBackgroundColor}
-          onAcceptAll={onAcceptAll}
-          onDenyAll={onDenyAll}
-          hideCloseButton={props.bannerHideCloseButton}
-          asModal={props.bannerAsModal}
-        />
-      )}
+      {showBanner &&
+        props.isConsentRequired &&
+        (props.newDestinations.length > 0 || emptyPreferences) && (
+          <Banner
+            innerRef={current => (banner = { current })}
+            onClose={onClose}
+            onChangePreferences={() => toggleDialog(true)}
+            content={props.bannerContent}
+            subContent={props.bannerSubContent}
+            actionsBlock={props.bannerActionsBlock}
+            textColor={props.bannerTextColor}
+            backgroundColor={props.bannerBackgroundColor}
+            onAcceptAll={onAcceptAll}
+            onDenyAll={onDenyAll}
+            hideCloseButton={props.bannerHideCloseButton}
+            asModal={props.bannerAsModal}
+          />
+        )}
 
       {isDialogOpen && (
         <PreferenceDialog

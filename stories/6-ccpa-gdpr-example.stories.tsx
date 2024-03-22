@@ -1,5 +1,4 @@
 import React from 'react'
-import cookies from 'js-cookie'
 import { Pane, Heading, Paragraph, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { storiesOf } from '@storybook/react'
@@ -8,61 +7,6 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
 import CookieView from './components/CookieView'
 import inRegions from '@segment/in-regions'
-
-const bannerContent = (
-  <span>
-    We use cookies (and other similar technologies) to collect data to improve your experience on
-    our site. By using our website, you’re agreeing to the collection of data as described in our{' '}
-    <a
-      href="https://segment.com/docs/legal/website-data-collection-policy/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Website Data Collection Policy
-    </a>
-    .
-  </span>
-)
-const bannerSubContent = 'You can manage your preferences here!'
-const preferencesDialogTitle = 'Website Data Collection Preferences'
-const preferencesDialogContent = (
-  <div>
-    <p>
-      Segment uses data collected by cookies and JavaScript libraries to improve your browsing
-      experience, analyze site traffic, deliver personalized advertisements, and increase the
-      overall performance of our site.
-    </p>
-    <p>
-      By using our website, you’re agreeing to our{' '}
-      <a
-        href="https://segment.com/docs/legal/website-data-collection-policy/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Website Data Collection Policy
-      </a>
-      .
-    </p>
-    <p>
-      The table below outlines how we use this data by category. To opt out of a category of data
-      collection, select “No” and save your preferences.
-    </p>
-  </div>
-)
-const cancelDialogTitle = 'Are you sure you want to cancel?'
-const cancelDialogContent = (
-  <div>
-    Your preferences have not been saved. By continuing to use our website, you’re agreeing to our{' '}
-    <a
-      href="https://segment.com/docs/legal/website-data-collection-policy/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Website Data Collection Policy
-    </a>
-    .
-  </div>
-)
 
 const ConsentManagerExample = () => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
@@ -102,13 +46,7 @@ const ConsentManagerExample = () => {
   return (
     <Pane>
       <ConsentManager
-        writeKey="n2DAIaakJzCUq0saLY0LMcm9dKsqCZvU"
-        bannerContent={bannerContent}
-        bannerSubContent={bannerSubContent}
-        preferencesDialogTitle={preferencesDialogTitle}
-        preferencesDialogContent={preferencesDialogContent}
-        cancelDialogTitle={cancelDialogTitle}
-        cancelDialogContent={cancelDialogContent}
+        writeKey={process.env.STORYBOOK_WRITE_KEY!}
         closeBehavior={closeBehavior}
         shouldRequireConsent={shouldRequireConsent}
         initialPreferences={initialPreferences}
@@ -131,7 +69,7 @@ const ConsentManagerExample = () => {
             frameBorder="0"
           />
         </Pane>
-        <Button onClick={() => window.analytics.track('Send Track Event Clicked')}>
+        <Button onClick={() => (window as any).htevents.track('Send Track Event Clicked')}>
           Send Track Event
         </Button>
 
@@ -139,26 +77,17 @@ const ConsentManagerExample = () => {
           This example highlights checking for EU or CA residency, then changing the closeBehavior
           based on membership in each.
         </Paragraph>
-        <p>
-          <div>
-            <Heading>Current Preferences</Heading>
-            <SyntaxHighlighter language="json" style={docco}>
-              {JSON.stringify(prefs, null, 2)}
-            </SyntaxHighlighter>
-          </div>
-          <Button marginRight={20} onClick={openConsentManager}>
-            Change Cookie Preferences
-          </Button>
-          <Button
-            onClick={() => {
-              cookies.remove('tracking-preferences')
-              window.location.reload()
-            }}
-          >
-            Clear
-          </Button>
-        </p>
+        <div>
+          <Heading>Current Preferences</Heading>
+          <SyntaxHighlighter language="json" style={docco}>
+            {JSON.stringify(prefs, null, 2)}
+          </SyntaxHighlighter>
+        </div>
+        <Button marginRight={20} onClick={openConsentManager}>
+          Change Cookie Preferences
+        </Button>
       </Pane>
+
       <CookieView />
     </Pane>
   )

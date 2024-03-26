@@ -53,7 +53,7 @@ describe('preferences', () => {
   })
 
   test('savePreferences() saves the preferences', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
+    const htevents = { track: sinon.spy() }
     ;(window as any).htevents = htevents
     document.cookie = ''
 
@@ -70,17 +70,11 @@ describe('preferences', () => {
       cookieDomain: undefined
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: customPreferences
-    })
-
     expect(htevents.track.calledOnce).toBe(true)
     expect(htevents.track.args[0][0]).toBe('Consent Updated')
     expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: customPreferences
+      destinationPreferences: destinationPreferences,
+      categoryPreferences: customPreferences
     })
 
     expect(
@@ -91,7 +85,7 @@ describe('preferences', () => {
   })
 
   test('savePreferences() sets the cookie domain', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
+    const htevents = { track: sinon.spy() }
     ;(window as any).htevents = htevents
     document.cookie = ''
 
@@ -105,17 +99,11 @@ describe('preferences', () => {
       cookieDomain: 'example.com'
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
-
     expect(htevents.track.calledOnce).toBe(true)
     expect(htevents.track.args[0][0]).toBe('Consent Updated')
     expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
+      destinationPreferences: destinationPreferences,
+      categoryPreferences: undefined
     })
 
     // TODO: actually check domain
@@ -123,7 +111,7 @@ describe('preferences', () => {
   })
 
   test('savePreferences() sets the cookie with custom key', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
+    const htevents = { track: sinon.spy() }
     ;(window as any).htevents = htevents
     document.cookie = ''
 
@@ -138,17 +126,11 @@ describe('preferences', () => {
       cookieName: 'custom-tracking-preferences'
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
-
     expect(htevents.track.calledOnce).toBe(true)
     expect(htevents.track.args[0][0]).toBe('Consent Updated')
     expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
+      destinationPreferences: destinationPreferences,
+      categoryPreferences: undefined
     })
 
     expect(document.cookie.includes('custom-tracking-preferences')).toBe(true)

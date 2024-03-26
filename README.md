@@ -22,7 +22,7 @@ _Hightouch works to ensure Consent Manager works with most of our product pipeli
 
 ### How it works
 
-1. The consent manager delays loading the events SDK until user consent is given, and will not load the SDK at all if the user opts out of everything. The user's tracking preferences are saved to a cookie and sent as an `identify` trait and a `Consent Updated` track event (if they haven't opted out of everything), ensuring consent data is propagated to your destinations.
+1. The consent manager delays loading the events SDK until user consent is given, and will not load the SDK at all if the user opts out of everything. The user's tracking preferences are saved to a cookie and sent as a `Consent Updated` track event (if they haven't opted out of everything), ensuring consent data is propagated to your destinations.
 
 2. **All** events will include the latest consent metadata inside the `context.consent` object:
 
@@ -43,29 +43,15 @@ _Hightouch works to ensure Consent Manager works with most of our product pipeli
    }
    ```
 
-3. Whenever a user updates their consent preferences, the following events will be emitted
-   - `identify` with updated preferences in `traits`
-     ```json
-     {
-       "type": "identify",
-       "traits": {
-         "destinationTrackingPreferences": {},
-         "categoryTrackingPreferences": {
-           "marketingAndAnalytics": true,
-           "advertising": true,
-           "functional": true
-         }
-       }
-     }
-     ```
+3. Whenever a user updates their consent preferences, the following event will be emitted
    - `track` named `Consent Updated` with updated preferences
      ```json
      {
        "type": "track",
        "event": "Consent Updated",
        "properties": {
-         "destinationTrackingPreferences": {},
-         "categoryTrackingPreferences": {
+         "destinationPreferences": {},
+         "categoryPreferences": {
            "marketingAndAnalytics": true,
            "advertising": true,
            "functional": true
@@ -784,7 +770,7 @@ Resets the [preferences][] state to the value saved in the cookie. Useful for re
 
 **Type**: `function(object|boolean)`
 
-Saves the preferences currently in state to a cookie called `ht-cm-preferences`, triggers an `identify` event with `destinationTrackingPreferences` and `categoryTrackingPreferences` traits, triggers a `track` event called `Consent Updated`, and then reloads the Browser SDK using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
+Saves the preferences currently in state to a cookie called `ht-cm-preferences`, triggers a `track` event named `Consent Updated`, and then reloads the Browser SDK using the new preferences. It can also be passed preferences like [setPreferences][] to do a final update before saving.
 
 ##### onError
 

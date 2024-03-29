@@ -11,7 +11,6 @@ export type HtEventsBrowserOptions = {
 export type HtEventsBrowser = {
   initialized: boolean
   load: (writeKey: string, options?: HtEventsBrowserOptions) => void
-  identify: (properties: Record<string, any>) => void
   track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void
   addSourceMiddleware: (middleware: Middleware) => void
 }

@@ -28,7 +28,10 @@ function getConsentMiddleware(
     payload.obj.context.consent = {
       defaultDestinationBehavior,
       categoryPreferences,
-      destinationPreferences
+      destinationPreferences,
+      // give precedence to `context.consent` values set explicitly for the event
+      // this allows us to immediately reflect changes made to consent
+      ...payload.obj.context.consent
     }
     next(payload)
   }

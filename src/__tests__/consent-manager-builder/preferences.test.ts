@@ -5,8 +5,26 @@ import {
   savePreferences,
   DEFAULT_COOKIE_NAME
 } from '../../consent-manager-builder/preferences'
+import { HtEventsBrowser } from '../../types'
 
 describe('preferences', () => {
+  let htevents: sinon.SinonStubbedInstance<Pick<HtEventsBrowser, 'track'>>
+
+  function expectConsentUpdatedEvent({ destinationPreferences, customPreferences }) {
+    expect(htevents.track.calledOnce).toBe(true)
+    expect(htevents.track.args[0][0]).toBe('Consent Updated')
+    expect(htevents.track.args[0][1]).toMatchObject({
+      destinationPreferences: destinationPreferences,
+      categoryPreferences: customPreferences
+    })
+    expect(htevents.track.args[0][2]).toMatchObject({
+      consent: {
+        destinationPreferences: destinationPreferences,
+        categoryPreferences: customPreferences
+      }
+    })
+  }
+
   beforeEach(() => {
     window = {
       location: {
@@ -23,6 +41,10 @@ describe('preferences', () => {
         return
       }
     } as Document
+    document.cookie = ''
+
+    htevents = sinon.stub({ track() {} })
+    ;(window as any).htevents = htevents
   })
 
   test('loadPreferences() returns preferences when cookie exists', () => {
@@ -53,13 +75,10 @@ describe('preferences', () => {
   })
 
   test('savePreferences() saves the preferences', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
-    ;(window as any).htevents = htevents
-    document.cookie = ''
-
     const destinationPreferences = {
       Amplitude: true
     }
+
     const customPreferences = {
       functional: true
     }
@@ -70,87 +89,47 @@ describe('preferences', () => {
       cookieDomain: undefined
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: customPreferences
-    })
+    expectConsentUpdatedEvent({ destinationPreferences, customPreferences })
 
-    expect(htevents.track.calledOnce).toBe(true)
-    expect(htevents.track.args[0][0]).toBe('Consent Updated')
-    expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: customPreferences
-    })
-
-    expect(
-      document.cookie.includes(
-        `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
-      )
-    ).toBe(true)
+    expect(document.cookie).toContain(
+      `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
+    )
   })
 
   test('savePreferences() sets the cookie domain', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
-    ;(window as any).htevents = htevents
-    document.cookie = ''
-
     const destinationPreferences = {
       Amplitude: true
     }
 
+    const customPreferences = undefined
+
     savePreferences({
       destinationPreferences,
-      customPreferences: undefined,
+      customPreferences,
       cookieDomain: 'example.com'
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
+    expectConsentUpdatedEvent({ destinationPreferences, customPreferences })
 
-    expect(htevents.track.calledOnce).toBe(true)
-    expect(htevents.track.args[0][0]).toBe('Consent Updated')
-    expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
-
-    // TODO: actually check domain
-    // expect(document.cookie.includes('domain=example.com')).toBe(true)
+    // ToDo: verify cookie domain is set (would need to mock js-cookie since document.cookie doesn't have domain info)
   })
 
   test('savePreferences() sets the cookie with custom key', () => {
-    const htevents = { identify: sinon.spy(), track: sinon.spy() }
-    ;(window as any).htevents = htevents
-    document.cookie = ''
-
     const destinationPreferences = {
       Amplitude: true
     }
 
+    const customPreferences = undefined
+
     savePreferences({
       destinationPreferences,
-      customPreferences: undefined,
+      customPreferences,
       cookieDomain: undefined,
       cookieName: 'custom-tracking-preferences'
     })
 
-    expect(htevents.identify.calledOnce).toBe(true)
-    expect(htevents.identify.args[0][0]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
+    expectConsentUpdatedEvent({ destinationPreferences, customPreferences })
 
-    expect(htevents.track.calledOnce).toBe(true)
-    expect(htevents.track.args[0][0]).toBe('Consent Updated')
-    expect(htevents.track.args[0][1]).toMatchObject({
-      destinationTrackingPreferences: destinationPreferences,
-      categoryTrackingPreferences: undefined
-    })
-
-    expect(document.cookie.includes('custom-tracking-preferences')).toBe(true)
+    expect(document.cookie).toContain('custom-tracking-preferences')
   })
 })

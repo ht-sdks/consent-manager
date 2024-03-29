@@ -172,7 +172,11 @@ describe('ConsentManagerBuilder', () => {
   test.skip('if defaultDestinationBehavior is set to imply and category is set to true, loads new destination', done => {
     document.cookie =
       'ht-cm-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:true%2C%22functional%22:true}}'
-    window.htevents = { load() {}, identify() {}, track() {}, addSourceMiddleware() {} }
+    window.htevents = {
+      load() {},
+      track() {},
+      addSourceMiddleware() {}
+    }
 
     nock('https://cdn.hightouch-events.com')
       .get('/v1/projects/123/integrations')
@@ -248,7 +252,6 @@ describe('ConsentManagerBuilder', () => {
       'ht-cm-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}%2C%22custom%22:{%22advertising%22:false%2C%22marketingAndAnalytics%22:false%2C%22functional%22:true}}'
     window.htevents = {
       load() {},
-      identify() {},
       track() {},
       addSourceMiddleware() {}
     }

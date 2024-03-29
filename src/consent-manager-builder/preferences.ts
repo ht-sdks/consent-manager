@@ -64,17 +64,21 @@ export function savePreferences({
 }: SavePreferences) {
   const wd = window as WindowWithHtEvents
   if (wd.htevents) {
-    wd.htevents.identify({
-      destinationTrackingPreferences: destinationPreferences,
-      // use `categoryTrackingPreferences` here for consistency with `context.consent.categoryPreferences`
-      categoryTrackingPreferences: customPreferences
-    })
-
-    wd.htevents.track('Consent Updated', {
-      destinationTrackingPreferences: destinationPreferences,
-      // use `categoryTrackingPreferences` here for consistency with `context.consent.categoryPreferences`
-      categoryTrackingPreferences: customPreferences
-    })
+    wd.htevents.track(
+      'Consent Updated',
+      {
+        destinationPreferences,
+        // use `categoryPreferences` here for consistency with `context.consent.categoryPreferences`
+        categoryPreferences: customPreferences
+      },
+      {
+        // update `context.consent` here to immediately reflect the updated preferences
+        consent: {
+          destinationPreferences,
+          categoryPreferences: customPreferences
+        }
+      }
+    )
   } else {
     console.warn('window.htevents not found...is the SDK snippet included on the page?')
   }

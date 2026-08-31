@@ -12,7 +12,7 @@ describe('analytics', () => {
       track: () => {},
       addSourceMiddleware: (_middleware: Middleware) => {}
     }
-    window = { htevents } as WindowWithHtEvents
+    ;(window as WindowWithHtEvents).htevents = htevents
   })
 
   test('loads events.js with preferences', () => {

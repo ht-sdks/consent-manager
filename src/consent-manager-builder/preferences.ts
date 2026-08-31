@@ -1,7 +1,7 @@
 // TODO: remove duplicate cookie library from bundle
-import cookies, { CookieAttributes } from 'js-cookie'
+import cookies from 'js-cookie'
 import topDomain from '@segment/top-domain'
-import { WindowWithHtEvents, Preferences, CategoryPreferences } from '../types'
+import { WindowWithHtEvents, Preferences, CategoryPreferences, CookieAttributes } from '../types'
 import { EventEmitter } from 'events'
 
 export const DEFAULT_COOKIE_NAME = 'ht-cm-preferences'
@@ -22,9 +22,15 @@ export interface PreferencesManager {
 // TODO: harden against invalid cookies
 // TODO: harden against different versions of cookies
 export function loadPreferences(cookieName?: string): Preferences {
-  const preferences = cookies.getJSON(cookieName || DEFAULT_COOKIE_NAME) as PreferencesCookie
+  const raw = cookies.get(cookieName || DEFAULT_COOKIE_NAME)
+  if (!raw) {
+    return {}
+  }
 
-  if (!preferences) {
+  let preferences: PreferencesCookie
+  try {
+    preferences = JSON.parse(raw) as PreferencesCookie
+  } catch {
     return {}
   }
 
@@ -91,7 +97,7 @@ export function savePreferences({
     custom: customPreferences
   } as PreferencesCookie
 
-  cookies.set(cookieName || DEFAULT_COOKIE_NAME, value, {
+  cookies.set(cookieName || DEFAULT_COOKIE_NAME, JSON.stringify(value), {
     expires,
     domain,
     ...cookieAttributes

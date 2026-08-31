@@ -1,6 +1,8 @@
 import { CloseBehaviorFunction } from './consent-manager/container'
 import { PreferencesManager } from './consent-manager-builder/preferences'
-import { CookieAttributes } from 'js-cookie'
+import Cookies from 'js-cookie'
+
+export type CookieAttributes = NonNullable<Parameters<typeof Cookies.set>[2]>
 
 export type HtEventsBrowserOptions = {
   integrations?: Record<string, boolean>

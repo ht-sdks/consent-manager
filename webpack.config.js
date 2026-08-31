@@ -1,23 +1,34 @@
 const path = require('path')
 const webpack = require('webpack')
+const TerserPlugin = require('terser-webpack-plugin')
 const pkg = require('./package.json')
 
 module.exports = {
   mode: 'production',
+  // Keep the standalone bundle ES5-compatible for older browsers (webpack 5 defaults to ES6 runtime).
+  target: ['web', 'es5'],
   devtool: 'source-map',
   entry: './src/standalone.tsx',
   output: {
     path: path.join(__dirname, 'standalone'),
     filename: 'consent-manager.js',
-    library: 'consentManager'
+    library: {
+      name: 'consentManager',
+      type: 'var'
+    }
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        // Keep the BannerPlugin comment in the JS file (webpack 5 would otherwise extract it).
+        extractComments: false
+      })
+    ]
   },
   resolve: {
     alias: {
       react: 'preact/compat',
-      'react-dom': 'preact/compat',
-      // nanoid 6 is ESM-only and exposes the browser build via "exports",
-      // which webpack 4 does not resolve. Point standalone at the browser entry.
-      nanoid: path.resolve(__dirname, 'node_modules/nanoid/index.browser.js')
+      'react-dom': 'preact/compat'
     },
     extensions: ['.tsx', '.ts', '.js']
   },
@@ -26,16 +37,13 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'ts-loader'
+        use: 'ts-loader'
       }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        VERSION: JSON.stringify(pkg.version)
-      }
+      'process.env.VERSION': JSON.stringify(pkg.version)
     }),
     new webpack.BannerPlugin(
       `

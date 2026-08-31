@@ -5,7 +5,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
 // @ts-ignore
-import contents from 'raw-loader!./standalone.html'
+import contents from './standalone.html'
 import CookieView from './components/CookieView'
 
 const StandaloneConsentManagerExample = () => {

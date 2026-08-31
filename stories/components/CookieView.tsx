@@ -5,12 +5,25 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { DEFAULT_COOKIE_NAME } from '../../src/consent-manager-builder/preferences'
 
+function readCookies(): Record<string, unknown> {
+  const all = cookies.get()
+  const parsed: Record<string, unknown> = {}
+  Object.keys(all).forEach(key => {
+    try {
+      parsed[key] = JSON.parse(all[key])
+    } catch {
+      parsed[key] = all[key]
+    }
+  })
+  return parsed
+}
+
 const CookieView = () => {
-  const [cookieVal, updateCookieVal] = useState(cookies.getJSON())
+  const [cookieVal, updateCookieVal] = useState(readCookies)
 
   useEffect(() => {
     const clear = setInterval(() => {
-      updateCookieVal(cookies.getJSON())
+      updateCookieVal(readCookies())
     }, 1000)
     return () => clearInterval(clear)
   })
@@ -34,7 +47,7 @@ const CookieView = () => {
 
       <Button
         onClick={() => {
-          const allCookies = cookies.getJSON()
+          const allCookies = cookies.get()
           Object.keys(allCookies).forEach(key => {
             cookies.remove(key)
           })

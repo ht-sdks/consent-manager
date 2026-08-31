@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { loadPreferences, savePreferences } from './preferences'
+import { CookieAttributes, loadPreferences, savePreferences } from './preferences'
 import conditionallyLoadAnalytics from './analytics'
 import {
   Destination,
@@ -8,7 +8,6 @@ import {
   DefaultDestinationBehavior,
   HtEventsBrowserOptions
 } from '../types'
-import { CookieAttributes } from 'js-cookie'
 
 function getNewDestinations(destinations: Destination[], preferences: CategoryPreferences) {
   const newDestinations: Destination[] = []

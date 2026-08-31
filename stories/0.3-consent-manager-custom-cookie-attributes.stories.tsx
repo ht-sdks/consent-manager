@@ -1,11 +1,10 @@
 import React from 'react'
-import { CookieAttributes } from 'js-cookie'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { storiesOf } from '@storybook/react'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-import { Preferences } from '../src/types'
+import { CookieAttributes, Preferences } from '../src/types'
 import CookieView from './components/CookieView'
 
 const ConsentManagerExample = (props: { cookieAttributes: CookieAttributes }) => {

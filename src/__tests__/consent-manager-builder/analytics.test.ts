@@ -87,7 +87,11 @@ describe('analytics', () => {
       this.initialized = true
     }
 
-    jest.spyOn(window.location, 'reload')
+    const reload = jest.fn()
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { reload }
+    })
 
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
@@ -118,7 +122,10 @@ describe('analytics', () => {
     wd.htevents.load = function load() {
       this.initialized = true
     }
-    wd.location = { reload }
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { reload }
+    })
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {

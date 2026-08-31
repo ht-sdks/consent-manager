@@ -15,12 +15,16 @@ type Nav = Navigator & {
   msDoNotTrack?: Navigator['doNotTrack']
 }
 
-export function doNotTrack(): boolean | null {
-  
-  if (typeof window !== 'undefined' && (window.navigator || navigator)) { 
-    const nav = navigator as Nav
+type WindowWithDoNotTrack = Window & {
+  doNotTrack?: Navigator['doNotTrack']
+}
 
-    let doNotTrackValue = nav.doNotTrack || window.doNotTrack || nav.msDoNotTrack
+export function doNotTrack(): boolean | null {
+  if (typeof window !== 'undefined' && (window.navigator || navigator)) {
+    const nav = navigator as Nav
+    const win = window as WindowWithDoNotTrack
+
+    let doNotTrackValue = nav.doNotTrack || win.doNotTrack || nav.msDoNotTrack
 
     // Normalise Firefox < 32
     // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack

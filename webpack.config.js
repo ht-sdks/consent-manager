@@ -14,7 +14,10 @@ module.exports = {
   resolve: {
     alias: {
       react: 'preact/compat',
-      'react-dom': 'preact/compat'
+      'react-dom': 'preact/compat',
+      // nanoid 6 is ESM-only and exposes the browser build via "exports",
+      // which webpack 4 does not resolve. Point standalone at the browser entry.
+      nanoid: path.resolve(__dirname, 'node_modules/nanoid/index.browser.js')
     },
     extensions: ['.tsx', '.ts', '.js']
   },

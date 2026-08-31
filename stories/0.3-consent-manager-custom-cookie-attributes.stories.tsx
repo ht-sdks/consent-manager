@@ -1,5 +1,5 @@
 import React from 'react'
-import { CookieAttributes } from 'js-cookie'
+import { CookieAttributes } from '../src/types'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { storiesOf } from '@storybook/react'

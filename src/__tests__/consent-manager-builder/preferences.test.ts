@@ -47,6 +47,16 @@ describe('preferences', () => {
     ;(window as any).htevents = htevents
   })
 
+  test('loadPreferences() returns empty preferences when cookie is missing', () => {
+    expect(loadPreferences()).toEqual({})
+  })
+
+  test('loadPreferences() returns empty preferences when cookie is invalid JSON', () => {
+    document.cookie = `${DEFAULT_COOKIE_NAME}=not-json`
+
+    expect(loadPreferences()).toEqual({})
+  })
+
   test('loadPreferences() returns preferences when cookie exists', () => {
     document.cookie = `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
 

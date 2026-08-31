@@ -20,9 +20,9 @@ interface AnalyticsParams {
 }
 
 function getConsentMiddleware(
-  destinationPreferences,
-  categoryPreferences,
-  defaultDestinationBehavior
+  destinationPreferences: CategoryPreferences | null | undefined,
+  categoryPreferences: CategoryPreferences | null | undefined,
+  defaultDestinationBehavior: DefaultDestinationBehavior | undefined
 ): Middleware {
   return ({ payload, next }) => {
     payload.obj.context.consent = {
@@ -51,7 +51,7 @@ export default function conditionallyLoadAnalytics({
   const wd = window as WindowWithHtEvents
   if (!wd.htevents) return
 
-  const integrations = { All: false, 'Hightouch.io': true }
+  const integrations: Record<string, boolean> = { All: false, 'Hightouch.io': true }
 
   if (!destinationPreferences) {
     if (isConsentRequired) {

@@ -1,24 +1,23 @@
 import sinon from 'sinon'
-import { WindowWithHtEvents, Destination, Middleware } from '../../types'
+import { WindowWithHtEvents, Destination, Middleware, HtEventsBrowser } from '../../types'
 import conditionallyLoadAnalytics from '../../consent-manager-builder/analytics'
 
 describe('analytics', () => {
-  let wd
+  let htevents: HtEventsBrowser
 
   beforeEach(() => {
-    window = {} as WindowWithHtEvents
-    wd = window
-    wd.htevents = {
-      /*eslint-disable */
-      track: (_event, _properties, _optionsWithConsent, _callback) => {},
+    htevents = {
+      initialized: false,
+      load: () => {},
+      track: () => {},
       addSourceMiddleware: (_middleware: Middleware) => {}
-      /*eslint-enable */
     }
+    window = { htevents } as WindowWithHtEvents
   })
 
   test('loads events.js with preferences', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -46,7 +45,7 @@ describe('analytics', () => {
 
   test('doesn՚t load events.js when there are no preferences', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = null
@@ -64,7 +63,7 @@ describe('analytics', () => {
 
   test('doesn՚t load events.js when all preferences are false', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -83,7 +82,7 @@ describe('analytics', () => {
   })
 
   test('reloads the page when events.js has already been initialised', () => {
-    wd.htevents.load = function load() {
+    htevents.load = function load(this: HtEventsBrowser) {
       this.initialized = true
     }
 
@@ -119,7 +118,7 @@ describe('analytics', () => {
 
   test('should allow the reload behvaiour to be disabled', () => {
     const reload = sinon.spy()
-    wd.htevents.load = function load() {
+    htevents.load = function load(this: HtEventsBrowser) {
       this.initialized = true
     }
     Object.defineProperty(window, 'location', {
@@ -153,7 +152,7 @@ describe('analytics', () => {
 
   test('loads events.js normally when consent isn՚t required', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = null
@@ -173,7 +172,7 @@ describe('analytics', () => {
 
   test('still applies preferences when consent isn՚t required', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
@@ -201,7 +200,7 @@ describe('analytics', () => {
 
   test('sets new destinations to false if defaultDestinationBehavior is set to "disable"', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
@@ -233,7 +232,7 @@ describe('analytics', () => {
 
   test('sets new destinations to true if defaultDestinationBehavior is set to "enable"', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
@@ -265,7 +264,7 @@ describe('analytics', () => {
 
   test('Set devMode on true to disabled events.js load', () => {
     const hteventsLoad = sinon.spy()
-    wd.htevents.load = hteventsLoad
+    htevents.load = hteventsLoad
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {

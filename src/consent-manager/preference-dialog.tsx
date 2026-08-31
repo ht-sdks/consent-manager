@@ -335,7 +335,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
     )
   }
 
-  handleChange = e => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { onChange } = this.props
     onChange(e.target.name, e.target.value === 'true')
   }

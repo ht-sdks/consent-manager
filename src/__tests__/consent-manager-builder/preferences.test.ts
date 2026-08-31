@@ -5,12 +5,18 @@ import {
   savePreferences,
   DEFAULT_COOKIE_NAME
 } from '../../consent-manager-builder/preferences'
-import { HtEventsBrowser } from '../../types'
+import { CategoryPreferences, HtEventsBrowser } from '../../types'
 
 describe('preferences', () => {
   let htevents: sinon.SinonStubbedInstance<Pick<HtEventsBrowser, 'track'>>
 
-  function expectConsentUpdatedEvent({ destinationPreferences, customPreferences }) {
+  function expectConsentUpdatedEvent({
+    destinationPreferences,
+    customPreferences
+  }: {
+    destinationPreferences: CategoryPreferences
+    customPreferences?: CategoryPreferences
+  }) {
     expect(htevents.track.calledOnce).toBe(true)
     expect(htevents.track.args[0][0]).toBe('Consent Updated')
     expect(htevents.track.args[0][1]).toMatchObject({

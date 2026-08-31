@@ -250,7 +250,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       return zeroValuePreferences
     }
 
-    const initialCustomPreferences = {}
+    const initialCustomPreferences: CategoryPreferences = {}
     Object.keys(customCategories).forEach(category => {
       initialCustomPreferences[category] = null
     })
@@ -260,8 +260,8 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
 
   handleMapCustomPreferences = (destinations: Destination[], preferences: CategoryPreferences) => {
     const { customCategories } = this.props
-    const destinationPreferences = {}
-    const customPreferences = {}
+    const destinationPreferences: CategoryPreferences = {}
+    const customPreferences: CategoryPreferences = {}
 
     if (customCategories) {
       for (const preferenceName of Object.keys(customCategories)) {

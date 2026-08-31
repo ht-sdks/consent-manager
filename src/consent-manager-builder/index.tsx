@@ -6,9 +6,9 @@ import {
   CategoryPreferences,
   CustomCategories,
   DefaultDestinationBehavior,
-  HtEventsBrowserOptions
+  HtEventsBrowserOptions,
+  CookieAttributes
 } from '../types'
-import { CookieAttributes } from 'js-cookie'
 
 function getNewDestinations(destinations: Destination[], preferences: CategoryPreferences) {
   const newDestinations: Destination[] = []

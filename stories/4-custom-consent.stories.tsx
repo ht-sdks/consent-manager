@@ -1,6 +1,5 @@
 import React from 'react'
 import { Pane, Button } from 'evergreen-ui'
-import { storiesOf } from '@storybook/react'
 import ConsentManager from '../src/consent-manager'
 import * as common from './components/common-react'
 import { openConsentManager } from '../src'
@@ -31,4 +30,9 @@ const Custom = () => {
   )
 }
 
-storiesOf('Advanced Use Cases', module).add(`Partial consent`, () => <Custom />)
+export default {
+  title: 'Advanced Use Cases'
+}
+
+export const PartialConsent = () => <Custom />
+PartialConsent.storyName = 'Partial consent'

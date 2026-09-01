@@ -1,5 +1,4 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { Pane } from 'evergreen-ui'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
@@ -28,6 +27,9 @@ const StandaloneConsentManagerExample = () => {
   )
 }
 
-storiesOf('Standalone / Javascript', module).add(`with Customization`, () => (
-  <StandaloneConsentManagerExample />
-))
+export default {
+  title: 'Standalone / Javascript'
+}
+
+export const WithCustomization = () => <StandaloneConsentManagerExample />
+WithCustomization.storyName = 'with Customization'

@@ -2,7 +2,6 @@ import React from 'react'
 import { CookieAttributes } from '../src/types'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
-import { storiesOf } from '@storybook/react'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
@@ -63,7 +62,11 @@ const ConsentManagerExample = (props: { cookieAttributes: CookieAttributes }) =>
   )
 }
 
-storiesOf('React Component / Custom Cookie Attributes', module).add(
-  `Custom Cookie Attributes`,
-  () => <ConsentManagerExample cookieAttributes={{ sameSite: 'none', secure: true }} />
+export default {
+  title: 'React Component / Custom Cookie Attributes'
+}
+
+export const CustomCookieAttributes = () => (
+  <ConsentManagerExample cookieAttributes={{ sameSite: 'none', secure: true }} />
 )
+CustomCookieAttributes.storyName = 'Custom Cookie Attributes'

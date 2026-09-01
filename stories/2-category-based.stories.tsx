@@ -3,7 +3,6 @@ import groupBy from 'lodash/groupBy'
 import { Pane, Heading, SubHeading, Ul, Code, Button } from 'evergreen-ui'
 import { ConsentManagerBuilder } from '../src'
 import DestinationTile from './components/destination-tile'
-import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
 
 function Section(props) {
@@ -80,4 +79,9 @@ const CategoryBased = () => {
   )
 }
 
-storiesOf('ConsentManagerBuilder', module).add(`Category Based`, () => <CategoryBased />)
+export default {
+  title: 'ConsentManagerBuilder'
+}
+
+export const CategoryBasedStory = () => <CategoryBased />
+CategoryBasedStory.storyName = 'Category Based'

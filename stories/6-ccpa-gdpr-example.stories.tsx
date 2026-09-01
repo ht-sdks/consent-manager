@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Paragraph, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
-import { storiesOf } from '@storybook/react'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
@@ -93,4 +92,8 @@ const ConsentManagerExample = () => {
   )
 }
 
-storiesOf('CCPA + GDPR Example', module).add(`Basic`, () => <ConsentManagerExample />)
+export default {
+  title: 'CCPA + GDPR Example'
+}
+
+export const Basic = () => <ConsentManagerExample />

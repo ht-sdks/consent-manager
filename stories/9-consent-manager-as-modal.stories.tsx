@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager } from '../src'
-import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
 import {
   bannerContent,
@@ -62,15 +61,25 @@ const ConsentManagerExample = props => {
   )
 }
 
-storiesOf('React Component / Banner as Modal', module)
-  .add(`Banner as Modal`, () => (
-    <ConsentManagerExample bannerAsModal bannerActionsBlock bannerHideCloseButton />
-  ))
-  .add(`Banner as Modal with close button`, () => <ConsentManagerExample bannerAsModal />)
-  .add(`Banner as Modal with custom buttons`, () => (
-    <ConsentManagerExample bannerAsModal bannerActionsBlock={bannerActionsBlock} />
-  ))
+export default {
+  title: 'React Component / Banner as Modal'
+}
 
-  .add(`Banner as Modal with custom buttons and close button`, () => (
-    <ConsentManagerExample bannerAsModal />
-  ))
+export const BannerAsModal = () => (
+  <ConsentManagerExample bannerAsModal bannerActionsBlock bannerHideCloseButton />
+)
+BannerAsModal.storyName = 'Banner as Modal'
+
+export const BannerAsModalWithCloseButton = () => <ConsentManagerExample bannerAsModal />
+BannerAsModalWithCloseButton.storyName = 'Banner as Modal with close button'
+
+export const BannerAsModalWithCustomButtons = () => (
+  <ConsentManagerExample bannerAsModal bannerActionsBlock={bannerActionsBlock} />
+)
+BannerAsModalWithCustomButtons.storyName = 'Banner as Modal with custom buttons'
+
+export const BannerAsModalWithCustomButtonsAndCloseButton = () => (
+  <ConsentManagerExample bannerAsModal />
+)
+BannerAsModalWithCustomButtonsAndCloseButton.storyName =
+  'Banner as Modal with custom buttons and close button'

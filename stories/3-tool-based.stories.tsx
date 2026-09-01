@@ -2,7 +2,6 @@ import React from 'react'
 import { Pane, Heading, SubHeading, Ul, Code, Button } from 'evergreen-ui'
 import { ConsentManagerBuilder } from '../src'
 import DestinationTile from './components/destination-tile'
-import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
 
 function Section(props) {
@@ -61,4 +60,9 @@ const ToolBased = () => {
   )
 }
 
-storiesOf('ConsentManagerBuilder', module).add(`Tool Based`, () => <ToolBased />)
+export default {
+  title: 'ConsentManagerBuilder'
+}
+
+export const ToolBasedStory = () => <ToolBased />
+ToolBasedStory.storyName = 'Tool Based'

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager } from '../src'
-import { storiesOf } from '@storybook/react'
 import { ImplyConsentOnInteraction } from './ImplyConsentOnInteraction'
 import CookieView from './components/CookieView'
 
@@ -38,6 +37,12 @@ const ConsentManagerExample = () => {
   )
 }
 
-storiesOf('React Component / Basics', module)
-  .add(`Basic React Component`, () => <ConsentManagerExample />)
-  .add(`Basic React Component with implied consent`, () => <ImplyConsentOnInteraction />)
+export default {
+  title: 'React Component / Basics'
+}
+
+export const BasicReactComponent = () => <ConsentManagerExample />
+BasicReactComponent.storyName = 'Basic React Component'
+
+export const BasicReactComponentWithImpliedConsent = () => <ImplyConsentOnInteraction />
+BasicReactComponentWithImpliedConsent.storyName = 'Basic React Component with implied consent'

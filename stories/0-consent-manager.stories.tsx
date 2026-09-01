@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
-import { storiesOf } from '@storybook/react'
 import { CloseBehaviorFunction } from '../src/consent-manager/container'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
@@ -52,15 +51,22 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
   )
 }
 
-storiesOf('React Component / OnClose interactions', module)
-  .add(`Dismiss`, () => <ConsentManagerExample closeBehavior={'dismiss'} />)
-  .add(`Accept`, () => <ConsentManagerExample closeBehavior={'accept'} />)
-  .add(`Deny`, () => <ConsentManagerExample closeBehavior={'deny'} />)
-  .add(`Custom Close Behavior`, () => (
-    <ConsentManagerExample
-      closeBehavior={categories => ({
-        ...categories,
-        advertising: false
-      })}
-    />
-  ))
+export default {
+  title: 'React Component / OnClose interactions'
+}
+
+export const Dismiss = () => <ConsentManagerExample closeBehavior={'dismiss'} />
+
+export const Accept = () => <ConsentManagerExample closeBehavior={'accept'} />
+
+export const Deny = () => <ConsentManagerExample closeBehavior={'deny'} />
+
+export const CustomCloseBehavior = () => (
+  <ConsentManagerExample
+    closeBehavior={categories => ({
+      ...categories,
+      advertising: false
+    })}
+  />
+)
+CustomCloseBehavior.storyName = 'Custom Close Behavior'

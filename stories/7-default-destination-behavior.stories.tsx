@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Paragraph, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
-import { storiesOf } from '@storybook/react'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences, DefaultDestinationBehavior } from '../src/types'
@@ -71,15 +70,18 @@ const ConsentManagerExample = (props: {
   )
 }
 
-storiesOf('Default Destination Behavior', module).add(`disable`, () => (
-  <ConsentManagerExample defaultDestinationBehavior="disable" />
-))
-storiesOf('Default Destination Behavior', module).add(`enable`, () => (
-  <ConsentManagerExample defaultDestinationBehavior="enable" />
-))
-storiesOf('Default Destination Behavior', module).add(`imply`, () => (
-  <ConsentManagerExample defaultDestinationBehavior="imply" />
-))
-storiesOf('Default Destination Behavior', module).add(`ask`, () => (
-  <ConsentManagerExample defaultDestinationBehavior="ask" />
-))
+export default {
+  title: 'Default Destination Behavior'
+}
+
+export const Disable = () => <ConsentManagerExample defaultDestinationBehavior="disable" />
+Disable.storyName = 'disable'
+
+export const Enable = () => <ConsentManagerExample defaultDestinationBehavior="enable" />
+Enable.storyName = 'enable'
+
+export const Imply = () => <ConsentManagerExample defaultDestinationBehavior="imply" />
+Imply.storyName = 'imply'
+
+export const Ask = () => <ConsentManagerExample defaultDestinationBehavior="ask" />
+Ask.storyName = 'ask'

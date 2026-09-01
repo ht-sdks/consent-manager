@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
-import { storiesOf } from '@storybook/react'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Preferences } from '../src/types'
@@ -61,6 +60,11 @@ const ConsentManagerExample = (props: { cookieName: string }) => {
   )
 }
 
-storiesOf('React Component / Custom Cookie Name', module).add(`Custom Cookie Name`, () => (
+export default {
+  title: 'React Component / Custom Cookie Name'
+}
+
+export const CustomCookieName = () => (
   <ConsentManagerExample cookieName="custom-tracking-preferences" />
-))
+)
+CustomCookieName.storyName = 'Custom Cookie Name'

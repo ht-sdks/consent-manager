@@ -9,12 +9,9 @@ module.exports = {
     disableTelemetry: true
   },
   stories: ['../stories/**/*.stories.tsx'],
-  // Serve the standalone bundle for iframe stories (replaces `start-storybook -s ./`).
+  addons: ['@storybook/addon-webpack5-compiler-babel'],
+  // Serve the standalone bundle for iframe stories.
   staticDirs: [{ from: '../standalone', to: '/standalone' }],
-  // Existing stories use storiesOf, which needs the v6 store.
-  features: {
-    storyStoreV7: false
-  },
   babel: async options => ({
     ...options,
     presets: [

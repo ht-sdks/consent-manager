@@ -73,7 +73,7 @@
     "@size-limit/file": "^13.0.3",
     "@typescript-eslint/eslint-plugin": "^8.68.0",
     "@typescript-eslint/parser": "^8.68.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^10.0.5",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^8.57.1",

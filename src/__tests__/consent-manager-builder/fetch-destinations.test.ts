@@ -8,23 +8,23 @@ describe('fetchDestinations', () => {
       .reply(200, [
         {
           name: 'Google Analytics',
-          creationName: 'Google Analytics'
+          creationName: 'Google Analytics',
         },
         {
           name: 'Amplitude',
-          creationName: 'Amplitude'
-        }
+          creationName: 'Amplitude',
+        },
       ])
 
     expect(await fetchDestinations('cdn.hightouch-events.com', ['123'])).toMatchObject([
       {
         id: 'Amplitude',
-        name: 'Amplitude'
+        name: 'Amplitude',
       },
       {
         id: 'Google Analytics',
-        name: 'Google Analytics'
-      }
+        name: 'Google Analytics',
+      },
     ])
   })
 
@@ -34,15 +34,15 @@ describe('fetchDestinations', () => {
       .reply(200, [
         {
           name: 'New Amplitude',
-          creationName: 'Old Amplitude'
-        }
+          creationName: 'Old Amplitude',
+        },
       ])
 
     expect(await fetchDestinations('cdn.hightouch-events.com', ['123'])).toMatchObject([
       {
         id: 'Old Amplitude',
-        name: 'New Amplitude'
-      }
+        name: 'New Amplitude',
+      },
     ])
   })
 
@@ -52,38 +52,38 @@ describe('fetchDestinations', () => {
       .reply(200, [
         {
           name: 'Google Analytics',
-          creationName: 'Google Analytics'
+          creationName: 'Google Analytics',
         },
         {
           name: 'Amplitude',
-          creationName: 'Amplitude'
-        }
+          creationName: 'Amplitude',
+        },
       ])
       .get('/v1/projects/abc/integrations')
       .reply(200, [
         {
           name: 'Google Analytics',
-          creationName: 'Google Analytics'
+          creationName: 'Google Analytics',
         },
         {
           name: 'FullStory',
-          creationName: 'FullStory'
-        }
+          creationName: 'FullStory',
+        },
       ])
 
     expect(await fetchDestinations('cdn.hightouch-events.com', ['123', 'abc'])).toMatchObject([
       {
         id: 'Amplitude',
-        name: 'Amplitude'
+        name: 'Amplitude',
       },
       {
         id: 'FullStory',
-        name: 'FullStory'
+        name: 'FullStory',
       },
       {
         id: 'Google Analytics',
-        name: 'Google Analytics'
-      }
+        name: 'Google Analytics',
+      },
     ])
   })
 })

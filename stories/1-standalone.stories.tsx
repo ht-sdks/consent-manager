@@ -1,5 +1,4 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { Pane } from 'evergreen-ui'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
@@ -29,4 +28,8 @@ const StandaloneConsentManagerExample = () => {
   )
 }
 
-storiesOf('Standalone / Tag', module).add(`Basic`, () => <StandaloneConsentManagerExample />)
+export default {
+  title: 'Standalone / Tag',
+}
+
+export const Basic = () => <StandaloneConsentManagerExample />

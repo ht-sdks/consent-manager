@@ -40,9 +40,9 @@ const RootCentered = styled('div')<RootProps>`
   position: relative;
   max-width: 500px;
   padding: 18px;
-  padding-right: ${props => (props.hideCloseButton ? '18px' : '40px')};
-  background: ${props => props.backgroundColor};
-  color: ${props => props.textColor};
+  padding-right: ${(props) => (props.hideCloseButton ? '18px' : '40px')};
+  background: ${(props) => props.backgroundColor};
+  color: ${(props) => props.textColor};
   text-align: center;
   font-size: 14px;
   line-height: 1.3;
@@ -52,9 +52,9 @@ const Root = styled('div')<RootProps>`
   ${fontStyles};
   position: relative;
   padding: 8px;
-  padding-right: ${props => (props.hideCloseButton ? '8px' : '40px')};
-  background: ${props => props.backgroundColor};
-  color: ${props => props.textColor};
+  padding-right: ${(props) => (props.hideCloseButton ? '8px' : '40px')};
+  background: ${(props) => props.backgroundColor};
+  color: ${(props) => props.textColor};
   text-align: center;
   font-size: 12px;
   line-height: 1.3;
@@ -65,10 +65,10 @@ const Root = styled('div')<RootProps>`
 `
 
 const Content = styled('div')<ContentProps>`
-  margin-bottom: ${props => (props.asModal ? '20px' : '8px')};
+  margin-bottom: ${(props) => (props.asModal ? '20px' : '8px')};
   @media (min-width: 768px) {
     flex: auto;
-    margin-bottom: ${props => (props.asModal ? '20px' : '0')};
+    margin-bottom: ${(props) => (props.asModal ? '20px' : '0')};
   }
   a,
   button {
@@ -109,7 +109,7 @@ interface CloseButtonProps {
 const CloseButton = styled('button')<CloseButtonProps>`
   position: absolute;
   right: 8px;
-  top: ${props => (props.isTop ? '20px' : '50%')};
+  top: ${(props) => (props.isTop ? '20px' : '50%')};
   transform: translateY(-50%);
   padding: 8px;
   border: none;
@@ -152,7 +152,7 @@ export default class Banner extends PureComponent<BannerProps> {
       onAcceptAll,
       onDenyAll,
       hideCloseButton,
-      asModal
+      asModal,
     } = this.props
 
     const RootContent = (
@@ -169,7 +169,7 @@ export default class Banner extends PureComponent<BannerProps> {
           actionsBlock({
             acceptAll: onAcceptAll,
             denyAll: onDenyAll,
-            changePreferences: onChangePreferences
+            changePreferences: onChangePreferences,
           })}
         {actionsBlock === true && (
           <ActionsBlock id="hightouchio_actionBlock">

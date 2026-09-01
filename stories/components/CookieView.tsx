@@ -51,7 +51,7 @@ const CookieView = () => {
       <Button
         onClick={() => {
           const allCookies = cookies.get()
-          Object.keys(allCookies || {}).forEach(key => {
+          Object.keys(allCookies || {}).forEach((key) => {
             cookies.remove(key)
           })
           window.location.reload()

@@ -7,7 +7,7 @@ import {
   Destination,
   CustomCategories,
   CategoryPreferences,
-  PreferenceDialogTemplate
+  PreferenceDialogTemplate,
 } from '../types'
 
 const hideOnMobile = css`
@@ -93,7 +93,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
   static defaultProps = {
     marketingAndAnalytics: null,
     advertising: null,
-    functional: null
+    functional: null,
   }
 
   render() {
@@ -111,17 +111,19 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
       title,
       content,
       preferences,
-      preferencesDialogTemplate
+      preferencesDialogTemplate,
     } = this.props
 
     const { headings, checkboxes, actionButtons } = preferencesDialogTemplate!
 
-    const functionalInfo = preferencesDialogTemplate?.categories!.find(c => c.key === 'functional')
-    const marketingInfo = preferencesDialogTemplate?.categories!.find(c => c.key === 'marketing')
-    const advertisingInfo = preferencesDialogTemplate?.categories!.find(
-      c => c.key === 'advertising'
+    const functionalInfo = preferencesDialogTemplate?.categories!.find(
+      (c) => c.key === 'functional',
     )
-    const essentialInfo = preferencesDialogTemplate?.categories!.find(c => c.key === 'essential')
+    const marketingInfo = preferencesDialogTemplate?.categories!.find((c) => c.key === 'marketing')
+    const advertisingInfo = preferencesDialogTemplate?.categories!.find(
+      (c) => c.key === 'advertising',
+    )
+    const essentialInfo = preferencesDialogTemplate?.categories!.find((c) => c.key === 'essential')
 
     const buttons = (
       <div>
@@ -326,7 +328,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
                           .join(', ')}
                       </td> */}
                     </Row>
-                  )
+                  ),
                 )}
             </tbody>
           </Table>
@@ -335,7 +337,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
     )
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { onChange } = this.props
     onChange(e.target.name, e.target.value === 'true')
   }
@@ -347,7 +349,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
       marketingAndAnalytics,
       advertising,
       functional,
-      customCategories
+      customCategories,
     } = this.props
     e.preventDefault()
     // Safe guard against browsers that don't prevent the
@@ -362,7 +364,7 @@ export default class PreferenceDialog extends PureComponent<PreferenceDialogProp
     // Safe guard against custom categories being null
     if (
       customCategories &&
-      Object.keys(customCategories).some(category => preferences[category] === null)
+      Object.keys(customCategories).some((category) => preferences[category] === null)
     ) {
       return
     }

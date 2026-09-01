@@ -6,13 +6,13 @@ import {
   CategoryPreferences,
   Destination,
   ConsentManagerProps,
-  PreferenceDialogTemplate
+  PreferenceDialogTemplate,
 } from '../types'
 
 const zeroValuePreferences: CategoryPreferences = {
   marketingAndAnalytics: null,
   advertising: null,
-  functional: null
+  functional: null,
 }
 
 const defaultPreferencesDialogTemplate: PreferenceDialogTemplate = {
@@ -20,19 +20,19 @@ const defaultPreferencesDialogTemplate: PreferenceDialogTemplate = {
     allowValue: 'Allow',
     categoryValue: 'Category',
     purposeValue: 'Purpose',
-    toolsValue: 'Tools'
+    toolsValue: 'Tools',
   },
   checkboxes: {
     noValue: 'No',
-    yesValue: 'Yes'
+    yesValue: 'Yes',
   },
   actionButtons: {
     cancelValue: 'Cancel',
-    saveValue: 'Save'
+    saveValue: 'Save',
   },
   cancelDialogButtons: {
     cancelValue: 'Yes, Cancel',
-    backValue: 'Go Back'
+    backValue: 'Go Back',
   },
   categories: [
     {
@@ -40,7 +40,7 @@ const defaultPreferencesDialogTemplate: PreferenceDialogTemplate = {
       name: 'Functional',
       description:
         'To monitor the performance of our site and to enhance your browsing experience.',
-      example: 'For example, these tools enable you to communicate with us via live chat.'
+      example: 'For example, these tools enable you to communicate with us via live chat.',
     },
     {
       key: 'marketing',
@@ -48,7 +48,7 @@ const defaultPreferencesDialogTemplate: PreferenceDialogTemplate = {
       description:
         'To understand user behavior in order to provide you with a more relevant browsing experience or personalize the content on our site.',
       example:
-        'For example, we collect information about which pages you visit to help us present more relevant information.'
+        'For example, we collect information about which pages you visit to help us present more relevant information.',
     },
     {
       key: 'advertising',
@@ -56,16 +56,16 @@ const defaultPreferencesDialogTemplate: PreferenceDialogTemplate = {
       description:
         'To personalize and measure the effectiveness of advertising on our site and other websites.',
       example:
-        'For example, we may serve you a personalized ad based on the pages you visit on our site.'
+        'For example, we may serve you a personalized ad based on the pages you visit on our site.',
     },
     {
       key: 'essential',
       name: 'Essential',
       description: 'We use browser cookies that are necessary for the site to work as intended.',
       example:
-        'For example, we store your website data collection preferences so we can honor them if you return to our site. You can disable these cookies in your browser settings but if you do the site may not work as intended.'
-    }
-  ]
+        'For example, we store your website data collection preferences so we can honor them if you return to our site. You can disable these cookies in your browser settings but if you do the site may not work as intended.',
+    },
+  ],
 }
 export default class ConsentManager extends PureComponent<ConsentManagerProps, {}> {
   static displayName = 'ConsentManager'
@@ -106,7 +106,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
     cancelDialogContent:
       'Your preferences have not been saved. By continuing to use our website, you’re agreeing to our Privacy Policy.',
     defaultDestinationBehavior: 'disable',
-    preferencesDialogTemplate: defaultPreferencesDialogTemplate
+    preferencesDialogTemplate: defaultPreferencesDialogTemplate,
   }
 
   render() {
@@ -134,7 +134,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       defaultDestinationBehavior,
       cdnHost,
       preferencesDialogTemplate,
-      onError
+      onError,
     } = this.props
 
     return (
@@ -163,7 +163,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
           resetPreferences,
           saveConsent,
           havePreferencesChanged,
-          workspaceAddedNewDestinations
+          workspaceAddedNewDestinations,
         }) => {
           return (
             <Container
@@ -209,34 +209,34 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
 
   mergeTemplates = (
     newProps: PreferenceDialogTemplate,
-    defaultPreferencesDialogTemplate: PreferenceDialogTemplate
+    defaultPreferencesDialogTemplate: PreferenceDialogTemplate,
   ): PreferenceDialogTemplate => {
     const headingsMerge = {
       ...defaultPreferencesDialogTemplate.headings,
-      ...newProps.headings
+      ...newProps.headings,
     }
     const checkboxesMerge = {
       ...defaultPreferencesDialogTemplate.checkboxes,
-      ...newProps.checkboxes
+      ...newProps.checkboxes,
     }
     const actionButtonsMerge = {
       ...defaultPreferencesDialogTemplate.actionButtons,
-      ...newProps.actionButtons
+      ...newProps.actionButtons,
     }
     const cancelDialogButtonsMerge = {
       ...defaultPreferencesDialogTemplate.cancelDialogButtons,
-      ...newProps.cancelDialogButtons
+      ...newProps.cancelDialogButtons,
     }
-    const categoriesMerge = defaultPreferencesDialogTemplate?.categories!.map(category => ({
+    const categoriesMerge = defaultPreferencesDialogTemplate?.categories!.map((category) => ({
       ...category,
-      ...newProps?.categories?.find(c => c.key === category.key)
+      ...newProps?.categories?.find((c) => c.key === category.key),
     }))
     return {
       headings: headingsMerge,
       checkboxes: checkboxesMerge,
       actionButtons: actionButtonsMerge,
       cancelDialogButtons: cancelDialogButtonsMerge,
-      categories: categoriesMerge
+      categories: categoriesMerge,
     }
   }
 
@@ -251,7 +251,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
     }
 
     const initialCustomPreferences = {}
-    Object.keys(customCategories).forEach(category => {
+    Object.keys(customCategories).forEach((category) => {
       initialCustomPreferences[category] = null
     })
 
@@ -273,7 +273,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
         }
       }
 
-      destinations.forEach(destination => {
+      destinations.forEach((destination) => {
         // Mark custom categories
         Object.entries(customCategories).forEach(([categoryName, { integrations }]) => {
           const consentAlreadySetToFalse = destinationPreferences[destination.id] === false
@@ -302,7 +302,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
     for (const destination of destinations) {
       // Mark advertising destinations
       if (
-        ADVERTISING_CATEGORIES.find(c => c === destination.category) &&
+        ADVERTISING_CATEGORIES.find((c) => c === destination.category) &&
         destinationPreferences[destination.id] !== false
       ) {
         destinationPreferences[destination.id] = customPrefs.advertising
@@ -310,7 +310,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
 
       // Mark function destinations
       if (
-        FUNCTIONAL_CATEGORIES.find(c => c === destination.category) &&
+        FUNCTIONAL_CATEGORIES.find((c) => c === destination.category) &&
         destinationPreferences[destination.id] !== false
       ) {
         destinationPreferences[destination.id] = customPrefs.functional

@@ -43,7 +43,7 @@ const Root = styled('section')<RootProps>`
   flex-direction: column;
   max-width: calc(100vw - 16px);
   max-height: calc(100% - 16px);
-  width: ${props => props.width};
+  width: ${(props) => props.width};
   margin: 8px;
   background: #fff;
   border-radius: 8px;
@@ -133,7 +133,7 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
 
   static defaultProps = {
     onCancel: undefined,
-    width: '750px'
+    width: '750px',
   }
 
   constructor(props: DialogProps) {
@@ -218,7 +218,7 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
     this.form = node
   }
 
-  handleOverlayClick = e => {
+  handleOverlayClick = (e) => {
     const { onCancel } = this.props
     // Ignore propogated clicks from inside the dialog
     if (onCancel && this.root && !this.root.contains(e.target)) {

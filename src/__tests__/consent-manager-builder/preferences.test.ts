@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import {
   loadPreferences,
   savePreferences,
-  DEFAULT_COOKIE_NAME
+  DEFAULT_COOKIE_NAME,
 } from '../../consent-manager-builder/preferences'
 import { HtEventsBrowser } from '../../types'
 
@@ -15,21 +15,21 @@ describe('preferences', () => {
     expect(htevents.track.args[0][0]).toBe('Consent Updated')
     expect(htevents.track.args[0][1]).toMatchObject({
       destinationPreferences: destinationPreferences,
-      categoryPreferences: customPreferences
+      categoryPreferences: customPreferences,
     })
     expect(htevents.track.args[0][2]).toMatchObject({
       consent: {
         destinationPreferences: destinationPreferences,
-        categoryPreferences: customPreferences
-      }
+        categoryPreferences: customPreferences,
+      },
     })
   }
 
   beforeEach(() => {
     window = {
       location: {
-        href: 'http://localhost/'
-      }
+        href: 'http://localhost/',
+      },
     } as Window & typeof globalThis
 
     document = {
@@ -39,7 +39,7 @@ describe('preferences', () => {
         }
 
         return
-      }
+      },
     } as Document
     document.cookie = ''
 
@@ -62,11 +62,11 @@ describe('preferences', () => {
 
     expect(loadPreferences()).toMatchObject({
       destinationPreferences: {
-        Amplitude: true
+        Amplitude: true,
       },
       customPreferences: {
-        functional: true
-      }
+        functional: true,
+      },
     })
   })
 
@@ -76,39 +76,39 @@ describe('preferences', () => {
 
     expect(loadPreferences('custom-tracking-preferences')).toMatchObject({
       destinationPreferences: {
-        Amplitude: true
+        Amplitude: true,
       },
       customPreferences: {
-        functional: true
-      }
+        functional: true,
+      },
     })
   })
 
   test('savePreferences() saves the preferences', () => {
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     const customPreferences = {
-      functional: true
+      functional: true,
     }
 
     savePreferences({
       destinationPreferences,
       customPreferences,
-      cookieDomain: undefined
+      cookieDomain: undefined,
     })
 
     expectConsentUpdatedEvent({ destinationPreferences, customPreferences })
 
     expect(document.cookie).toContain(
-      `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`
+      `${DEFAULT_COOKIE_NAME}={%22version%22:1%2C%22destination%22:{%22Amplitude%22:true}%2C%22custom%22:{%22functional%22:true}}`,
     )
   })
 
   test('savePreferences() sets the cookie domain', () => {
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     const customPreferences = undefined
@@ -116,7 +116,7 @@ describe('preferences', () => {
     savePreferences({
       destinationPreferences,
       customPreferences,
-      cookieDomain: 'example.com'
+      cookieDomain: 'example.com',
     })
 
     expectConsentUpdatedEvent({ destinationPreferences, customPreferences })
@@ -126,7 +126,7 @@ describe('preferences', () => {
 
   test('savePreferences() sets the cookie with custom key', () => {
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     const customPreferences = undefined
@@ -135,7 +135,7 @@ describe('preferences', () => {
       destinationPreferences,
       customPreferences,
       cookieDomain: undefined,
-      cookieName: 'custom-tracking-preferences'
+      cookieName: 'custom-tracking-preferences',
     })
 
     expectConsentUpdatedEvent({ destinationPreferences, customPreferences })

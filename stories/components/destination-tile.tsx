@@ -15,7 +15,7 @@ export default function Destination({ destination, preferences, setPreferences }
           checked={Boolean(preferences[destination.id])}
           onChange={() =>
             setPreferences({
-              [destination.id]: !preferences[destination.id]
+              [destination.id]: !preferences[destination.id],
             })
           }
         />
@@ -30,5 +30,5 @@ export default function Destination({ destination, preferences, setPreferences }
 Destination.propTypes = {
   destination: PropTypes.object.isRequired,
   preferences: PropTypes.object.isRequired,
-  setPreferences: PropTypes.func.isRequired
+  setPreferences: PropTypes.func.isRequired,
 }

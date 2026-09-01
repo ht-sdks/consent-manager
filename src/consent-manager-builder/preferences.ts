@@ -36,7 +36,7 @@ export function loadPreferences(cookieName?: string): Preferences {
 
   return {
     destinationPreferences: preferences.destination,
-    customPreferences: preferences.custom
+    customPreferences: preferences.custom,
   }
 }
 
@@ -66,7 +66,7 @@ export function savePreferences({
   cookieDomain,
   cookieName,
   cookieExpires,
-  cookieAttributes = {}
+  cookieAttributes = {},
 }: SavePreferences) {
   const wd = window as WindowWithHtEvents
   if (wd.htevents) {
@@ -75,15 +75,15 @@ export function savePreferences({
       {
         destinationPreferences,
         // use `categoryPreferences` here for consistency with `context.consent.categoryPreferences`
-        categoryPreferences: customPreferences
+        categoryPreferences: customPreferences,
       },
       {
         // update `context.consent` here to immediately reflect the updated preferences
         consent: {
           destinationPreferences,
-          categoryPreferences: customPreferences
-        }
-      }
+          categoryPreferences: customPreferences,
+        },
+      },
     )
   } else {
     console.warn('window.htevents not found...is the SDK snippet included on the page?')
@@ -94,17 +94,17 @@ export function savePreferences({
   const value = {
     version: 1,
     destination: destinationPreferences,
-    custom: customPreferences
+    custom: customPreferences,
   } as PreferencesCookie
 
   cookies.set(cookieName || DEFAULT_COOKIE_NAME, JSON.stringify(value), {
     expires,
     domain,
-    ...cookieAttributes
+    ...cookieAttributes,
   })
 
   emitter.emit('preferencesSaved', {
     destinationPreferences,
-    customPreferences
+    customPreferences,
   })
 }

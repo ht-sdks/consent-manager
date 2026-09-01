@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pane, Heading, Button } from 'evergreen-ui'
 import { ConsentManager, openConsentManager } from '../src'
-import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
 
 const bannerActionsBlock = ({ acceptAll, denyAll }) => (
@@ -15,7 +14,7 @@ const bannerActionsBlock = ({ acceptAll, denyAll }) => (
   </div>
 )
 
-const ConsentManagerExample = props => {
+const ConsentManagerExample = (props) => {
   return (
     <Pane>
       <ConsentManager
@@ -53,12 +52,22 @@ const ConsentManagerExample = props => {
   )
 }
 
-storiesOf('React Component / With Banner Actions Block', module)
-  .add(`Default Banner Actions`, () => <ConsentManagerExample bannerActionsBlock />)
-  .add(`Default Banner Actions without Close Button`, () => (
-    <ConsentManagerExample bannerActionsBlock bannerHideCloseButton />
-  ))
-  .add(`Custom Banner Actions`, () => <ConsentManagerExample />)
-  .add(`Custom Banner Action without Close Button`, () => (
-    <ConsentManagerExample bannerHideCloseButton />
-  ))
+export default {
+  title: 'React Component / With Banner Actions Block',
+}
+
+export const DefaultBannerActions = () => <ConsentManagerExample bannerActionsBlock />
+DefaultBannerActions.storyName = 'Default Banner Actions'
+
+export const DefaultBannerActionsWithoutCloseButton = () => (
+  <ConsentManagerExample bannerActionsBlock bannerHideCloseButton />
+)
+DefaultBannerActionsWithoutCloseButton.storyName = 'Default Banner Actions without Close Button'
+
+export const CustomBannerActions = () => <ConsentManagerExample />
+CustomBannerActions.storyName = 'Custom Banner Actions'
+
+export const CustomBannerActionWithoutCloseButton = () => (
+  <ConsentManagerExample bannerHideCloseButton />
+)
+CustomBannerActionWithoutCloseButton.storyName = 'Custom Banner Action without Close Button'

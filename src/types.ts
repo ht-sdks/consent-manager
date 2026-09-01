@@ -35,7 +35,7 @@ export type WindowWithHtEvents = Window &
 export type WindowWithConsentManagerConfig = Window &
   typeof globalThis & {
     consentManagerConfig?: (
-      args: StandaloneConsentManagerParams
+      args: StandaloneConsentManagerParams,
     ) => ConsentManagerInput | ConsentManagerInput
   }
 

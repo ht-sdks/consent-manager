@@ -22,7 +22,7 @@ if (localWindow.consentManagerConfig && typeof localWindow.consentManagerConfig 
     doNotTrack,
     inEU,
     preferences,
-    inRegions
+    inRegions,
   })
   containerRef = props.container
 } else {

@@ -3,7 +3,6 @@ import groupBy from 'lodash/groupBy'
 import { Pane, Heading, SubHeading, Ul, Code, Button } from 'evergreen-ui'
 import { ConsentManagerBuilder } from '../src'
 import DestinationTile from './components/destination-tile'
-import { storiesOf } from '@storybook/react'
 import CookieView from './components/CookieView'
 
 function Section(props) {
@@ -18,7 +17,7 @@ const CategoryBased = () => {
   return (
     <Pane maxWidth={1000} margin={30}>
       <ConsentManagerBuilder
-        onError={e => console.error('Error Handling', e)}
+        onError={(e) => console.error('Error Handling', e)}
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
       >
         {({ destinations, preferences, setPreferences, saveConsent }) => {
@@ -34,13 +33,13 @@ const CategoryBased = () => {
               <Section>
                 <Heading>ACME Would like to track you with the following tools:</Heading>
 
-                {Object.keys(categories).map(cat => {
+                {Object.keys(categories).map((cat) => {
                   const destinationsForCategory = categories[cat]
                   return (
                     <Pane key={cat} marginTop={20}>
                       <SubHeading>{cat}</SubHeading>
                       <Ul display="flex" flexWrap="wrap">
-                        {destinationsForCategory.map(d => (
+                        {destinationsForCategory.map((d) => (
                           <DestinationTile
                             key={d.id}
                             destination={d}
@@ -80,4 +79,9 @@ const CategoryBased = () => {
   )
 }
 
-storiesOf('ConsentManagerBuilder', module).add(`Category Based`, () => <CategoryBased />)
+export default {
+  title: 'ConsentManagerBuilder',
+}
+
+export const CategoryBasedStory = () => <CategoryBased />
+CategoryBasedStory.storyName = 'Category Based'

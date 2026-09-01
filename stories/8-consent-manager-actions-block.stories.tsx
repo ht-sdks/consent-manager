@@ -14,7 +14,7 @@ const bannerActionsBlock = ({ acceptAll, denyAll }) => (
   </div>
 )
 
-const ConsentManagerExample = props => {
+const ConsentManagerExample = (props) => {
   return (
     <Pane>
       <ConsentManager
@@ -53,7 +53,7 @@ const ConsentManagerExample = props => {
 }
 
 export default {
-  title: 'React Component / With Banner Actions Block'
+  title: 'React Component / With Banner Actions Block',
 }
 
 export const DefaultBannerActions = () => <ConsentManagerExample bannerActionsBlock />

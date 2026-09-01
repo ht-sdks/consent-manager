@@ -11,7 +11,7 @@ const ConsentManagerExample = (props: {
 }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
 
-  const cleanup = onPreferencesSaved(preferences => {
+  const cleanup = onPreferencesSaved((preferences) => {
     updatePrefs(preferences)
   })
 
@@ -71,7 +71,7 @@ const ConsentManagerExample = (props: {
 }
 
 export default {
-  title: 'Default Destination Behavior'
+  title: 'Default Destination Behavior',
 }
 
 export const Disable = () => <ConsentManagerExample defaultDestinationBehavior="disable" />

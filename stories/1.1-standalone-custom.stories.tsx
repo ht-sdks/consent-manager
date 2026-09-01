@@ -28,7 +28,7 @@ const StandaloneConsentManagerExample = () => {
 }
 
 export default {
-  title: 'Standalone / Javascript'
+  title: 'Standalone / Javascript',
 }
 
 export const WithCustomization = () => <StandaloneConsentManagerExample />

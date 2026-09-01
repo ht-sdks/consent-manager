@@ -3,30 +3,30 @@ const path = require('path')
 module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
-    options: {}
+    options: {},
   },
   core: {
-    disableTelemetry: true
+    disableTelemetry: true,
   },
   stories: ['../stories/**/*.stories.tsx'],
   addons: ['@storybook/addon-webpack5-compiler-babel'],
   // Serve the standalone bundle for iframe stories.
   staticDirs: [{ from: '../standalone', to: '/standalone' }],
-  babel: async options => ({
+  babel: async (options) => ({
     ...options,
     presets: [
       require.resolve('@babel/preset-env'),
       [require.resolve('@babel/preset-react'), { runtime: 'classic' }],
-      require.resolve('@babel/preset-typescript')
-    ]
+      require.resolve('@babel/preset-typescript'),
+    ],
   }),
-  webpackFinal: async config => {
+  webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.html$/,
       include: path.resolve(__dirname, '../stories'),
-      type: 'asset/source'
+      type: 'asset/source',
     })
 
     return config
-  }
+  },
 }

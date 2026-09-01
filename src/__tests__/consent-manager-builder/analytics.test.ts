@@ -11,7 +11,7 @@ describe('analytics', () => {
     wd.htevents = {
       /*eslint-disable */
       track: (_event, _properties, _optionsWithConsent, _callback) => {},
-      addSourceMiddleware: (_middleware: Middleware) => {}
+      addSourceMiddleware: (_middleware: Middleware) => {},
       /*eslint-enable */
     }
   })
@@ -22,7 +22,7 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -30,7 +30,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.calledOnce).toBe(true)
@@ -39,8 +39,8 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Hightouch.io': true
-      }
+        'Hightouch.io': true,
+      },
     })
   })
 
@@ -56,7 +56,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.notCalled).toBe(true)
@@ -68,7 +68,7 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: false
+      Amplitude: false,
     }
 
     conditionallyLoadAnalytics({
@@ -76,7 +76,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.notCalled).toBe(true)
@@ -90,13 +90,13 @@ describe('analytics', () => {
     const reload = jest.fn()
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload }
+      value: { reload },
     })
 
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -104,14 +104,14 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
     conditionallyLoadAnalytics({
       writeKey,
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(window.location.reload).toHaveBeenCalled()
@@ -124,12 +124,12 @@ describe('analytics', () => {
     }
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload }
+      value: { reload },
     })
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -137,7 +137,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: true,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
     conditionallyLoadAnalytics({
       writeKey,
@@ -145,7 +145,7 @@ describe('analytics', () => {
       destinationPreferences,
       isConsentRequired: true,
       shouldReload: false,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(reload.calledOnce).toBe(false)
@@ -163,7 +163,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: false,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.calledOnce).toBe(true)
@@ -177,7 +177,7 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -185,7 +185,7 @@ describe('analytics', () => {
       destinations,
       destinationPreferences,
       isConsentRequired: false,
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.calledOnce).toBe(true)
@@ -194,8 +194,8 @@ describe('analytics', () => {
       integrations: {
         All: false,
         Amplitude: true,
-        'Hightouch.io': true
-      }
+        'Hightouch.io': true,
+      },
     })
   })
 
@@ -205,10 +205,10 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
-      { id: 'Google Analytics' } as Destination
+      { id: 'Google Analytics' } as Destination,
     ]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -218,7 +218,7 @@ describe('analytics', () => {
       isConsentRequired: false,
       shouldReload: true,
       defaultDestinationBehavior: 'disable',
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.args[0][1]).toMatchObject({
@@ -226,8 +226,8 @@ describe('analytics', () => {
         All: false,
         Amplitude: true,
         'Google Analytics': false,
-        'Hightouch.io': true
-      }
+        'Hightouch.io': true,
+      },
     })
   })
 
@@ -237,10 +237,10 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [
       { id: 'Amplitude' } as Destination,
-      { id: 'Google Analytics' } as Destination
+      { id: 'Google Analytics' } as Destination,
     ]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -250,7 +250,7 @@ describe('analytics', () => {
       isConsentRequired: false,
       shouldReload: true,
       defaultDestinationBehavior: 'enable',
-      categoryPreferences: {}
+      categoryPreferences: {},
     })
 
     expect(hteventsLoad.args[0][1]).toMatchObject({
@@ -258,8 +258,8 @@ describe('analytics', () => {
         All: false,
         Amplitude: true,
         'Google Analytics': true,
-        'Hightouch.io': true
-      }
+        'Hightouch.io': true,
+      },
     })
   })
 
@@ -269,7 +269,7 @@ describe('analytics', () => {
     const writeKey = '123'
     const destinations = [{ id: 'Amplitude' } as Destination]
     const destinationPreferences = {
-      Amplitude: true
+      Amplitude: true,
     }
 
     conditionallyLoadAnalytics({
@@ -278,7 +278,7 @@ describe('analytics', () => {
       destinationPreferences,
       isConsentRequired: false,
       categoryPreferences: {},
-      devMode: true
+      devMode: true,
     })
 
     expect(hteventsLoad.calledOnce).toBe(false)

@@ -8,7 +8,7 @@ import CookieView from './components/CookieView'
 const initialPreferences = {
   advertising: false,
   marketingAndAnalytics: true,
-  functional: true
+  functional: true,
 }
 
 const Custom = () => {
@@ -31,7 +31,7 @@ const Custom = () => {
 }
 
 export default {
-  title: 'Advanced Use Cases'
+  title: 'Advanced Use Cases',
 }
 
 export const PartialConsent = () => <Custom />

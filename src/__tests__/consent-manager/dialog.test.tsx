@@ -24,7 +24,7 @@ describe('Dialog', () => {
         innerRef={() => undefined}
       >
         Hello
-      </Dialog>
+      </Dialog>,
     )
 
     const root = document.getElementById('hightouchio_rootDialog')

@@ -6,13 +6,13 @@ import { Destination } from '../types'
 
 async function fetchDestinationForWriteKey(
   cdnHost: string,
-  writeKey: string
+  writeKey: string,
 ): Promise<Destination[]> {
   const res = await fetch(`https://${cdnHost}/v1/projects/${writeKey}/integrations`)
 
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch integrations for write key ${writeKey}: HTTP ${res.status} ${res.statusText}`
+      `Failed to fetch integrations for write key ${writeKey}: HTTP ${res.status} ${res.statusText}`,
     )
   }
 
@@ -34,7 +34,7 @@ async function fetchDestinationForWriteKey(
 
 export default async function fetchDestinations(
   cdnHost: string,
-  writeKeys: string[]
+  writeKeys: string[],
 ): Promise<Destination[]> {
   const destinationsRequests: Promise<Destination[]>[] = []
   for (const writeKey of writeKeys) {
@@ -43,7 +43,7 @@ export default async function fetchDestinations(
 
   let destinations = flatten(await Promise.all(destinationsRequests))
   // Remove the dummy Repeater destination
-  destinations = destinations.filter(d => d.id !== 'Repeater')
+  destinations = destinations.filter((d) => d.id !== 'Repeater')
   destinations = sortBy(destinations, ['id'])
   destinations = sortedUniqBy(destinations, 'id')
   return destinations

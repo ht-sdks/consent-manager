@@ -23,7 +23,7 @@ const ToolBased = () => {
               <Section>
                 <Heading>ACME Would like to track you with the following tools:</Heading>
                 <Ul display="flex" flexWrap="wrap">
-                  {destinations.map(d => (
+                  {destinations.map((d) => (
                     <DestinationTile
                       key={d.id}
                       destination={d}
@@ -61,7 +61,7 @@ const ToolBased = () => {
 }
 
 export default {
-  title: 'ConsentManagerBuilder'
+  title: 'ConsentManagerBuilder',
 }
 
 export const ToolBasedStory = () => <ToolBased />

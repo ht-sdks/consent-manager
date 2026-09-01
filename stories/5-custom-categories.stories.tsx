@@ -8,13 +8,13 @@ import { CloseBehavior, Preferences } from '../src/types'
 import CookieView from './components/CookieView'
 
 const initialPreferences = {
-  Essential: 'N/A'
+  Essential: 'N/A',
 }
 
 const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBehaviorFunction }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
 
-  const cleanup = onPreferencesSaved(preferences => {
+  const cleanup = onPreferencesSaved((preferences) => {
     updatePrefs(preferences)
   })
 
@@ -33,12 +33,12 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
         customCategories={{
           'Do Not Sell': {
             integrations: ['AdWords'],
-            purpose: 'To give the right to opt out of the sale of personal data.'
+            purpose: 'To give the right to opt out of the sale of personal data.',
           },
           Essential: {
             integrations: ['Amplitude'],
-            purpose: 'We use browser cookies that are necessary for the site to work as intended.'
-          }
+            purpose: 'We use browser cookies that are necessary for the site to work as intended.',
+          },
         }}
       />
 
@@ -77,7 +77,7 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
 }
 
 export default {
-  title: 'Custom Categories - Do Not Sell'
+  title: 'Custom Categories - Do Not Sell',
 }
 
 export const Dismiss = () => <ConsentManagerExample closeBehavior={'dismiss'} />
@@ -88,9 +88,9 @@ export const Deny = () => <ConsentManagerExample closeBehavior={'deny'} />
 
 export const CustomCloseBehavior = () => (
   <ConsentManagerExample
-    closeBehavior={categories => ({
+    closeBehavior={(categories) => ({
       ...categories,
-      'Do Not Sell': false
+      'Do Not Sell': false,
     })}
   />
 )

@@ -4,7 +4,7 @@ import {
   DefaultDestinationBehavior,
   CategoryPreferences,
   Middleware,
-  HtEventsBrowserOptions
+  HtEventsBrowserOptions,
 } from '../types'
 
 interface AnalyticsParams {
@@ -22,7 +22,7 @@ interface AnalyticsParams {
 function getConsentMiddleware(
   destinationPreferences,
   categoryPreferences,
-  defaultDestinationBehavior
+  defaultDestinationBehavior,
 ): Middleware {
   return ({ payload, next }) => {
     payload.obj.context.consent = {
@@ -31,7 +31,7 @@ function getConsentMiddleware(
       destinationPreferences,
       // give precedence to `context.consent` values set explicitly for the event
       // this allows us to immediately reflect changes made to consent
-      ...payload.obj.context.consent
+      ...payload.obj.context.consent,
     }
     next(payload)
   }
@@ -46,7 +46,7 @@ export default function conditionallyLoadAnalytics({
   shouldReload = true,
   devMode = false,
   defaultDestinationBehavior,
-  categoryPreferences
+  categoryPreferences,
 }: AnalyticsParams) {
   const wd = window as WindowWithHtEvents
   if (!wd.htevents) return
@@ -98,7 +98,7 @@ export default function conditionallyLoadAnalytics({
     const middleware = getConsentMiddleware(
       destinationPreferences,
       categoryPreferences,
-      defaultDestinationBehavior
+      defaultDestinationBehavior,
     )
     wd.htevents.addSourceMiddleware(middleware)
 

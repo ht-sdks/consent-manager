@@ -17,7 +17,7 @@ const CategoryBased = () => {
   return (
     <Pane maxWidth={1000} margin={30}>
       <ConsentManagerBuilder
-        onError={e => console.error('Error Handling', e)}
+        onError={(e) => console.error('Error Handling', e)}
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
       >
         {({ destinations, preferences, setPreferences, saveConsent }) => {
@@ -33,13 +33,13 @@ const CategoryBased = () => {
               <Section>
                 <Heading>ACME Would like to track you with the following tools:</Heading>
 
-                {Object.keys(categories).map(cat => {
+                {Object.keys(categories).map((cat) => {
                   const destinationsForCategory = categories[cat]
                   return (
                     <Pane key={cat} marginTop={20}>
                       <SubHeading>{cat}</SubHeading>
                       <Ul display="flex" flexWrap="wrap">
-                        {destinationsForCategory.map(d => (
+                        {destinationsForCategory.map((d) => (
                           <DestinationTile
                             key={d.id}
                             destination={d}
@@ -80,7 +80,7 @@ const CategoryBased = () => {
 }
 
 export default {
-  title: 'ConsentManagerBuilder'
+  title: 'ConsentManagerBuilder',
 }
 
 export const CategoryBasedStory = () => <CategoryBased />

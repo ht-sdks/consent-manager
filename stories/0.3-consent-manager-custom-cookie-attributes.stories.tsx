@@ -10,7 +10,7 @@ import CookieView from './components/CookieView'
 const ConsentManagerExample = (props: { cookieAttributes: CookieAttributes }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
 
-  const cleanup = onPreferencesSaved(preferences => {
+  const cleanup = onPreferencesSaved((preferences) => {
     updatePrefs(preferences)
   })
 
@@ -63,7 +63,7 @@ const ConsentManagerExample = (props: { cookieAttributes: CookieAttributes }) =>
 }
 
 export default {
-  title: 'React Component / Custom Cookie Attributes'
+  title: 'React Component / Custom Cookie Attributes',
 }
 
 export const CustomCookieAttributes = () => (

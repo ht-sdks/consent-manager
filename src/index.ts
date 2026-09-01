@@ -5,7 +5,7 @@ export { openDialog as openConsentManager } from './consent-manager/container'
 export {
   loadPreferences,
   savePreferences,
-  onPreferencesSaved
+  onPreferencesSaved,
 } from './consent-manager-builder/preferences'
 
 export const ConsentManagerBuilder = CMB

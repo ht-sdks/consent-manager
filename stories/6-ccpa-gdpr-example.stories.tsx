@@ -10,7 +10,7 @@ import inRegions from '@segment/in-regions'
 const ConsentManagerExample = () => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
 
-  const cleanup = onPreferencesSaved(preferences => {
+  const cleanup = onPreferencesSaved((preferences) => {
     updatePrefs(preferences)
   })
 
@@ -26,21 +26,21 @@ const ConsentManagerExample = () => {
   const caDefaultPreferences = {
     advertising: false,
     marketingAndAnalytics: true,
-    functional: true
+    functional: true,
   }
   const euDefaultPreferences = {
     advertising: false,
     marketingAndAnalytics: false,
-    functional: false
+    functional: false,
   }
 
-  const closeBehavior = inCA() ? _categories => caDefaultPreferences : inEU() ? 'deny' : 'accept'
+  const closeBehavior = inCA() ? (_categories) => caDefaultPreferences : inEU() ? 'deny' : 'accept'
 
   const initialPreferences = inCA()
     ? caDefaultPreferences
     : inEU()
-    ? euDefaultPreferences
-    : undefined
+      ? euDefaultPreferences
+      : undefined
 
   return (
     <Pane>
@@ -93,7 +93,7 @@ const ConsentManagerExample = () => {
 }
 
 export default {
-  title: 'CCPA + GDPR Example'
+  title: 'CCPA + GDPR Example',
 }
 
 export const Basic = () => <ConsentManagerExample />

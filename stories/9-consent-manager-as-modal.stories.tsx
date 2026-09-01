@@ -5,7 +5,7 @@ import CookieView from './components/CookieView'
 import {
   bannerContent,
   preferencesDialogContent,
-  cancelDialogContent
+  cancelDialogContent,
 } from './components/common-react'
 
 const bannerActionsBlock = ({ acceptAll, denyAll }) => (
@@ -19,7 +19,7 @@ const bannerActionsBlock = ({ acceptAll, denyAll }) => (
   </div>
 )
 
-const ConsentManagerExample = props => {
+const ConsentManagerExample = (props) => {
   return (
     <Pane>
       <ConsentManager
@@ -62,7 +62,7 @@ const ConsentManagerExample = props => {
 }
 
 export default {
-  title: 'React Component / Banner as Modal'
+  title: 'React Component / Banner as Modal',
 }
 
 export const BannerAsModal = () => (

@@ -10,7 +10,7 @@ import CookieView from './components/CookieView'
 const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBehaviorFunction }) => {
   const [prefs, updatePrefs] = React.useState<Preferences>(loadPreferences())
 
-  const cleanup = onPreferencesSaved(preferences => {
+  const cleanup = onPreferencesSaved((preferences) => {
     updatePrefs(preferences)
   })
 
@@ -52,7 +52,7 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
 }
 
 export default {
-  title: 'React Component / OnClose interactions'
+  title: 'React Component / OnClose interactions',
 }
 
 export const Dismiss = () => <ConsentManagerExample closeBehavior={'dismiss'} />
@@ -63,9 +63,9 @@ export const Deny = () => <ConsentManagerExample closeBehavior={'deny'} />
 
 export const CustomCloseBehavior = () => (
   <ConsentManagerExample
-    closeBehavior={categories => ({
+    closeBehavior={(categories) => ({
       ...categories,
-      advertising: false
+      advertising: false,
     })}
   />
 )

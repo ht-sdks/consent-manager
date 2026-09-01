@@ -7,7 +7,7 @@ import {
   CustomCategories,
   DefaultDestinationBehavior,
   HtEventsBrowserOptions,
-  CookieAttributes
+  CookieAttributes,
 } from '../types'
 
 function getNewDestinations(destinations: Destination[], preferences: CategoryPreferences) {
@@ -63,7 +63,7 @@ interface Props {
    */
   mapCustomPreferences?: (
     destinations: Destination[],
-    preferences: CategoryPreferences
+    preferences: CategoryPreferences,
   ) => { destinationPreferences: CategoryPreferences; customPreferences: CategoryPreferences }
 
   /**
@@ -120,7 +120,7 @@ interface RenderProps {
   saveConsent: (
     newPreferences?: CategoryPreferences | boolean,
     shouldReload?: boolean,
-    devMode?: boolean
+    devMode?: boolean,
   ) => void
 }
 
@@ -139,7 +139,7 @@ const DEFAULT_CATEGORIES = {
   functional: false,
   marketingAndAnalytics: false,
   advertising: false,
-  essential: false
+  essential: false,
 }
 
 export default class ConsentManagerBuilder extends Component<Props, State> {
@@ -153,7 +153,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     cdnHost: 'cdn.hightouch-events.com',
     shouldReload: true,
     devMode: false,
-    useDefaultCategories: false
+    useDefaultCategories: false,
   }
 
   state = {
@@ -165,7 +165,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     isConsentRequired: true,
     havePreferencesChanged: false,
     workspaceAddedNewDestinations: false,
-    useDefaultCategories: false
+    useDefaultCategories: false,
   }
 
   render() {
@@ -178,7 +178,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       isConsentRequired,
       havePreferencesChanged,
       workspaceAddedNewDestinations,
-      destinationPreferences
+      destinationPreferences,
     } = this.state
     if (isLoading) {
       return null
@@ -195,7 +195,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       destinationPreferences,
       setPreferences: this.handleSetPreferences,
       resetPreferences: this.handleResetPreferences,
-      saveConsent: this.handleSaveConsent
+      saveConsent: this.handleSaveConsent,
     })
   }
 
@@ -224,14 +224,14 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       cdnHost = ConsentManagerBuilder.defaultProps.cdnHost,
       shouldReload = ConsentManagerBuilder.defaultProps.shouldReload,
       devMode = ConsentManagerBuilder.defaultProps.devMode,
-      useDefaultCategories = ConsentManagerBuilder.defaultProps.useDefaultCategories
+      useDefaultCategories = ConsentManagerBuilder.defaultProps.useDefaultCategories,
     } = this.props
 
     // TODO: add option to run mapCustomPreferences on load so that the destination preferences automatically get updated
     let { destinationPreferences, customPreferences } = loadPreferences(cookieName)
     const [isConsentRequired, destinations] = await Promise.all([
       shouldRequireConsent(),
-      Promise.resolve([])
+      Promise.resolve([]),
     ])
     const newDestinations = getNewDestinations(destinations, destinationPreferences || {})
     const workspaceAddedNewDestinations =
@@ -241,10 +241,10 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
 
     let preferences: CategoryPreferences | undefined
     const initialPrefencesHaveValue = Object.values(initialPreferences || {}).some(
-      v => v === true || v === false || v === 'N/A'
+      (v) => v === true || v === false || v === 'N/A',
     )
     const emptyCustomPreferecences = Object.values(customPreferences || {}).every(
-      v => v === null || v === undefined || v === 'N/A'
+      (v) => v === null || v === undefined || v === 'N/A',
     )
 
     if (mapCustomPreferences) {
@@ -275,7 +275,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       shouldReload,
       devMode,
       defaultDestinationBehavior,
-      categoryPreferences: preferences
+      categoryPreferences: preferences,
     })
 
     this.setState({
@@ -285,17 +285,17 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       preferences,
       isConsentRequired,
       destinationPreferences,
-      workspaceAddedNewDestinations: Boolean(workspaceAddedNewDestinations)
+      workspaceAddedNewDestinations: Boolean(workspaceAddedNewDestinations),
     })
   }
 
   handleSetPreferences = (newPreferences: CategoryPreferences) => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const { destinations, preferences: existingPreferences } = prevState
       const preferences = this.mergePreferences({
         destinations,
         newPreferences,
-        existingPreferences
+        existingPreferences,
       })
       return { ...prevState, preferences, havePreferencesChanged: true }
     })
@@ -318,7 +318,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   handleSaveConsent = (
     newPreferences: CategoryPreferences | undefined,
     shouldReload: boolean,
-    devMode?: boolean
+    devMode?: boolean,
   ) => {
     const {
       writeKey,
@@ -328,16 +328,16 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       cookieExpires,
       cookieAttributes,
       mapCustomPreferences,
-      defaultDestinationBehavior
+      defaultDestinationBehavior,
     } = this.props
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const { destinations, preferences: existingPreferences, isConsentRequired } = prevState
 
       let preferences = this.mergePreferences({
         destinations,
         newPreferences,
-        existingPreferences
+        existingPreferences,
       })
 
       let destinationPreferences: CategoryPreferences
@@ -374,7 +374,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
         cookieDomain,
         cookieName,
         cookieExpires,
-        cookieAttributes
+        cookieAttributes,
       })
       conditionallyLoadAnalytics({
         writeKey,
@@ -385,14 +385,14 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
         shouldReload,
         devMode,
         defaultDestinationBehavior,
-        categoryPreferences: customPreferences
+        categoryPreferences: customPreferences,
       })
 
       return {
         ...prevState,
         destinationPreferences,
         preferences,
-        newDestinations
+        newDestinations,
       }
     })
   }
@@ -415,7 +415,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     } else if (newPreferences) {
       preferences = {
         ...existingPreferences,
-        ...newPreferences
+        ...newPreferences,
       }
     } else {
       preferences = existingPreferences!

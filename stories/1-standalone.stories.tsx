@@ -29,7 +29,7 @@ const StandaloneConsentManagerExample = () => {
 }
 
 export default {
-  title: 'Standalone / Tag'
+  title: 'Standalone / Tag',
 }
 
 export const Basic = () => <StandaloneConsentManagerExample />

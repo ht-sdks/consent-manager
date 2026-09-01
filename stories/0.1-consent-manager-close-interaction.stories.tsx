@@ -38,7 +38,7 @@ const ConsentManagerExample = () => {
 }
 
 export default {
-  title: 'React Component / Basics'
+  title: 'React Component / Basics',
 }
 
 export const BasicReactComponent = () => <ConsentManagerExample />

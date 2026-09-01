@@ -250,7 +250,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       return zeroValuePreferences
     }
 
-    const initialCustomPreferences = {}
+    const initialCustomPreferences: CategoryPreferences = {}
     Object.keys(customCategories).forEach(category => {
       initialCustomPreferences[category] = null
     })
@@ -260,8 +260,8 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
 
   handleMapCustomPreferences = (destinations: Destination[], preferences: CategoryPreferences) => {
     const { customCategories } = this.props
-    const destinationPreferences = {}
-    const customPreferences = {}
+    const destinationPreferences: CategoryPreferences = {}
+    const customPreferences: CategoryPreferences = {}
 
     if (customCategories) {
       for (const preferenceName of Object.keys(customCategories)) {
@@ -297,15 +297,13 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       }
     }
 
-    const customPrefs = customPreferences as CategoryPreferences
-
     for (const destination of destinations) {
       // Mark advertising destinations
       if (
         ADVERTISING_CATEGORIES.find(c => c === destination.category) &&
         destinationPreferences[destination.id] !== false
       ) {
-        destinationPreferences[destination.id] = customPrefs.advertising
+        destinationPreferences[destination.id] = customPreferences.advertising
       }
 
       // Mark function destinations
@@ -313,12 +311,12 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
         FUNCTIONAL_CATEGORIES.find(c => c === destination.category) &&
         destinationPreferences[destination.id] !== false
       ) {
-        destinationPreferences[destination.id] = customPrefs.functional
+        destinationPreferences[destination.id] = customPreferences.functional
       }
 
       // Fallback to marketing
       if (!(destination.id in destinationPreferences)) {
-        destinationPreferences[destination.id] = customPrefs.marketingAndAnalytics
+        destinationPreferences[destination.id] = customPreferences.marketingAndAnalytics
       }
     }
 

@@ -128,8 +128,8 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
   static displayName = 'Dialog'
   private titleId: string
   private container: HTMLElement
-  private root: HTMLElement
-  private form: HTMLFormElement
+  private root?: HTMLElement
+  private form?: HTMLFormElement
 
   static defaultProps = {
     onCancel: undefined,
@@ -218,10 +218,10 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
     this.form = node
   }
 
-  handleOverlayClick = e => {
+  handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const { onCancel } = this.props
     // Ignore propogated clicks from inside the dialog
-    if (onCancel && this.root && !this.root.contains(e.target)) {
+    if (onCancel && this.root && !this.root.contains(e.target as Node)) {
       onCancel()
     }
   }

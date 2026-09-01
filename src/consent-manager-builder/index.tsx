@@ -205,7 +205,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       try {
         await this.initialise()
       } catch (e) {
-        await onError(e)
+        await onError(e instanceof Error ? e : new Error(String(e)))
       }
     } else {
       await this.initialise()
@@ -316,8 +316,8 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   }
 
   handleSaveConsent = (
-    newPreferences: CategoryPreferences | undefined,
-    shouldReload: boolean,
+    newPreferences?: CategoryPreferences | boolean,
+    shouldReload?: boolean,
     devMode?: boolean
   ) => {
     const {
@@ -400,14 +400,14 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
   mergePreferences = (args: {
     destinations: Destination[]
     existingPreferences?: CategoryPreferences
-    newPreferences?: CategoryPreferences
+    newPreferences?: CategoryPreferences | boolean
   }) => {
     const { destinations, existingPreferences, newPreferences } = args
 
     let preferences: CategoryPreferences
 
     if (typeof newPreferences === 'boolean') {
-      const destinationPreferences = {}
+      const destinationPreferences: CategoryPreferences = {}
       for (const destination of destinations) {
         destinationPreferences[destination.id] = newPreferences
       }

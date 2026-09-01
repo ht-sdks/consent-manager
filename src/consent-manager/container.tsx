@@ -148,7 +148,7 @@ const Container: React.FC<ContainerProps> = props => {
 
   const showDialog = () => toggleDialog(true)
 
-  const handleBodyClick = e => {
+  const handleBodyClick = (e: MouseEvent) => {
     // Do nothing if no new implicit consent needs to be saved
     if (
       !props.isConsentRequired ||
@@ -159,11 +159,12 @@ const Container: React.FC<ContainerProps> = props => {
     }
 
     // Ignore propogated clicks from inside the consent manager
+    const target = e.target as Node | null
     if (
-      (banner.current && banner.current.contains(e.target)) ||
-      (preferenceDialog.current && preferenceDialog.current.contains(e.target)) ||
-      (cancelDialog.current && cancelDialog.current.contains(e.target)) ||
-      'subContentBtn' === e.target.id
+      (banner.current && banner.current.contains(target)) ||
+      (preferenceDialog.current && preferenceDialog.current.contains(target)) ||
+      (cancelDialog.current && cancelDialog.current.contains(target)) ||
+      (target instanceof HTMLElement && target.id === 'subContentBtn')
     ) {
       return
     }

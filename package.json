@@ -90,7 +90,7 @@
     "preact": "^10.0.0",
     "prettier": "^3.9.6",
     "pretty-quick": "^4.2.2",
-    "prismjs": "^1.17.1",
+    "prismjs": "^1.30.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-simple-code-editor": "^0.10.0",

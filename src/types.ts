@@ -141,6 +141,11 @@ export interface ConsentManagerProps {
   initialPreferences?: CategoryPreferences
   customCategories?: CustomCategories
   defaultDestinationBehavior?: DefaultDestinationBehavior
+  /**
+   * Accepted for backward compatibility. Destinations are not fetched from the CDN,
+   * so this value is unused.
+   */
+  cdnHost?: string
   preferencesDialogTemplate?: PreferenceDialogTemplate
 }
 

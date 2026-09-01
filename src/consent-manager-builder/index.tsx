@@ -82,6 +82,12 @@ interface Props {
   onError?: (err: Error) => void | Promise<void>
 
   /**
+   * Accepted for backward compatibility. Destinations are not fetched from the CDN,
+   * so this value is unused.
+   */
+  cdnHost?: string
+
+  /**
    * Default true
    * Reload the page if the trackers have already been initialized so that
    * the user's new preferences can take effect.

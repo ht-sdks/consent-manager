@@ -82,7 +82,8 @@ interface Props {
   onError?: (err: Error) => void | Promise<void>
 
   /**
-   * CDN to fetch list of integrations from
+   * Accepted for backward compatibility. Destinations are not fetched from the CDN,
+   * so this value is unused.
    */
   cdnHost?: string
 
@@ -150,7 +151,6 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     onError: undefined,
     shouldRequireConsent: () => true,
     initialPreferences: {},
-    cdnHost: 'cdn.hightouch-events.com',
     shouldReload: true,
     devMode: false,
     useDefaultCategories: false,
@@ -221,7 +221,6 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       mapCustomPreferences,
       defaultDestinationBehavior,
       cookieName,
-      cdnHost = ConsentManagerBuilder.defaultProps.cdnHost,
       shouldReload = ConsentManagerBuilder.defaultProps.shouldReload,
       devMode = ConsentManagerBuilder.defaultProps.devMode,
       useDefaultCategories = ConsentManagerBuilder.defaultProps.useDefaultCategories,
@@ -231,6 +230,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
     let { destinationPreferences, customPreferences } = loadPreferences(cookieName)
     const [isConsentRequired, destinations] = await Promise.all([
       shouldRequireConsent(),
+      // We don't support fetching destinations from the CDN.
       Promise.resolve([]),
     ])
     const newDestinations = getNewDestinations(destinations, destinationPreferences || {})

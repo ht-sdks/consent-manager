@@ -132,7 +132,6 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       cancelDialogContent,
       customCategories,
       defaultDestinationBehavior,
-      cdnHost,
       preferencesDialogTemplate,
       onError,
     } = this.props
@@ -151,7 +150,6 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
         mapCustomPreferences={this.handleMapCustomPreferences}
         customCategories={customCategories}
         defaultDestinationBehavior={defaultDestinationBehavior}
-        cdnHost={cdnHost}
       >
         {({
           destinations,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Heading, Button } from 'evergreen-ui'
+import { Heading, Button } from './components/ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { CloseBehaviorFunction } from '../src/consent-manager/container'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
@@ -21,33 +21,33 @@ const ConsentManagerExample = (props: { closeBehavior: CloseBehavior | CloseBeha
   })
 
   return (
-    <Pane>
+    <div>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         options={{ apiHost: 'localhost:7777', protocol: 'http' }}
         closeBehavior={props.closeBehavior}
       />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading>Your website content</Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <div style={{ background: '#3FE398', padding: 16, width: '100%' }}>
             <button onClick={() => (window as any).htevents.track('Consent Testing')}>Track</button>
           </div>
-        </Pane>
+        </div>
 
-        <Pane marginTop={20}>
+        <div style={{ marginTop: 20 }}>
           <Heading>Current Preferences</Heading>
           <SyntaxHighlighter language="json" style={docco}>
             {JSON.stringify(prefs, null, 2)}
           </SyntaxHighlighter>
-        </Pane>
+        </div>
 
         <Button onClick={openConsentManager}>Change Cookie Preferences</Button>
-      </Pane>
+      </div>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Heading, Paragraph, Button } from 'evergreen-ui'
+import { Heading, Paragraph, Button } from './components/ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
@@ -22,16 +22,16 @@ const ConsentManagerExample = (props: {
   })
 
   return (
-    <Pane>
+    <div>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         closeBehavior={'accept'}
         defaultDestinationBehavior={props.defaultDestinationBehavior}
       />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading> Cute Cats </Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <iframe
             src="https://giphy.com/embed/JIX9t2j0ZTN9S"
             width="480"
@@ -45,9 +45,9 @@ const ConsentManagerExample = (props: {
             height="480"
             frameBorder="0"
           />
-        </Pane>
+        </div>
 
-        <Paragraph marginTop={20}>
+        <Paragraph style={{ marginTop: 20 }}>
           This example highlights default destination behavior. The cookie set is missing a
           destination that is enabled on the source, imitating a newly added destination. In the
           console, verify behavior by looking at htevents.options.
@@ -60,13 +60,13 @@ const ConsentManagerExample = (props: {
               {JSON.stringify(prefs, null, 2)}
             </SyntaxHighlighter>
           </div>
-          <Button marginRight={20} onClick={openConsentManager}>
+          <Button style={{ marginRight: 20 }} onClick={openConsentManager}>
             Change Cookie Preferences
           </Button>
         </div>
-      </Pane>
+      </div>
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

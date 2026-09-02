@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Heading, Button } from 'evergreen-ui'
+import { Heading, Button } from './components/ui'
 import { ConsentManager, openConsentManager } from '../src'
 import CookieView from './components/CookieView'
 
@@ -16,7 +16,7 @@ const bannerActionsBlock = ({ acceptAll, denyAll }) => (
 
 const ConsentManagerExample = (props) => {
   return (
-    <Pane>
+    <div>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         bannerActionsBlock={props.bannerActionsBlock || bannerActionsBlock}
@@ -24,9 +24,9 @@ const ConsentManagerExample = (props) => {
         closeBehavior={'accept'}
       />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading> Your website content </Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <iframe
             src="https://giphy.com/embed/JIX9t2j0ZTN9S"
             width="480"
@@ -40,15 +40,15 @@ const ConsentManagerExample = (props) => {
             height="480"
             frameBorder="0"
           />
-        </Pane>
+        </div>
 
         <div>
           <Button onClick={openConsentManager}>Data Collection and Cookie Preferences</Button>
         </div>
-      </Pane>
+      </div>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

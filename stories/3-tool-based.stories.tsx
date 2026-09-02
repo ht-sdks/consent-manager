@@ -1,16 +1,16 @@
 import React from 'react'
-import { Pane, Heading, SubHeading, Ul, Code, Button } from 'evergreen-ui'
+import { Heading, SubHeading, Code, Button } from './components/ui'
 import { ConsentManagerBuilder } from '../src'
 import DestinationTile from './components/destination-tile'
 import CookieView from './components/CookieView'
 
-function Section(props) {
-  return <Pane is="section" marginBottom={24} {...props} />
+function Section({ children }: { children: React.ReactNode }) {
+  return <section style={{ marginBottom: 24 }}>{children}</section>
 }
 
 const ToolBased = () => {
   return (
-    <Pane maxWidth={1000} margin={30}>
+    <div style={{ maxWidth: 1000, margin: 30 }}>
       <ConsentManagerBuilder writeKey={process.env.STORYBOOK_WRITE_KEY!}>
         {({ destinations, preferences, setPreferences, saveConsent }) => {
           function handleSubmit(e) {
@@ -22,7 +22,7 @@ const ToolBased = () => {
             <form onSubmit={handleSubmit}>
               <Section>
                 <Heading>ACME Would like to track you with the following tools:</Heading>
-                <Ul display="flex" flexWrap="wrap">
+                <ul style={{ display: 'flex', flexWrap: 'wrap', listStyle: 'none', padding: 0 }}>
                   {destinations.map((d) => (
                     <DestinationTile
                       key={d.id}
@@ -31,7 +31,7 @@ const ToolBased = () => {
                       preferences={preferences}
                     />
                   ))}
-                </Ul>
+                </ul>
               </Section>
 
               <Section>
@@ -39,11 +39,11 @@ const ToolBased = () => {
                 <Code>{JSON.stringify(preferences)}</Code>
               </Section>
 
-              <Button type="submit" marginRight={8}>
+              <Button type="submit" style={{ marginRight: 8 }}>
                 Save
               </Button>
 
-              <Button type="button" onClick={() => saveConsent(true)} marginRight={8}>
+              <Button type="button" onClick={() => saveConsent(true)} style={{ marginRight: 8 }}>
                 Allow all
               </Button>
 
@@ -56,7 +56,7 @@ const ToolBased = () => {
       </ConsentManagerBuilder>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

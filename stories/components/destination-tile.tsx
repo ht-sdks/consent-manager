@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Li, Text, Link, Checkbox, Card } from 'evergreen-ui'
+import { Card, Checkbox } from './ui'
 
 export default function Destination({ destination, preferences, setPreferences }) {
   return (
-    <Li maxWidth={280} marginRight={20}>
-      <Card elevation={1} padding={20} paddingTop={8}>
+    <li style={{ maxWidth: 280, marginRight: 20 }}>
+      <Card style={{ padding: '8px 20px 20px' }}>
         <Checkbox
           label={
-            <Link href={destination.website} target="_blank">
+            <a href={destination.website} target="_blank" rel="noopener noreferrer">
               {destination.name}
-            </Link>
+            </a>
           }
           checked={Boolean(preferences[destination.id])}
           onChange={() =>
@@ -19,11 +19,19 @@ export default function Destination({ destination, preferences, setPreferences }
             })
           }
         />
-        <Text display="block" size={300}>
+        <p
+          style={{
+            display: 'block',
+            fontSize: 12,
+            lineHeight: 1.4,
+            margin: 0,
+            color: '#425a70',
+          }}
+        >
           {destination.description}
-        </Text>
+        </p>
       </Card>
-    </Li>
+    </li>
   )
 }
 

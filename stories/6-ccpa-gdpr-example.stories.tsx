@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Heading, Paragraph, Button } from 'evergreen-ui'
+import { Heading, Paragraph, Button } from './components/ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
@@ -43,7 +43,7 @@ const ConsentManagerExample = () => {
       : undefined
 
   return (
-    <Pane>
+    <div>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         closeBehavior={closeBehavior}
@@ -51,9 +51,9 @@ const ConsentManagerExample = () => {
         initialPreferences={initialPreferences}
       />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading> Cute Cats </Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <iframe
             src="https://giphy.com/embed/JIX9t2j0ZTN9S"
             width="480"
@@ -67,12 +67,12 @@ const ConsentManagerExample = () => {
             height="480"
             frameBorder="0"
           />
-        </Pane>
+        </div>
         <Button onClick={() => (window as any).htevents.track('Send Track Event Clicked')}>
           Send Track Event
         </Button>
 
-        <Paragraph marginTop={20}>
+        <Paragraph style={{ marginTop: 20 }}>
           This example highlights checking for EU or CA residency, then changing the closeBehavior
           based on membership in each.
         </Paragraph>
@@ -82,13 +82,13 @@ const ConsentManagerExample = () => {
             {JSON.stringify(prefs, null, 2)}
           </SyntaxHighlighter>
         </div>
-        <Button marginRight={20} onClick={openConsentManager}>
+        <Button style={{ marginRight: 20 }} onClick={openConsentManager}>
           Change Cookie Preferences
         </Button>
-      </Pane>
+      </div>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

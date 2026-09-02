@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Heading, Button } from 'evergreen-ui'
+import { Heading, Button } from './components/ui'
 import { ConsentManager, openConsentManager, loadPreferences, onPreferencesSaved } from '../src'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
@@ -22,12 +22,12 @@ const ConsentManagerExample = (props: { cookieName: string }) => {
   })
 
   return (
-    <Pane>
+    <div>
       <ConsentManager writeKey={process.env.STORYBOOK_WRITE_KEY!} cookieName={props.cookieName} />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading> Your website content </Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <iframe
             src="https://giphy.com/embed/JIX9t2j0ZTN9S"
             width="480"
@@ -41,7 +41,7 @@ const ConsentManagerExample = (props: { cookieName: string }) => {
             height="480"
             frameBorder="0"
           />
-        </Pane>
+        </div>
 
         <div>
           <Heading>Current Preferences</Heading>
@@ -50,13 +50,13 @@ const ConsentManagerExample = (props: { cookieName: string }) => {
           </SyntaxHighlighter>
         </div>
 
-        <Button marginRight={20} onClick={openConsentManager}>
+        <Button style={{ marginRight: 20 }} onClick={openConsentManager}>
           Change Cookie Preferences
         </Button>
-      </Pane>
+      </div>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

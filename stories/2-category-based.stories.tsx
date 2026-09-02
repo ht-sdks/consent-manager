@@ -1,12 +1,12 @@
 import React from 'react'
 import groupBy from 'lodash/groupBy'
-import { Pane, Heading, SubHeading, Ul, Code, Button } from 'evergreen-ui'
+import { Heading, SubHeading, Code, Button } from './components/ui'
 import { ConsentManagerBuilder } from '../src'
 import DestinationTile from './components/destination-tile'
 import CookieView from './components/CookieView'
 
-function Section(props) {
-  return <Pane is="section" marginBottom={24} {...props} />
+function Section({ children }: { children: React.ReactNode }) {
+  return <section style={{ marginBottom: 24 }}>{children}</section>
 }
 
 function byCategory(destinations) {
@@ -15,7 +15,7 @@ function byCategory(destinations) {
 
 const CategoryBased = () => {
   return (
-    <Pane maxWidth={1000} margin={30}>
+    <div style={{ maxWidth: 1000, margin: 30 }}>
       <ConsentManagerBuilder
         onError={(e) => console.error('Error Handling', e)}
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
@@ -36,9 +36,11 @@ const CategoryBased = () => {
                 {Object.keys(categories).map((cat) => {
                   const destinationsForCategory = categories[cat]
                   return (
-                    <Pane key={cat} marginTop={20}>
+                    <div key={cat} style={{ marginTop: 20 }}>
                       <SubHeading>{cat}</SubHeading>
-                      <Ul display="flex" flexWrap="wrap">
+                      <ul
+                        style={{ display: 'flex', flexWrap: 'wrap', listStyle: 'none', padding: 0 }}
+                      >
                         {destinationsForCategory.map((d) => (
                           <DestinationTile
                             key={d.id}
@@ -47,8 +49,8 @@ const CategoryBased = () => {
                             preferences={preferences}
                           />
                         ))}
-                      </Ul>
-                    </Pane>
+                      </ul>
+                    </div>
                   )
                 })}
               </Section>
@@ -58,11 +60,11 @@ const CategoryBased = () => {
                 <Code>{JSON.stringify(preferences)}</Code>
               </Section>
 
-              <Button type="submit" marginRight={8}>
+              <Button type="submit" style={{ marginRight: 8 }}>
                 Save
               </Button>
 
-              <Button type="button" onClick={() => saveConsent(true)} marginRight={8}>
+              <Button type="button" onClick={() => saveConsent(true)} style={{ marginRight: 8 }}>
                 Allow all
               </Button>
 
@@ -75,7 +77,7 @@ const CategoryBased = () => {
       </ConsentManagerBuilder>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

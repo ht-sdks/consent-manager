@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pane, Button } from 'evergreen-ui'
+import { Button } from './components/ui'
 import ConsentManager from '../src/consent-manager'
 import * as common from './components/common-react'
 import { openConsentManager } from '../src'
@@ -13,7 +13,7 @@ const initialPreferences = {
 
 const Custom = () => {
   return (
-    <Pane maxWidth={1000} margin={30}>
+    <div style={{ maxWidth: 1000, margin: 30 }}>
       <ConsentManager
         writeKey={process.env.STORYBOOK_WRITE_KEY!}
         initialPreferences={initialPreferences}
@@ -21,12 +21,12 @@ const Custom = () => {
         {...common}
       />
 
-      <Button marginRight={20} onClick={openConsentManager}>
+      <Button style={{ marginRight: 20 }} onClick={openConsentManager}>
         Change Cookie Preferences
       </Button>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

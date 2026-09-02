@@ -1,17 +1,17 @@
 import React from 'react'
-import { Pane, Heading, Button } from 'evergreen-ui'
+import { Heading, Button } from './components/ui'
 import { ConsentManager, openConsentManager } from '../src'
 import { ImplyConsentOnInteraction } from './ImplyConsentOnInteraction'
 import CookieView from './components/CookieView'
 
 const ConsentManagerExample = () => {
   return (
-    <Pane>
+    <div>
       <ConsentManager writeKey={process.env.STORYBOOK_WRITE_KEY!} />
 
-      <Pane marginX={100} marginTop={20}>
+      <div style={{ margin: '20px 100px 0' }}>
         <Heading> Your website content </Heading>
-        <Pane display="flex">
+        <div style={{ display: 'flex' }}>
           <iframe
             src="https://giphy.com/embed/JIX9t2j0ZTN9S"
             width="480"
@@ -25,15 +25,15 @@ const ConsentManagerExample = () => {
             height="480"
             frameBorder="0"
           />
-        </Pane>
+        </div>
 
         <div>
           <Button onClick={openConsentManager}>Data Collection and Cookie Preferences</Button>
         </div>
-      </Pane>
+      </div>
 
       <CookieView />
-    </Pane>
+    </div>
   )
 }
 

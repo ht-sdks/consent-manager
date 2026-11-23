@@ -117,6 +117,41 @@ describe('analytics', () => {
     expect(window.location.reload).toHaveBeenCalled()
   })
 
+  test.each([true, false])(
+    'bounds the consent handoff and reloads once (settles=%s)',
+    async (settles) => {
+      jest.useFakeTimers()
+      try {
+        wd.htevents.initialized = true
+        const reload = jest.fn()
+        Object.defineProperty(window, 'location', { configurable: true, value: { reload } })
+        let finish!: () => void
+        const consentUpdate = new Promise<void>((resolve) => {
+          finish = resolve
+        })
+        conditionallyLoadAnalytics({
+          writeKey: 'key',
+          destinations: [],
+          destinationPreferences: {},
+          categoryPreferences: {},
+          isConsentRequired: true,
+          consentUpdate,
+        })
+        expect(reload).not.toHaveBeenCalled()
+        if (settles) finish()
+        else jest.advanceTimersByTime(500)
+        await Promise.resolve()
+        expect(reload).toHaveBeenCalledTimes(1)
+        finish()
+        jest.runAllTimers()
+        await Promise.resolve()
+        expect(reload).toHaveBeenCalledTimes(1)
+      } finally {
+        jest.useRealTimers()
+      }
+    },
+  )
+
   test('should allow the reload behvaiour to be disabled', () => {
     const reload = sinon.spy()
     wd.htevents.load = function load() {

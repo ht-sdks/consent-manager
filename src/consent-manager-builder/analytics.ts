@@ -13,6 +13,7 @@ interface AnalyticsParams {
   destinations: Destination[]
   destinationPreferences: CategoryPreferences | null | undefined
   isConsentRequired: boolean
+  consentUpdate?: Promise<void>
   shouldReload?: boolean
   devMode?: boolean
   defaultDestinationBehavior?: DefaultDestinationBehavior
@@ -44,6 +45,7 @@ export default function conditionallyLoadAnalytics({
   destinationPreferences,
   isConsentRequired,
   shouldReload = true,
+  consentUpdate,
   devMode = false,
   defaultDestinationBehavior,
   categoryPreferences,
@@ -82,7 +84,19 @@ export default function conditionallyLoadAnalytics({
   if (wd.htevents.initialized) {
     if (shouldReload) {
       console.debug('reloading to apply new tracking preferences')
-      window.location.reload()
+      if (consentUpdate) {
+        let expired = false
+        const deadline = setTimeout(() => {
+          expired = true
+          window.location.reload()
+        }, 500)
+        void consentUpdate.then(() => {
+          clearTimeout(deadline)
+          if (!expired) window.location.reload()
+        })
+      } else {
+        window.location.reload()
+      }
     }
     return
   }

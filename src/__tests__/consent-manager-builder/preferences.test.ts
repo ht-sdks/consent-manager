@@ -84,7 +84,7 @@ describe('preferences', () => {
     })
   })
 
-  test('savePreferences() saves the preferences', () => {
+  test('savePreferences() saves the preferences', async () => {
     const destinationPreferences = {
       Amplitude: true,
     }
@@ -93,7 +93,7 @@ describe('preferences', () => {
       functional: true,
     }
 
-    savePreferences({
+    await savePreferences({
       destinationPreferences,
       customPreferences,
       cookieDomain: undefined,
@@ -106,20 +106,20 @@ describe('preferences', () => {
     )
   })
 
-  test('saves an opt-out without sending a consent update', () => {
-    savePreferences({ destinationPreferences: { Amplitude: false } })
+  test('saves an opt-out without sending a consent update', async () => {
+    await savePreferences({ destinationPreferences: { Amplitude: false } })
     expect(loadPreferences().destinationPreferences).toEqual({ Amplitude: false })
     expect(htevents.track.notCalled).toBe(true)
   })
 
-  test('savePreferences() sets the cookie domain', () => {
+  test('savePreferences() sets the cookie domain', async () => {
     const destinationPreferences = {
       Amplitude: true,
     }
 
     const customPreferences = undefined
 
-    savePreferences({
+    await savePreferences({
       destinationPreferences,
       customPreferences,
       cookieDomain: 'example.com',
@@ -130,14 +130,14 @@ describe('preferences', () => {
     // ToDo: verify cookie domain is set (would need to mock js-cookie since document.cookie doesn't have domain info)
   })
 
-  test('savePreferences() sets the cookie with custom key', () => {
+  test('savePreferences() sets the cookie with custom key', async () => {
     const destinationPreferences = {
       Amplitude: true,
     }
 
     const customPreferences = undefined
 
-    savePreferences({
+    await savePreferences({
       destinationPreferences,
       customPreferences,
       cookieDomain: undefined,

@@ -368,7 +368,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
       ) {
         shouldReload = true
       }
-      savePreferences({
+      const consentUpdate = savePreferences({
         destinationPreferences,
         customPreferences,
         cookieDomain,
@@ -377,6 +377,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
         cookieAttributes,
       })
       conditionallyLoadAnalytics({
+        consentUpdate,
         writeKey,
         options,
         destinations,

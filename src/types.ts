@@ -13,7 +13,7 @@ export type HtEventsBrowserOptions = {
 export type HtEventsBrowser = {
   initialized: boolean
   load: (writeKey: string, options?: HtEventsBrowserOptions) => void
-  track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void
+  track: (event: string, properties: Record<string, any>, options?: any, callback?: any) => void | Promise<unknown>
   addSourceMiddleware: (middleware: Middleware) => void
 }
 

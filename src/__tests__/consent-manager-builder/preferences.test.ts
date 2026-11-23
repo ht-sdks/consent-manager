@@ -106,6 +106,12 @@ describe('preferences', () => {
     )
   })
 
+  test('saves an opt-out without sending a consent update', () => {
+    savePreferences({ destinationPreferences: { Amplitude: false } })
+    expect(loadPreferences().destinationPreferences).toEqual({ Amplitude: false })
+    expect(htevents.track.notCalled).toBe(true)
+  })
+
   test('savePreferences() sets the cookie domain', () => {
     const destinationPreferences = {
       Amplitude: true,

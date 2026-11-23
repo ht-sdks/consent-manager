@@ -68,27 +68,6 @@ export function savePreferences({
   cookieExpires,
   cookieAttributes = {},
 }: SavePreferences) {
-  const wd = window as WindowWithHtEvents
-  if (wd.htevents) {
-    wd.htevents.track(
-      'Consent Updated',
-      {
-        destinationPreferences,
-        // use `categoryPreferences` here for consistency with `context.consent.categoryPreferences`
-        categoryPreferences: customPreferences,
-      },
-      {
-        // update `context.consent` here to immediately reflect the updated preferences
-        consent: {
-          destinationPreferences,
-          categoryPreferences: customPreferences,
-        },
-      },
-    )
-  } else {
-    console.warn('window.htevents not found...is the SDK snippet included on the page?')
-  }
-
   const domain = cookieDomain || topDomain(window.location.href)
   const expires = cookieExpires || COOKIE_DEFAULT_EXPIRES
   const value = {
@@ -107,4 +86,48 @@ export function savePreferences({
     destinationPreferences,
     customPreferences,
   })
+
+  const wd = window as WindowWithHtEvents
+  if (
+    ![
+      ...Object.values(destinationPreferences || {}),
+      ...Object.values(customPreferences || {}),
+    ].includes(true)
+  ) {
+    return
+  }
+
+  if (wd.htevents) {
+    return trackUpdate(
+      wd.htevents,
+      {
+        destinationPreferences,
+        // use `categoryPreferences` here for consistency with `context.consent.categoryPreferences`
+        categoryPreferences: customPreferences,
+      },
+      {
+        integrations: { All: false, ...destinationPreferences },
+        // update `context.consent` here to immediately reflect the updated preferences
+        consent: {
+          destinationPreferences,
+          categoryPreferences: customPreferences,
+        },
+      },
+    )
+  } else {
+    console.warn('window.htevents not found...is the SDK snippet included on the page?')
+    return undefined
+  }
+}
+
+async function trackUpdate(
+  htevents: NonNullable<WindowWithHtEvents['htevents']>,
+  properties: Record<string, unknown>,
+  options: object,
+) {
+  try {
+    await htevents.track('Consent Updated', properties, options)
+  } catch (error) {
+    console.warn('Unable to track consent update', error)
+  }
 }
